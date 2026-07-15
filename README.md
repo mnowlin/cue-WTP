@@ -20,14 +20,15 @@ _quarto.yaml                         Quarto project config
 _output/                             Rendered HTML/PDF/DOCX (tracked in git)
 title-metadata.html                  HTML author-metadata partial
 custom-reference-doc.docx            Word reference template used for the DOCX output
+LOG.md                               Running session log (newest entry first)
 scripts/
   manuscript-setup.R                 Sourced by the qmd: loads data, builds the
                                        survey design, fits the weighted OLS models,
                                        and builds the tidy/plot-ready objects
   export-cited-refs.R                Pre-render step: trims the master .bib to cited keys
-data/
+data/                                Survey data (NOT in git -- see below)
   cueWTPDataWeighted.csv             Survey data with post-stratification weights
-lit-review/                          Background literature memo
+lit-review/                          Background literature memo (NOT in git -- local only)
 ```
 
 ## Reproducing the analysis
@@ -41,12 +42,14 @@ Requires R with: `survey`, `dplyr`, `ggplot2`, `broom`.
 
 ## Data
 
-`data/cueWTPDataWeighted.csv` — Cloud Research survey responses (N = 3,113),
-weighted to match US Census demographics (age, gender, race/ethnicity).
-Includes the cue-condition assignment (`trump.cue`, `climate.cue`,
-`control`), the outcome variables (`priority.scale`, `wtp.fossil`,
-`wtp.renewable`), political-identity indicators (`libDem`, `conRep`), and
-controls (`concern.cost`, `age`, `male`, `white`, `edu`, `inc`).
+The `data/` folder is **not tracked in git**. Restore it before rendering:
+
+- `data/cueWTPDataWeighted.csv` — Cloud Research survey responses (N = 3,113),
+  weighted to match US Census demographics (age, gender, race/ethnicity).
+  Includes the cue-condition assignment (`trump.cue`, `climate.cue`,
+  `control`), the outcome variables (`priority.scale`, `wtp.fossil`,
+  `wtp.renewable`), political-identity indicators (`libDem`, `conRep`), and
+  controls (`concern.cost`, `age`, `male`, `white`, `edu`, `inc`).
 
 ## Notes
 
@@ -61,3 +64,7 @@ controls (`concern.cost`, `age`, `male`, `white`, `edu`, `inc`).
 - Quarto's freeze cache (`_freeze/`) is enabled (`execute: freeze: auto` in
   `_quarto.yaml`), so code chunks are only re-executed when the qmd or its
   upstream R sources change.
+- `lit-review/` is git-ignored (kept local only).
+- `LOG.md` records what changed and why for each work session; add a new
+  entry at the top rather than editing manuscript prose notes into commit
+  messages.
