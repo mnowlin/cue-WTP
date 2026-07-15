@@ -1,0 +1,20 @@
+project:
+  type: default
+  execute-dir: project
+  pre-render: scripts/export-cited-refs.R
+  output-dir: _output
+  render:
+    - cue-WTP.qmd
+
+bibliography: references.bib
+csl: american-political-science-association.csl
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false
+
+format:
+  html: default
+  pdf: default
+  docx: default

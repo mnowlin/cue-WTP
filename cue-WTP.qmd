@@ -1,0 +1,117 @@
+---
+title: "Cues, Partisanship, and Willingness-to-Pay for Energy"
+bibliography: references.bib
+csl: american-political-science-association.csl
+fig-cap-location: top
+fontfamily: ebgaramond
+link-bibliography: false
+format:
+  html:
+    author:
+      - name: Matthew C. Nowlin
+        email: matthew.nowlin@uta.edu
+        corresponding: true
+        affiliations:
+          - name: University of Texas at Arlington
+            department: Department of Political Science
+    template-partials:
+      - title-metadata.html
+  pdf:
+    author:
+      - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+    include-in-header:
+      text: |
+        \usepackage{setspace}
+        \usepackage{dcolumn}
+        \usepackage{float}
+        \usepackage{amsmath}
+        \usepackage{ulem}
+        \addtokomafont{disposition}{\rmfamily}
+        \normalem
+  docx:
+    author:
+      - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+    reference-doc: custom-reference-doc.docx
+---
+
+```{r}
+#| include: false
+source("scripts/manuscript-setup.R")
+```
+
+
+<!-- Target journal Nature Climate Changes. guidelines:
+​Brief communication:
+	- Brief unreferenced abstract – 3 sentences, up to 70 words.
+	- Title – up to 10 words (or 90 characters). 
+	- Main text – 1,000-1,500 words, excluding abstract, references and figure legends, and contains no headings. 
+	- Display items – up to 2 items, although this may be flexible at the discretion of the editor, provided the page limit is observed. 
+	- Online Methods section should be included
+-->
+
+**Abstract**: While not as polarized as climate change, support for energy sources, most notably fossil fuels and renewables, have been shown to have stark partisan differences. 
+
+For this project, I will use a survey experiment to examine respondents' willingness-to-pay (WTP) for fossil fuel and renewable electricity sources when they are given a Trump cue, a climate change cue, or no cues. Specifically, I will survey 3,000 respondents recruited from Cloud Research, with 1,000 participants receiving a Trump cue, 1,000 receiving a climate cue, and 1,000 in the control condition receiving no cue. Respondents in each condition will be asked about their preferred balance of fossil fuels versus renewables, then their WTP for fossil fuels and renewable sources will be elicited using the Gabor-Granger method. 
+
+The data comes from a pool of respondents of the US public obtained from Cloud Research. Respondents were adult (18+) US residents, using Census data to match demographic characteristics including age, gender, and race/ethnicity. Weights are added to make the sample representative of the US public.
+
+
+Expectations include 
+- Those in the Trump cue will favor more fossil fuels than those in the control 
+- Those in the climate change cue will favor more renewables than those in the control 
+
+- Those in the Trump cue will be WTP (more/less) for (fossil fuels/renewables) than those in the control group 
+- Those in the climate change cue will be WTP (less/more) for (fossil fuels/renewables) than those in the control group 
+
+- Conservative Republicans in the Trump cue will be WTP (more/less) for (fossil fuels/renewables) than those in the control group and other political beliefs 
+- Liberal Democrats in the climate cue will be WTP (more/less) for (fossil fuels/renewables) than those in the control group and other political beliefs 
+
+The following analysis using OLS to test the above expectations, with an emphasis on the partisan differences between liberal Democrats (libDem) and conservative Republicans interacting with the three cue conditions. The following analysis control for the respondents concern about the cost of energy and several demographic variables, including age, male, white, education, and income. 
+
+```{r}
+#| label: fig-priority-coef
+#| fig-cap: "Effect of cue condition, political identity, and their interaction on the issue-priority scale (survey-weighted OLS, control condition and other/moderate identity as reference; concern.cost, age, male, white, edu, and inc included as controls but omitted from the plot)"
+priority_int_tidy |>
+  mutate(term_label = factor(term_label, levels = rev(unique(term_label)))) |>
+  ggplot(aes(x = estimate, y = term_label, color = term_type)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+  geom_segment(aes(x = conf.low, xend = conf.high, yend = term_label), linewidth = 0.7) +
+  geom_point(size = 2) +
+  labs(x = "Coefficient (95% CI)", y = NULL, color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+Conservative Republican: b = -1.22, p = 0.000
+Liberal Democrat: b = 0.65, p = 0.000
+Climate cue × Liberal Democrat: b = 0.35, p = 0.042
+Trump cue × Conservative Republican: b = -0.41, p = 0.076
+
+```{r}
+#| label: fig-wtp-interaction
+#| fig-cap: "Effect of cue condition, political identity, and their interaction on willingness-to-pay for fossil fuels and renewables (survey-weighted OLS, control condition and other/moderate identity as reference; concern.cost, age, male, white, edu, and inc included as controls but omitted from the plot)"
+wtp_int_tidy |>
+  mutate(term_label = factor(term_label, levels = rev(unique(term_label)))) |>
+  ggplot(aes(x = estimate, y = term_label, color = term_type)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+  geom_segment(aes(x = conf.low, xend = conf.high, yend = term_label), linewidth = 0.7) +
+  geom_point(size = 2) +
+  facet_wrap(~outcome) +
+  labs(x = "Coefficient (95% CI)", y = NULL, color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+Conservative Republican, WTP: Renewables: b = -6.82, p = 0.000
+Liberal Democrat, WTP: Renewables: b = 5.30, p = 0.001
+Trump cue, WTP: Fossil fuels: b = -2.56, p = 0.050
+Climate cue × Liberal Democrat, WTP: Renewables: b = 3.66, p = 0.092
+Trump cue × Conservative Republican, WTP: Fossil fuels: b = 3.23, p = 0.097
+
+
+# Online Methods 
+
+
+\newpage
+
+# References
