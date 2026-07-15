@@ -88,6 +88,23 @@ Climate cue × Liberal Democrat: b = 0.35, p = 0.042
 Trump cue × Conservative Republican: b = -0.41, p = 0.076
 
 ```{r}
+#| label: fig-wtp-distribution
+#| fig-cap: "Distribution of willingness-to-pay for fossil fuel and renewable electricity, by cue condition (weighted percent of respondents choosing each bid amount)"
+wtp_dist |>
+  ggplot(aes(x = wtp, y = pct, color = cue_condition, linetype = cue_condition)) +
+  geom_line(linewidth = 0.7) +
+  geom_point(size = 1.8) +
+  facet_wrap(~outcome) +
+  scale_x_continuous(limits = c(0, 46), breaks = c(0, 1, 6, 11, 16, 21, 26, 31, 36, 41, 46)) +
+  scale_color_manual(values = c("Control" = "#000000", "Trump cue" = "#D55E00", "Climate cue" = "#009E73")) +
+  scale_linetype_manual(values = c("Control" = "solid", "Trump cue" = "dashed", "Climate cue" = "dotted")) +
+  labs(x = "Willingness to pay ($)", y = "Percent of respondents", color = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+
+```{r}
 #| label: fig-wtp-interaction
 #| fig-cap: "Effect of cue condition, political identity, and their interaction on willingness-to-pay for fossil fuels and renewables (survey-weighted OLS, control condition and other/moderate identity as reference; concern.cost, age, male, white, edu, and inc included as controls but omitted from the plot)"
 wtp_int_tidy |>

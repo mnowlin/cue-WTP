@@ -7,6 +7,7 @@
 
 library(survey)
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(broom)
 
@@ -101,3 +102,34 @@ wtp_sig_bullets <- sprintf(
   "- %s, %s: b = %.2f, *p* = %.3f",
   wtp_sig$term_label, wtp_sig$outcome, wtp_sig$estimate, wtp_sig$p.value
 )
+
+# ---- WTP distribution by cue condition (descriptive figure) ---------------
+# Weighted share of respondents choosing each Gabor-Granger bid amount
+# (0-46), split by fossil/renewable outcome and cue condition.
+
+cue_labels <- c("Control" = "Control", "Trump cue" = "Trump cue", "Climate cue" = "Climate cue")
+
+wtp_dist <- d |>
+  mutate(
+    cue_condition = case_when(
+      control     == 1 ~ "Control",
+      trump.cue   == 1 ~ "Trump cue",
+      climate.cue == 1 ~ "Climate cue"
+    ),
+    cue_condition = factor(cue_condition, levels = names(cue_labels))
+  ) |>
+  select(cue_condition, weight, wtp.fossil, wtp.renewable) |>
+  pivot_longer(
+    cols = c(wtp.fossil, wtp.renewable),
+    names_to = "outcome", values_to = "wtp"
+  ) |>
+  mutate(
+    outcome = recode(outcome,
+      "wtp.fossil"    = "WTP: Fossil fuels",
+      "wtp.renewable" = "WTP: Renewables"
+    )
+  ) |>
+  group_by(outcome, cue_condition, wtp) |>
+  summarise(n = sum(weight), .groups = "drop_last") |>
+  mutate(pct = 100 * n / sum(n)) |>
+  ungroup()

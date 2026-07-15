@@ -37,6 +37,14 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 - Created `README.md` documenting the project layout, reproduction steps, and data description, adapted from the `cc-behave` project's template.
 - Updated `.gitignore` to exclude the generated `references.bib` and local `.csl` (consistent with the README's documented convention).
 
+### Session 2 — 2026-07-15 (WTP distribution figure)
+
+- Added a descriptive figure (`fig-wtp-distribution`) showing the weighted percent of respondents choosing each Gabor-Granger bid amount ($0–46) for `wtp.fossil` and `wtp.renewable`, faceted side-by-side, with one line per cue condition (Control, Trump cue, Climate cue).
+- Added `wtp_dist` to `scripts/manuscript-setup.R`: reshapes `wtp.fossil`/`wtp.renewable` to long format, computes weighted percentages per outcome × cue condition × bid amount. Added `library(tidyr)` for the pivot.
+- Styled the plot for print robustness: colorblind-safe colors (black/orange/green) plus redundant linetypes (solid/dashed/dotted) so conditions stay distinguishable in grayscale.
+- Replaced the "Willingness to pay plot" placeholder text in `cue-WTP.qmd` with the new chunk.
+- Re-rendered HTML, PDF, and DOCX to confirm the figure builds cleanly in all three formats.
+
 ---
 
 ## Analysis Architecture (as of Session 1)
