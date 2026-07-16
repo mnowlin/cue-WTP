@@ -45,6 +45,11 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 - Replaced the "Willingness to pay plot" placeholder text in `cue-WTP.qmd` with the new chunk.
 - Re-rendered HTML, PDF, and DOCX to confirm the figure builds cleanly in all three formats.
 
+### Session 3 — 2026-07-16 (Drop WTP distribution figure from manuscript, prose revisions)
+
+- Removed the `fig-wtp-distribution` chunk from `cue-WTP.qmd`; the plotting code now lives in `scripts/manuscript-setup.R` as `wtp_dist_plot` (built from the existing `wtp_dist` data prep) with a comment on how to reinstate it — add a chunk in the qmd that prints `wtp_dist_plot`. Not currently used in the manuscript, kept for possible later use.
+- User rewrote the abstract/intro prose in `cue-WTP.qmd` (expanded framing on climate change vs. energy-source polarization and Trump's rhetoric) and moved the Cloud Research/Census sampling paragraph out of the intro and into the "Online Methods" section.
+
 ---
 
 ## Analysis Architecture (as of Session 1)

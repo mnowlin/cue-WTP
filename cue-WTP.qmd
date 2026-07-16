@@ -49,11 +49,17 @@ source("scripts/manuscript-setup.R")
 	- Online Methods section should be included
 -->
 
-**Abstract**: While not as polarized as climate change, support for energy sources, most notably fossil fuels and renewables, have been shown to have stark partisan differences. 
+**Abstract: While not as polarized as climate change, support for energy sources, most notably fossil fuels and renewables, have been shown to have stark partisan differences.** 
 
-For this project, I will use a survey experiment to examine respondents' willingness-to-pay (WTP) for fossil fuel and renewable electricity sources when they are given a Trump cue, a climate change cue, or no cues. Specifically, I will survey 3,000 respondents recruited from Cloud Research, with 1,000 participants receiving a Trump cue, 1,000 receiving a climate cue, and 1,000 in the control condition receiving no cue. Respondents in each condition will be asked about their preferred balance of fossil fuels versus renewables, then their WTP for fossil fuels and renewable sources will be elicited using the Gabor-Granger method. 
+The issue of climate change is one of the most polarized issues politically in the United States. Democrats and liberals are concerned and support actions to address climate change, whereas Republicans and conservatives are less concerned and less supportive. However, this polarization on climate change had not translated into polarization on renewable energy, until recently [pew]. While partisan differences exist regarding preferences for energy sources, particularly regarding fossil fuels and renewables [], overall the public is supportive of renewable energy, even as partisans have different reasons for their support. Democrats tend to support renewables, in part, because of climate change and Republicans support them for economic reasons []. Partisan and elite cues have been shown to drive opinion on climate change and energy preferences []. In light of recent rhetoric and actions on the part of the second Trump regarding fossil and renewables, it is likely that polarization among the public on energy sources will increase in response.   
 
-The data comes from a pool of respondents of the US public obtained from Cloud Research. Respondents were adult (18+) US residents, using Census data to match demographic characteristics including age, gender, and race/ethnicity. Weights are added to make the sample representative of the US public.
+To examine the potential for polarization on energy preferences, I use a survey experiment to examine respondents' prioritization of fossil fuels versus renewables as well as their willingness-to-pay (WTP) for those sources to generate electricity in response to a Trump cue or a climate change cue. Specifically, I surveyed ... US residents, and there were randomly assigned to receive one of three treatments, including a cue about Trump's critique's of renewable energy and his support for fossil fuels (n = ...), a climate change cue that stated scientists recommend moving away from fossil fuels to renewables to address climate change (n = ...), or a control condition with no cue (n = ...).   
+
+As noted, fossil fuels and renewables tend to be polarized as these sources have been the subject of much of the political debates around energy. This trend has accelerated with the Trump, as he has long downplayed the risks of climate change, criticized renewable energy sources, and expressed for oil, gas, and coal.    
+
+then their WTP for fossil fuels and renewable sources will be elicited using the Gabor-Granger method. 
+
+
 
 
 Expectations include 
@@ -88,23 +94,6 @@ Climate cue × Liberal Democrat: b = 0.35, p = 0.042
 Trump cue × Conservative Republican: b = -0.41, p = 0.076
 
 ```{r}
-#| label: fig-wtp-distribution
-#| fig-cap: "Distribution of willingness-to-pay for fossil fuel and renewable electricity, by cue condition (weighted percent of respondents choosing each bid amount)"
-wtp_dist |>
-  ggplot(aes(x = wtp, y = pct, color = cue_condition, linetype = cue_condition)) +
-  geom_line(linewidth = 0.7) +
-  geom_point(size = 1.8) +
-  facet_wrap(~outcome) +
-  scale_x_continuous(limits = c(0, 46), breaks = c(0, 1, 6, 11, 16, 21, 26, 31, 36, 41, 46)) +
-  scale_color_manual(values = c("Control" = "#000000", "Trump cue" = "#D55E00", "Climate cue" = "#009E73")) +
-  scale_linetype_manual(values = c("Control" = "solid", "Trump cue" = "dashed", "Climate cue" = "dotted")) +
-  labs(x = "Willingness to pay ($)", y = "Percent of respondents", color = NULL, linetype = NULL) +
-  theme_minimal() +
-  theme(legend.position = "bottom")
-```
-
-
-```{r}
 #| label: fig-wtp-interaction
 #| fig-cap: "Effect of cue condition, political identity, and their interaction on willingness-to-pay for fossil fuels and renewables (survey-weighted OLS, control condition and other/moderate identity as reference; concern.cost, age, male, white, edu, and inc included as controls but omitted from the plot)"
 wtp_int_tidy |>
@@ -127,7 +116,7 @@ Trump cue × Conservative Republican, WTP: Fossil fuels: b = 3.23, p = 0.097
 
 
 # Online Methods 
-
+The data comes from a pool of respondents of the US public obtained from Cloud Research. Respondents were adult (18+) US residents, using Census data to match demographic characteristics including age, gender, and race/ethnicity. Weights are added to make the sample representative of the US public.
 
 \newpage
 

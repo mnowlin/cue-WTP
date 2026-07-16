@@ -133,3 +133,20 @@ wtp_dist <- d |>
   summarise(n = sum(weight), .groups = "drop_last") |>
   mutate(pct = 100 * n / sum(n)) |>
   ungroup()
+
+# Not currently included in the manuscript; kept here in case the figure is
+# reinstated. To use again, add a chunk in the qmd that prints wtp_dist_plot
+# (fig-cap: "Distribution of willingness-to-pay for fossil fuel and renewable
+# electricity, by cue condition (weighted percent of respondents choosing
+# each bid amount)").
+wtp_dist_plot <- wtp_dist |>
+  ggplot(aes(x = wtp, y = pct, color = cue_condition, linetype = cue_condition)) +
+  geom_line(linewidth = 0.7) +
+  geom_point(size = 1.8) +
+  facet_wrap(~outcome) +
+  scale_x_continuous(limits = c(0, 46), breaks = c(0, 1, 6, 11, 16, 21, 26, 31, 36, 41, 46)) +
+  scale_color_manual(values = c("Control" = "#000000", "Trump cue" = "#D55E00", "Climate cue" = "#009E73")) +
+  scale_linetype_manual(values = c("Control" = "solid", "Trump cue" = "dashed", "Climate cue" = "dotted")) +
+  labs(x = "Willingness to pay ($)", y = "Percent of respondents", color = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
