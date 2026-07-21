@@ -100,47 +100,580 @@ div.csl-indent {
 </header>
 
 
-<!-- Target journal Nature Climate Changes. guidelines:
-​Brief communication:
-    - Brief unreferenced abstract – 3 sentences, up to 70 words.
-    - Title – up to 10 words (or 90 characters). 
-    - Main text – 1,000-1,500 words, excluding abstract, references and figure legends, and contains no headings. 
-    - Display items – up to 2 items, although this may be flexible at the discretion of the editor, provided the page limit is observed. 
-    - Online Methods section should be included
--->
-<p><strong>Abstract: While not as polarized as climate change, support for energy sources, most notably fossil fuels and renewables, have been shown to have stark partisan differences.</strong></p>
-<p>The issue of climate change is one of the most polarized issues politically in the United States. Democrats and liberals are concerned and support actions to address climate change, whereas Republicans and conservatives are less concerned and less supportive of climate policies. Shifting from fossil fuels sources of energy to renewables is needed to mitigate climate change, and polarization on energy sources has not matched the polarization on climate change. Yet, there are some differences, as Republicans tend to be more supportive of fossil fuels and less supportive of renewables, and vice versa for Democrats <span class="citation" data-cites="bergquistEnergyPolicyPublic2020 hamiltonChangeWindUS2018 hawesClimateSciencePolitics2022">(<a href="#ref-bergquistEnergyPolicyPublic2020" role="doc-biblioref">Bergquist, Konisky, and Kotcher 2020</a>; <a href="#ref-hamiltonChangeWindUS2018" role="doc-biblioref">Hamilton et al. 2018</a>; <a href="#ref-hawesClimateSciencePolitics2022" role="doc-biblioref">Hawes and Nowlin 2022</a>)</span>. Additionally, in the last several years, Republicans have become more supportive of fossil fuels and less supportive of renewables <span class="citation" data-cites="kennedyAmericansShiftingViews2026">(<a href="#ref-kennedyAmericansShiftingViews2026" role="doc-biblioref">Kennedy and Kikuchi 2026</a>)</span>.</p>
-<p>Cues have been shown to drive public opinion on climate change and energy preferences. For example, partisan and elite cues played a significant role in shaping opinion on climate change <span class="citation" data-cites="merkleyPartyCuesNews2021 teslerEliteDominationPublic2018">(<a href="#ref-merkleyPartyCuesNews2021" role="doc-biblioref">Merkley and Stecula 2021</a>; <a href="#ref-teslerEliteDominationPublic2018" role="doc-biblioref">Tesler 2018</a>)</span>, and a climate change cue, or frame, can influence energy preferences <span class="citation" data-cites="feldmanClimateChangePolarizing2018">(<a href="#ref-feldmanClimateChangePolarizing2018" role="doc-biblioref">Feldman and Hart 2018</a>)</span>. In light of recent rhetoric and actions on the part of the second Trump regarding fossil and renewables, it is possible that polarization among the public on energy sources may increase in response. Here, I explore how exposure to a Trump or climate cue, compared to no cue, influences the US public’s prioritize on fossil fuels versus renewables as well as their willingness-to-pay (WTP) for those energy sources.</p>
-<p>In brief, the literature on WTP for energy finds that the public is responsive to price volatility for both fossil fuels and renewables <span class="citation" data-cites="cardellaPriceVolatilityResidential2017">(<a href="#ref-cardellaPriceVolatilityResidential2017" role="doc-biblioref">Cardella, Ewing, and Williams 2017</a>)</span>, but in general are willing to pay more for renewable sources <span class="citation" data-cites="borchersDoesWillingnessPay2007 nkansahWillingnessPayWind2019">(<a href="#ref-borchersDoesWillingnessPay2007" role="doc-biblioref">Borchers, Duke, and Parsons 2007</a>; <a href="#ref-nkansahWillingnessPayWind2019" role="doc-biblioref">Nkansah and Collins 2019</a>)</span>. Additionally, US respondents expressed a WTP of ~$137 a year for energy research and development by the federal government aimed at reducing the use of fossil fuels <span class="citation" data-cites="liPublicSupportReducing2009">(<a href="#ref-liPublicSupportReducing2009" role="doc-biblioref">Li et al. 2009</a>)</span>. Apart from price volatility other factors can influence the WTP for energy, including concern about the environmental impacts of energy <span class="citation" data-cites="knappWillConsumersReally2020">(<a href="#ref-knappWillConsumersReally2020" role="doc-biblioref">Knapp et al. 2020</a>)</span> and political beliefs <span class="citation" data-cites="aldyWillingnessPayPolitical2012">(<a href="#ref-aldyWillingnessPayPolitical2012" role="doc-biblioref">Aldy, Kotchen, and Leiserowitz 2012</a>)</span>.</p>
-<p>To examine the potential for polarization on energy preferences, I use a survey experiment to examine respondents’ prioritization of fossil fuels versus renewables as well as their willingness-to-pay (WTP) for those sources to generate electricity in response to a Trump cue or a climate change cue. Specifically, I surveyed 3113 US residents in April 2026, who were randomly assigned to receive one of three treatments, including a cue about Trump’s critique’s of renewable energy and his support for fossil fuels (n = 1049), a climate change cue that stated scientists recommend moving away from fossil fuels to renewables to address climate change (n = 1013), or a control condition with no cue (n = 1051).</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Shifting from fossil fuels sources of energy to renewables is needed to mitigate climate change, and such a shift requires the commitment and support of the public. In general, the US public seems to support using more renewable sources, yet there are partisan differences in the degree of that support with Republicans tending to be more supportive of fossil fuels and Democrats tending to be more supportive of renewables <span class="citation" data-cites="bergquistEnergyPolicyPublic2020 hamiltonChangeWindUS2018 hawesClimateSciencePolitics2022">(<a href="#ref-bergquistEnergyPolicyPublic2020" role="doc-biblioref">Bergquist, Konisky, and Kotcher 2020</a>; <a href="#ref-hamiltonChangeWindUS2018" role="doc-biblioref">Hamilton et al. 2018</a>; <a href="#ref-hawesClimateSciencePolitics2022" role="doc-biblioref">Hawes and Nowlin 2022</a>)</span>. Additionally, in the last several years, Republicans have become more supportive of fossil fuels and less supportive of renewables <span class="citation" data-cites="kennedyAmericansShiftingViews2026">(<a href="#ref-kennedyAmericansShiftingViews2026" role="doc-biblioref">Kennedy and Kikuchi 2026</a>)</span>.</p>
+<p>Cues have been shown to drive public opinion on climate change and energy preferences. For example, partisan and elite cues played a significant role in shaping opinion on climate change <span class="citation" data-cites="merkleyPartyCuesNews2021 teslerEliteDominationPublic2018">(<a href="#ref-merkleyPartyCuesNews2021" role="doc-biblioref">Merkley and Stecula 2021</a>; <a href="#ref-teslerEliteDominationPublic2018" role="doc-biblioref">Tesler 2018</a>)</span>, and a climate change cue, or frame, can influence energy preferences <span class="citation" data-cites="feldmanClimateChangePolarizing2018">(<a href="#ref-feldmanClimateChangePolarizing2018" role="doc-biblioref">Feldman and Hart 2018</a>)</span>. In light of recent rhetoric and actions on the part of the second Trump regarding fossil and renewables, it is possible that polarization among the public on energy sources may increase in response. Here, I explore how exposure to a Trump or climate cue, compared to no cue, influences how the US public prioritizes fossil fuels versus renewables as well as their willingness-to-pay (WTP) for those energy sources.</p>
+<p>In brief, the literature on WTP for energy finds that the public is responsive to price volatility for both fossil fuels and renewables <span class="citation" data-cites="cardellaPriceVolatilityResidential2017">(<a href="#ref-cardellaPriceVolatilityResidential2017" role="doc-biblioref">Cardella, Ewing, and Williams 2017</a>)</span>, but in general are willing to pay more for renewable sources <span class="citation" data-cites="borchersDoesWillingnessPay2007 nkansahWillingnessPayWind2019">(<a href="#ref-borchersDoesWillingnessPay2007" role="doc-biblioref">Borchers, Duke, and Parsons 2007</a>; <a href="#ref-nkansahWillingnessPayWind2019" role="doc-biblioref">Nkansah and Collins 2019</a>)</span> and is WTP for research and development by the federal government aimed at reducing the use of fossil fuels <span class="citation" data-cites="liPublicSupportReducing2009">(<a href="#ref-liPublicSupportReducing2009" role="doc-biblioref">Li et al. 2009</a>)</span>. However, concern about the environmental impacts of energy <span class="citation" data-cites="knappWillConsumersReally2020">(<a href="#ref-knappWillConsumersReally2020" role="doc-biblioref">Knapp et al. 2020</a>)</span> and political beliefs <span class="citation" data-cites="aldyWillingnessPayPolitical2012">(<a href="#ref-aldyWillingnessPayPolitical2012" role="doc-biblioref">Aldy, Kotchen, and Leiserowitz 2012</a>)</span> can shape the WTP for energy.</p>
+</section>
+<section id="methodology-and-data" class="level1">
+<h1>Methodology and Data</h1>
+<p>Given the importance of cues and political beliefs in energy preferences, here I use a survey experiment to examine respondents’ prioritization of fossil fuels versus renewables as well as their willingness-to-pay (WTP) for those sources to generate electricity in response to a Trump cue or a climate change cue. Specifically, I surveyed 3113 US residents in April 2026, who were randomly assigned to receive one of three treatments, including a cue about Trump’s critique’s of renewable energy and his support for fossil fuels (n = 1049), a climate change cue that stated scientists recommend moving away from fossil fuels to renewables to address climate change (n = 1013), or a control condition with no cue (n = 1051).</p>
 <p>Overall, I expect there to be both general and partisan shifts in preferences based on the cues. In general, those who receive the Trump cue will prioritize fossil and fuels and be willing to pay more, whereas those in the climate condition will prioritize renewable sources and be willing to pay more than those in the other conditions. For political beliefs, I expect conservative Republicans to be responsive to the Trump cue and liberal Democrats to be responsive to the climate cue in their energy preferences.</p>
-<p>I fisrt examine how respondents chose to prioritize foosil fuels versus renewables. After receiving the cues, respondents were asked, on a 1 to 7 scale, if fossil fuels should be prioritized (= 1), fossil fuels and renewables should be prioritized equally (= 4), or renewable sources should be prioritized (= 7). The mean on the energy-priority scale was 5.17, indicating that respondents, on average, prioritized renewables. Next, I use OLS to examine the prioritization respondents gave to fossil fuels versus renewables as a function of the cue, their political beliefs, and the interaction between cues and political beliefs. In the following analysis I control for the respondents concern about the cost of energy. Energy affordability was a salient concern during the time data was collected. Indeed, in the survey respondents were asked, on a 0 to 10 scale, their overall concern about the cost of electricity, and the mean was 7.88, indicating a fair amount of concern. Finally, I control for several demographic variables, including age, male, white, education, and income. The results are shown in <a href="#fig-priority-coef" class="quarto-xref">Figure&nbsp;1</a>; however, for clarity I only include results for the variables of interest and not the controls.</p>
+<p>I first examine how respondents chose to prioritize fossil fuels versus renewables. After receiving the cues, respondents were asked, on a 1 to 7 scale, if fossil fuels should be prioritized (= 1), fossil fuels and renewables should be prioritized equally (= 4), or renewable sources should be prioritized (= 7). The mean on the energy-priority scale was 5.17, indicating that respondents, on average, prioritized renewables. Next, I use OLS to examine the prioritization respondents gave to fossil fuels versus renewables as a function of the cue, their political beliefs, and the interaction between cues and political beliefs. In the following analysis I control for the respondents concern about the cost of energy. Energy affordability was a salient concern during the time data was collected. Indeed, in the survey respondents were asked, on a 0 to 10 scale, their overall concern about the cost of electricity, and the mean was 7.88, indicating a fair amount of concern. Finally, I control for several demographic variables, including age, male, white, education, and income.</p>
+</section>
+<section id="results-and-discussion" class="level1">
+<h1>Results and Discussion</h1>
+<p>The results are shown in <a href="#tbl-priority-ols" class="quarto-xref">Table&nbsp;1</a>.</p>
+<div class="cell">
+<div id="tbl-priority-ols" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-priority-ols-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale (survey-weighted OLS; control condition and other/moderate identity as reference)
+</figcaption>
+<div aria-describedby="tbl-priority-ols-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_1cnz9ge7fy2ag6xp4ed8 = TinyTable.createTableFunctions("tinytable_1cnz9ge7fy2ag6xp4ed8");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '31', j: 2 } ], css_id: 'tinytable_css_ecno1o4gw3ms15bsvkqj',}, 
+          { positions: [ { i: '30', j: 2 } ], css_id: 'tinytable_css_1g8rr10nn4yq8rggoiwz',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '8', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '11', j: 2 }, { i: '12', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '15', j: 2 }, { i: '16', j: 2 }, { i: '17', j: 2 }, { i: '18', j: 2 }, { i: '19', j: 2 }, { i: '20', j: 2 }, { i: '21', j: 2 }, { i: '22', j: 2 }, { i: '23', j: 2 }, { i: '24', j: 2 }, { i: '25', j: 2 }, { i: '26', j: 2 }, { i: '27', j: 2 }, { i: '28', j: 2 }, { i: '29', j: 2 } ], css_id: 'tinytable_css_kmejpcwgujmsbwg307qx',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_jgxa310g6zppwopzrsfz',}, 
+          { positions: [ { i: '31', j: 1 } ], css_id: 'tinytable_css_xzs4imbzqbzwp6amnhtm',}, 
+          { positions: [ { i: '30', j: 1 } ], css_id: 'tinytable_css_ud2dmqwtp6dq2kaqj1xe',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '12', j: 1 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 }, { i: '16', j: 1 }, { i: '17', j: 1 }, { i: '18', j: 1 }, { i: '19', j: 1 }, { i: '20', j: 1 }, { i: '21', j: 1 }, { i: '22', j: 1 }, { i: '23', j: 1 }, { i: '24', j: 1 }, { i: '25', j: 1 }, { i: '26', j: 1 }, { i: '27', j: 1 }, { i: '28', j: 1 }, { i: '29', j: 1 } ], css_id: 'tinytable_css_h9h5e0n5zv6armdziqf1',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_8rwyu658crz4jfmxqjsb',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_1cnz9ge7fy2ag6xp4ed8.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_ecno1o4gw3ms15bsvkqj, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_ecno1o4gw3ms15bsvkqj {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_1g8rr10nn4yq8rggoiwz, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_1g8rr10nn4yq8rggoiwz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_kmejpcwgujmsbwg307qx, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_kmejpcwgujmsbwg307qx { text-align: center }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_jgxa310g6zppwopzrsfz, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_jgxa310g6zppwopzrsfz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_xzs4imbzqbzwp6amnhtm, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_xzs4imbzqbzwp6amnhtm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_ud2dmqwtp6dq2kaqj1xe, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_ud2dmqwtp6dq2kaqj1xe {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_h9h5e0n5zv6armdziqf1, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_h9h5e0n5zv6armdziqf1 { text-align: left }
+    #tinytable_1cnz9ge7fy2ag6xp4ed8 td.tinytable_css_8rwyu658crz4jfmxqjsb, #tinytable_1cnz9ge7fy2ag6xp4ed8 th.tinytable_css_8rwyu658crz4jfmxqjsb {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_1cnz9ge7fy2ag6xp4ed8" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">Priority scale</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="2">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">Trump cue</td>
+                  <td data-row="1" data-col="2">-0.030</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(0.157)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">Climate cue</td>
+                  <td data-row="3" data-col="2">-0.122</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">(0.152)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">Liberal Democrat</td>
+                  <td data-row="5" data-col="2">0.647***</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2">(0.125)</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">Conservative Republican</td>
+                  <td data-row="7" data-col="2">-1.221***</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2">(0.148)</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">Trump cue × Liberal Democrat</td>
+                  <td data-row="9" data-col="2">0.176</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1"></td>
+                  <td data-row="10" data-col="2">(0.182)</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="1">Climate cue × Liberal Democrat</td>
+                  <td data-row="11" data-col="2">0.354**</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="1"></td>
+                  <td data-row="12" data-col="2">(0.174)</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="1">Trump cue × Conservative Republican</td>
+                  <td data-row="13" data-col="2">-0.412*</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="1"></td>
+                  <td data-row="14" data-col="2">(0.232)</td>
+                </tr>
+                <tr>
+                  <td data-row="15" data-col="1">Climate cue × Conservative Republican</td>
+                  <td data-row="15" data-col="2">0.062</td>
+                </tr>
+                <tr>
+                  <td data-row="16" data-col="1"></td>
+                  <td data-row="16" data-col="2">(0.217)</td>
+                </tr>
+                <tr>
+                  <td data-row="17" data-col="1">Concern about energy cost</td>
+                  <td data-row="17" data-col="2">0.041**</td>
+                </tr>
+                <tr>
+                  <td data-row="18" data-col="1"></td>
+                  <td data-row="18" data-col="2">(0.016)</td>
+                </tr>
+                <tr>
+                  <td data-row="19" data-col="1">Age</td>
+                  <td data-row="19" data-col="2">-0.011***</td>
+                </tr>
+                <tr>
+                  <td data-row="20" data-col="1"></td>
+                  <td data-row="20" data-col="2">(0.002)</td>
+                </tr>
+                <tr>
+                  <td data-row="21" data-col="1">Male</td>
+                  <td data-row="21" data-col="2">0.239***</td>
+                </tr>
+                <tr>
+                  <td data-row="22" data-col="1"></td>
+                  <td data-row="22" data-col="2">(0.068)</td>
+                </tr>
+                <tr>
+                  <td data-row="23" data-col="1">White</td>
+                  <td data-row="23" data-col="2">0.145*</td>
+                </tr>
+                <tr>
+                  <td data-row="24" data-col="1"></td>
+                  <td data-row="24" data-col="2">(0.078)</td>
+                </tr>
+                <tr>
+                  <td data-row="25" data-col="1">Education</td>
+                  <td data-row="25" data-col="2">0.044**</td>
+                </tr>
+                <tr>
+                  <td data-row="26" data-col="1"></td>
+                  <td data-row="26" data-col="2">(0.019)</td>
+                </tr>
+                <tr>
+                  <td data-row="27" data-col="1">Income</td>
+                  <td data-row="27" data-col="2">0.020</td>
+                </tr>
+                <tr>
+                  <td data-row="28" data-col="1"></td>
+                  <td data-row="28" data-col="2">(0.013)</td>
+                </tr>
+                <tr>
+                  <td data-row="29" data-col="1">(Intercept)</td>
+                  <td data-row="29" data-col="2">5.194***</td>
+                </tr>
+                <tr>
+                  <td data-row="30" data-col="1"></td>
+                  <td data-row="30" data-col="2">(0.200)</td>
+                </tr>
+                <tr>
+                  <td data-row="31" data-col="1">Num.Obs.</td>
+                  <td data-row="31" data-col="2">3113</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-priority-coef" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-priority-predicted" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-priority-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale (survey-weighted OLS, control condition and other/moderate identity as reference; concern about energy cost, age, male, white, education, and income included as controls but omitted from the plot)
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-priority-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Predicted energy source-priority scale (1-7) by cue condition and political identity (survey-weighted OLS predictions with 95% CIs; concern about energy cost, age, male, white, education, and income held at their survey-weighted means)
 </figcaption>
-<div aria-describedby="fig-priority-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="cue-WTP_files/figure-html/fig-priority-coef-1.png" class="img-fluid figure-img" width="672">
+<div aria-describedby="fig-priority-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="cue-WTP_files/figure-html/fig-priority-predicted-1.png" class="img-fluid figure-img" width="672">
 </div>
 </figure>
 </div>
 </div>
 </div>
-<p>As expected, conservative Republicans were more likely to prioritize fossil fuels than renewables, with an estimated coefficient of -1.22 on the 1 to 7 scale. Liberal Democrats prioritized renewables at 0.65. In terms of the interactions, conservative Republicans who received the Trump cue were more likely to prioritize fossil fuels (b = -0.41, <em>p</em> = 0.076), whereas liberal Democrats in the climate condition where more likely to prioritize renewables (b = 0.35). However, the cues themselves had, on average, no effect on energy source priority compared to no cues.</p>
-<p>Next, I asked respondents their WTP for fossil fuel and renewable sources using the Gabor-Granger method <span class="citation" data-cites="gaborPriceIndicatorQuality1966">(e.g., <a href="#ref-gaborPriceIndicatorQuality1966" role="doc-biblioref">Gabor and Granger 1966</a>)</span>. Specifically, I first give respondents information about potential costs associated with each energy source. In the WTP for fossil fuels question, I noted that costs associated with renewable energy have decreased and they may need to pay more to use fossil fuels. For renewable sources respondents were told about the need to increase distribution. All respondents were asked their WTP for both sources, and the sources were presented in random order. To elict the maximum/minimum WTP, respondents were shown a random dollar amount between $1 and $46, in five-dollar increments, and asked if they would be WTP that amount extra per-month in their electricity bill. If they indicated yes they were shown a larger, random dollar-amount, and if they indicated no they were shown a smaller dollar-amount. This continues until they reach the $46-maximum or $1-minimum. Respondents who indicated no at $1 were coded with a WTP of 0.</p>
-<p>Nearly half of respondents were not WTP any additional amount for fossil fuels, whereas 18.3 percent were WTP the max, $46 for renewables. Overall, the median WTP for fossil fuels was $1 with a mean of $8.33. For renewables the median WTP was $11 and the mean was $18.21. On average, respondents were willing to pay more for renewables than fossil fuels. Given the large share of respondents at $0 for fossil fuels, I model fossil-fuel WTP with a two-part hurdle model — a logit for whether a respondent has any positive WTP (<a href="#fig-wtp-fossil-participation" class="quarto-xref">Figure&nbsp;2</a>), and an OLS model for the dollar amount among those who do — and model renewables with OLS, consistent with the priority-scale model above; the results for the amount/renewables models are shown in <a href="#fig-wtp-interaction" class="quarto-xref">Figure&nbsp;3</a>.</p>
+<p>As expected, conservative Republicans were more likely to prioritize fossil fuels than renewables, with an estimated coefficient of -1.22 on the 1 to 7 scale. Liberal Democrats prioritized renewables at 0.65. In terms of the interactions, conservative Republicans who received the Trump cue were more likely to prioritize fossil fuels (b = -0.41, <em>p</em> = 0.076), whereas liberal Democrats in the climate condition where more likely to prioritize renewables (b = 0.35). Overall, the predicted value on the 1 to 7 scale for conservative Republicans in the control group was …, indicating a priority for …, and it was … for those receiving the Trump cue, indicating a significant shift. For liberal Democrats the predicted value was …, indicating support for …, and the value was … in the climate condition. The interactions of cue x political beliefs was significant; however, the cues themselves had no effect, on average, on energy source priority compared to the control condition.</p>
+<p>Next, I asked respondents their WTP for fossil fuel and renewable sources using the Gabor-Granger method <span class="citation" data-cites="gaborPriceIndicatorQuality1966">(e.g., <a href="#ref-gaborPriceIndicatorQuality1966" role="doc-biblioref">Gabor and Granger 1966</a>)</span>. Specifically, I first give respondents information about potential costs associated with each energy source. In the WTP for fossil fuels question, I noted that costs associated with renewable energy have decreased and, therefore they may need to pay more to use fossil fuels. For renewable sources respondents were told about the need to increase distribution. All respondents were asked their WTP for both sources, and the sources were presented in random order. To elict the maximum/minimum WTP, respondents were shown a random dollar amount between $1 and $46, in five-dollar increments, and asked if they would be WTP that amount extra per-month in their electricity bill. If they indicated yes they were shown a larger, random dollar-amount, and if they indicated no they were shown a smaller dollar-amount. This continues until they reach the $46-maximum or $1-minimum. Respondents who indicated no at $1 were coded with a WTP of 0. The percent of respondents WTP each possible dollar amount for each source is shown in <a href="#tbl-wtp-dist" class="quarto-xref">Table&nbsp;2</a>.</p>
+<div class="cell">
+<div id="tbl-wtp-dist" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wtp-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Distribution of willingness-to-pay for fossil fuel and renewable electricity (weighted percent of respondents choosing each bid amount)
+</figcaption>
+<div aria-describedby="tbl-wtp-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">WTP ($)</th>
+<th style="text-align: right;">Fossil fuels (%)</th>
+<th style="text-align: right;">Renewables (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: right;">14.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14.7</td>
+<td style="text-align: right;">15.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">10.6</td>
+<td style="text-align: right;">14.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">5.6</td>
+<td style="text-align: right;">9.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">4.9</td>
+<td style="text-align: right;">7.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">2.7</td>
+<td style="text-align: right;">4.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">2.9</td>
+<td style="text-align: right;">5.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">3.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">4.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">3.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">6.3</td>
+<td style="text-align: right;">18.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Nearly half of respondents, … percent, were not WTP any additional amount for fossil fuels, whereas … percent were WTP the max, $46 for renewables. Overall, the median WTP for fossil fuels was $1 with a mean of $8.33. For renewables the median WTP was $11 and the mean was $18.21. Comparing the differences in median and means, the median difference in WTP for renewables versus fossil fuels was …, which is/not significant with test statistic at p value. For the mean, the difference was …, which is/is not significant with a test statistic and p value.</p>
+<p>Given the large percantage of respondents at $0 for fossil fuels, I model the WTP for fossil fuels with a two-part hurdle model. First, I use a logit model to see whether a respondent has any positive WTP, then I use OLS to examine differences in WTP amounts. Next, using OLS, I examine the WTP for fossil fuels, among those who are WTP &gt;0, and for renewables. The results of all three models, controlling for cost concern and demographics, are shown in <a href="#tbl-wtp-models" class="quarto-xref">Table&nbsp;3</a>.</p>
+<div class="cell">
+<div id="tbl-wtp-models" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wtp-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables (survey-weighted logit/OLS; control condition and other/moderate identity as reference)
+</figcaption>
+<div aria-describedby="tbl-wtp-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_c5yh9h349c2g5z4nms9z = TinyTable.createTableFunctions("tinytable_c5yh9h349c2g5z4nms9z");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '31', j: 2 }, { i: '31', j: 3 }, { i: '31', j: 4 } ], css_id: 'tinytable_css_bm6o4xg3w5qmrbbz7h97',}, 
+          { positions: [ { i: '30', j: 2 }, { i: '30', j: 3 }, { i: '30', j: 4 } ], css_id: 'tinytable_css_7iw3j0d00i2uw09sv4ya',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '8', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '11', j: 2 }, { i: '12', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '15', j: 2 }, { i: '16', j: 2 }, { i: '17', j: 2 }, { i: '18', j: 2 }, { i: '19', j: 2 }, { i: '20', j: 2 }, { i: '21', j: 2 }, { i: '22', j: 2 }, { i: '23', j: 2 }, { i: '24', j: 2 }, { i: '25', j: 2 }, { i: '26', j: 2 }, { i: '27', j: 2 }, { i: '28', j: 2 }, { i: '29', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '8', j: 3 }, { i: '9', j: 3 }, { i: '10', j: 3 }, { i: '11', j: 3 }, { i: '12', j: 3 }, { i: '13', j: 3 }, { i: '14', j: 3 }, { i: '15', j: 3 }, { i: '16', j: 3 }, { i: '17', j: 3 }, { i: '18', j: 3 }, { i: '19', j: 3 }, { i: '20', j: 3 }, { i: '21', j: 3 }, { i: '22', j: 3 }, { i: '23', j: 3 }, { i: '24', j: 3 }, { i: '25', j: 3 }, { i: '26', j: 3 }, { i: '27', j: 3 }, { i: '28', j: 3 }, { i: '29', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '6', j: 4 }, { i: '7', j: 4 }, { i: '8', j: 4 }, { i: '9', j: 4 }, { i: '10', j: 4 }, { i: '11', j: 4 }, { i: '12', j: 4 }, { i: '13', j: 4 }, { i: '14', j: 4 }, { i: '15', j: 4 }, { i: '16', j: 4 }, { i: '17', j: 4 }, { i: '18', j: 4 }, { i: '19', j: 4 }, { i: '20', j: 4 }, { i: '21', j: 4 }, { i: '22', j: 4 }, { i: '23', j: 4 }, { i: '24', j: 4 }, { i: '25', j: 4 }, { i: '26', j: 4 }, { i: '27', j: 4 }, { i: '28', j: 4 }, { i: '29', j: 4 } ], css_id: 'tinytable_css_xozi389mfcajcqtlm7qi',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 } ], css_id: 'tinytable_css_gql40g0qld7lfr1hohwt',}, 
+          { positions: [ { i: '31', j: 1 } ], css_id: 'tinytable_css_gcg1lsjpm4cl9lwsw4iz',}, 
+          { positions: [ { i: '30', j: 1 } ], css_id: 'tinytable_css_w95u3fa2ljqvzh8v4osg',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '12', j: 1 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 }, { i: '16', j: 1 }, { i: '17', j: 1 }, { i: '18', j: 1 }, { i: '19', j: 1 }, { i: '20', j: 1 }, { i: '21', j: 1 }, { i: '22', j: 1 }, { i: '23', j: 1 }, { i: '24', j: 1 }, { i: '25', j: 1 }, { i: '26', j: 1 }, { i: '27', j: 1 }, { i: '28', j: 1 }, { i: '29', j: 1 } ], css_id: 'tinytable_css_rcfhdtmp65cm1ajuknmv',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_f6jowtwtzre5t30spp24',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_c5yh9h349c2g5z4nms9z.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_bm6o4xg3w5qmrbbz7h97, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_bm6o4xg3w5qmrbbz7h97 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_7iw3j0d00i2uw09sv4ya, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_7iw3j0d00i2uw09sv4ya {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_xozi389mfcajcqtlm7qi, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_xozi389mfcajcqtlm7qi { text-align: center }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_gql40g0qld7lfr1hohwt, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_gql40g0qld7lfr1hohwt {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_gcg1lsjpm4cl9lwsw4iz, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_gcg1lsjpm4cl9lwsw4iz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_w95u3fa2ljqvzh8v4osg, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_w95u3fa2ljqvzh8v4osg {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_rcfhdtmp65cm1ajuknmv, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_rcfhdtmp65cm1ajuknmv { text-align: left }
+    #tinytable_c5yh9h349c2g5z4nms9z td.tinytable_css_f6jowtwtzre5t30spp24, #tinytable_c5yh9h349c2g5z4nms9z th.tinytable_css_f6jowtwtzre5t30spp24 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_c5yh9h349c2g5z4nms9z" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">Fossil fuels: Any WTP (logit)</th>
+                <th scope="col" data-row="0" data-col="3">Fossil fuels: Amount, if WTP &gt; $0 (OLS)</th>
+                <th scope="col" data-row="0" data-col="4">Renewables: Amount (OLS)</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="4">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">Trump cue</td>
+                  <td data-row="1" data-col="2">-0.252</td>
+                  <td data-row="1" data-col="3">-3.410</td>
+                  <td data-row="1" data-col="4">-1.494</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(0.208)</td>
+                  <td data-row="2" data-col="3">(2.257)</td>
+                  <td data-row="2" data-col="4">(1.862)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">Climate cue</td>
+                  <td data-row="3" data-col="2">0.074</td>
+                  <td data-row="3" data-col="3">-1.148</td>
+                  <td data-row="3" data-col="4">-1.507</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">(0.206)</td>
+                  <td data-row="4" data-col="3">(2.230)</td>
+                  <td data-row="4" data-col="4">(1.751)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">Liberal Democrat</td>
+                  <td data-row="5" data-col="2">-0.362*</td>
+                  <td data-row="5" data-col="3">-0.010</td>
+                  <td data-row="5" data-col="4">5.299***</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2">(0.185)</td>
+                  <td data-row="6" data-col="3">(2.097)</td>
+                  <td data-row="6" data-col="4">(1.575)</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">Conservative Republican</td>
+                  <td data-row="7" data-col="2">0.742***</td>
+                  <td data-row="7" data-col="3">-2.897</td>
+                  <td data-row="7" data-col="4">-6.818***</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2">(0.208)</td>
+                  <td data-row="8" data-col="3">(2.076)</td>
+                  <td data-row="8" data-col="4">(1.641)</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">Trump cue × Liberal Democrat</td>
+                  <td data-row="9" data-col="2">-0.029</td>
+                  <td data-row="9" data-col="3">3.186</td>
+                  <td data-row="9" data-col="4">2.015</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1"></td>
+                  <td data-row="10" data-col="2">(0.259)</td>
+                  <td data-row="10" data-col="3">(2.870)</td>
+                  <td data-row="10" data-col="4">(2.248)</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="1">Climate cue × Liberal Democrat</td>
+                  <td data-row="11" data-col="2">-0.273</td>
+                  <td data-row="11" data-col="3">1.426</td>
+                  <td data-row="11" data-col="4">3.660*</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="1"></td>
+                  <td data-row="12" data-col="2">(0.260)</td>
+                  <td data-row="12" data-col="3">(2.970)</td>
+                  <td data-row="12" data-col="4">(2.170)</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="1">Trump cue × Conservative Republican</td>
+                  <td data-row="13" data-col="2">0.424</td>
+                  <td data-row="13" data-col="3">3.506</td>
+                  <td data-row="13" data-col="4">0.373</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="1"></td>
+                  <td data-row="14" data-col="2">(0.301)</td>
+                  <td data-row="14" data-col="3">(2.918)</td>
+                  <td data-row="14" data-col="4">(2.345)</td>
+                </tr>
+                <tr>
+                  <td data-row="15" data-col="1">Climate cue × Conservative Republican</td>
+                  <td data-row="15" data-col="2">-0.024</td>
+                  <td data-row="15" data-col="3">3.338</td>
+                  <td data-row="15" data-col="4">3.053</td>
+                </tr>
+                <tr>
+                  <td data-row="16" data-col="1"></td>
+                  <td data-row="16" data-col="2">(0.294)</td>
+                  <td data-row="16" data-col="3">(2.876)</td>
+                  <td data-row="16" data-col="4">(2.302)</td>
+                </tr>
+                <tr>
+                  <td data-row="17" data-col="1">Concern about energy cost</td>
+                  <td data-row="17" data-col="2">-0.067***</td>
+                  <td data-row="17" data-col="3">-0.641***</td>
+                  <td data-row="17" data-col="4">-0.381**</td>
+                </tr>
+                <tr>
+                  <td data-row="18" data-col="1"></td>
+                  <td data-row="18" data-col="2">(0.022)</td>
+                  <td data-row="18" data-col="3">(0.224)</td>
+                  <td data-row="18" data-col="4">(0.166)</td>
+                </tr>
+                <tr>
+                  <td data-row="19" data-col="1">Age</td>
+                  <td data-row="19" data-col="2">0.008**</td>
+                  <td data-row="19" data-col="3">-0.002</td>
+                  <td data-row="19" data-col="4">-0.093***</td>
+                </tr>
+                <tr>
+                  <td data-row="20" data-col="1"></td>
+                  <td data-row="20" data-col="2">(0.003)</td>
+                  <td data-row="20" data-col="3">(0.034)</td>
+                  <td data-row="20" data-col="4">(0.025)</td>
+                </tr>
+                <tr>
+                  <td data-row="21" data-col="1">Male</td>
+                  <td data-row="21" data-col="2">-0.062</td>
+                  <td data-row="21" data-col="3">-0.430</td>
+                  <td data-row="21" data-col="4">0.485</td>
+                </tr>
+                <tr>
+                  <td data-row="22" data-col="1"></td>
+                  <td data-row="22" data-col="2">(0.093)</td>
+                  <td data-row="22" data-col="3">(1.035)</td>
+                  <td data-row="22" data-col="4">(0.718)</td>
+                </tr>
+                <tr>
+                  <td data-row="23" data-col="1">White</td>
+                  <td data-row="23" data-col="2">-0.262**</td>
+                  <td data-row="23" data-col="3">0.969</td>
+                  <td data-row="23" data-col="4">2.552***</td>
+                </tr>
+                <tr>
+                  <td data-row="24" data-col="1"></td>
+                  <td data-row="24" data-col="2">(0.106)</td>
+                  <td data-row="24" data-col="3">(1.199)</td>
+                  <td data-row="24" data-col="4">(0.854)</td>
+                </tr>
+                <tr>
+                  <td data-row="25" data-col="1">Education</td>
+                  <td data-row="25" data-col="2">-0.027</td>
+                  <td data-row="25" data-col="3">1.148***</td>
+                  <td data-row="25" data-col="4">0.389*</td>
+                </tr>
+                <tr>
+                  <td data-row="26" data-col="1"></td>
+                  <td data-row="26" data-col="2">(0.027)</td>
+                  <td data-row="26" data-col="3">(0.292)</td>
+                  <td data-row="26" data-col="4">(0.208)</td>
+                </tr>
+                <tr>
+                  <td data-row="27" data-col="1">Income</td>
+                  <td data-row="27" data-col="2">-0.035*</td>
+                  <td data-row="27" data-col="3">0.271</td>
+                  <td data-row="27" data-col="4">0.473***</td>
+                </tr>
+                <tr>
+                  <td data-row="28" data-col="1"></td>
+                  <td data-row="28" data-col="2">(0.019)</td>
+                  <td data-row="28" data-col="3">(0.210)</td>
+                  <td data-row="28" data-col="4">(0.145)</td>
+                </tr>
+                <tr>
+                  <td data-row="29" data-col="1">(Intercept)</td>
+                  <td data-row="29" data-col="2">0.593**</td>
+                  <td data-row="29" data-col="3">16.788***</td>
+                  <td data-row="29" data-col="4">20.989***</td>
+                </tr>
+                <tr>
+                  <td data-row="30" data-col="1"></td>
+                  <td data-row="30" data-col="2">(0.271)</td>
+                  <td data-row="30" data-col="3">(2.958)</td>
+                  <td data-row="30" data-col="4">(2.146)</td>
+                </tr>
+                <tr>
+                  <td data-row="31" data-col="1">Num.Obs.</td>
+                  <td data-row="31" data-col="2">3113</td>
+                  <td data-row="31" data-col="3">1433</td>
+                  <td data-row="31" data-col="4">3113</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>For fossil fuels, conservative Republicans were significantly more likely than the reference group to have any positive WTP (b = 0.74, log-odds scale), predicted at 68.3% in the control condition compared to 41.6% for liberal Democrats (b = -0.36, <em>p</em> = 0.050). However, the cues were not significant nor were the interactions between the cues and political beliefs.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-wtp-fossil-participation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-wtp-fossil-predicted" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-wtp-fossil-participation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Effect of cue condition, political beliefs, and their interaction on the probability of any positive willingness-to-pay for fossil fuels (survey-weighted logit, log-odds scale; control condition and other/moderate identity as reference; concern about energy cost, age, male, white, education, and income included as controls but omitted from the plot)
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-wtp-fossil-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Predicted willingness-to-pay for fossil fuels, among respondents with any positive WTP, by cue condition and political identity (survey-weighted OLS predictions with 95% CIs; concern about energy cost, age, male, white, education, and income held at their survey-weighted means)
 </figcaption>
-<div aria-describedby="fig-wtp-fossil-participation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="cue-WTP_files/figure-html/fig-wtp-fossil-participation-1.png" class="img-fluid figure-img" width="672">
+<div aria-describedby="fig-wtp-fossil-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="cue-WTP_files/figure-html/fig-wtp-fossil-predicted-1.png" class="img-fluid figure-img" width="672">
 </div>
 </figure>
 </div>
@@ -148,21 +681,27 @@ Figure&nbsp;2: Effect of cue condition, political beliefs, and their interaction
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-wtp-interaction" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-wtp-renewable-predicted" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-wtp-interaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels, among those with any positive WTP, and for renewables (survey-weighted OLS; control condition and other/moderate identity as reference; concern about energy cost, age, male, white, education, and income included as controls but omitted from the plot)
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-wtp-renewable-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Predicted willingness-to-pay for renewables by cue condition and political identity (survey-weighted OLS predictions with 95% CIs; concern about energy cost, age, male, white, education, and income held at their survey-weighted means)
 </figcaption>
-<div aria-describedby="fig-wtp-interaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="cue-WTP_files/figure-html/fig-wtp-interaction-1.png" class="img-fluid figure-img" width="672">
+<div aria-describedby="fig-wtp-renewable-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="cue-WTP_files/figure-html/fig-wtp-renewable-predicted-1.png" class="img-fluid figure-img" width="672">
 </div>
 </figure>
 </div>
 </div>
 </div>
-<p>For fossil fuels, conservative Republicans were significantly more likely than the reference group to have any positive WTP (b = 0.74, log-odds scale), predicted at 68.3% in the control condition compared to 41.6% for liberal Democrats (b = -0.36, <em>p</em> = 0.050). Neither the Trump cue nor its interaction with conservative Republican identity significantly predicted participation or, among those with positive WTP, the dollar amount: predicted participation for conservative Republicans was 68.3% in the control condition versus 71.9% in the Trump cue, and the predicted amount conditional on paying something was $14.23 versus $14.32. Looking to renewables, liberal Democrats were willing to pay $5.30 more, on average, and in the climate condition the amount increased further by $3.66 (<em>p</em> = 0.092), for a total predicted willingness to pay of $26.17 for renewables. Conservative Republicans, however, were willing to pay $6.82 less for renewables, for a predicted total of $11.90.</p>
+<p>Neither the Trump cue nor its interaction with conservative Republican identity significantly predicted participation or, among those with positive WTP, the dollar amount: predicted participation for conservative Republicans was 68.3% in the control condition versus 71.9% in the Trump cue,</p>
+<p>and the predicted amount conditional on paying something was $14.23 versus $14.32.</p>
+<p>Looking to renewables, liberal Democrats were willing to pay $5.30 more, on average, and in the climate condition the amount increased further by $3.66 (<em>p</em> = 0.092), for a total predicted willingness to pay of $26.17 for renewables. Conservative Republicans, however, were willing to pay $6.82 less for renewables, for a predicted total of $11.90.</p>
 <p>The clean energy transition is needed to mitigate climate change, and public support is needed for the energy transition to complete. The results here show that support for fossil fuel and renewable energy sources is polarized, as measured both by prioritizing one source over the other as well as WTP for those sources. Additionally, a Trump cue made conservative Republicans more supportive of fossil fuels and a climate cue made liberal Democrats more supportive of renewables. However, respondents were, on average, more support of renewables in terms of both priority and WTP. Even conservative Republicans in the Trump cue had a WTP higher for renewables, $11.90, than fossil fuels, at $10.30.</p>
+</section>
+<section id="conclusion-and-policy-implications" class="level1">
+<h1>Conclusion and Policy Implications</h1>
 <div style="page-break-after: always;"></div>
+</section>
 <section id="references" class="level1 unnumbered">
 
 

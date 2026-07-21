@@ -9,8 +9,8 @@ Republicans).
 The data come from a Cloud Research survey experiment (weighted to match US
 Census demographics) in which respondents were randomly assigned to a Trump
 cue, a climate change cue, or a no-cue control condition. The analysis fits
-survey-weighted OLS regressions (`survey` package) and reproduces the
-coefficient plots reported in the manuscript.
+survey-weighted regressions (`survey` package) and reproduces the regression
+tables and predicted-value plots reported in the manuscript.
 
 ## Layout
 
@@ -33,7 +33,7 @@ lit-review/                          Background literature memo (NOT in git -- l
 
 ## Reproducing the analysis
 
-Requires R with: `survey`, `dplyr`, `ggplot2`, `broom`.
+Requires R with: `survey`, `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`.
 
 - **Manuscript:** `quarto render` → outputs to `_output/`
   (HTML, PDF, and DOCX; the DOCX uses `custom-reference-doc.docx`)

@@ -10,6 +10,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(broom)
+library(marginaleffects)
+library(modelsummary)
 
 # ---- Data -------------------------------------------------------------
 
@@ -91,6 +93,21 @@ term_type <- function(term) {
   )
 }
 
+# Regression-table labels (term_labels above plus the demographic/attitudinal
+# controls) and display settings, shared by the modelsummary() tables below.
+coef_map <- c(
+  term_labels,
+  "concern.cost" = "Concern about energy cost",
+  "age"          = "Age",
+  "male"         = "Male",
+  "white"        = "White",
+  "edu"          = "Education",
+  "inc"          = "Income",
+  "(Intercept)"  = "(Intercept)"
+)
+gof_omit_pattern <- "R2|IC|Log|Adj|F|RMSE"
+stars_map         <- c("*" = .1, "**" = .05, "***" = .01)
+
 # ---- Priority scale OLS: cues x political beliefs -----------------------
 # Does the cue effect on priority.scale differ for liberal Democrats and
 # conservative Republicans (vs. other/moderate), relative to control?
@@ -154,7 +171,7 @@ fossil_participation_tidy <- tidy(m_wtp_fossil_participation, conf.int = TRUE) |
 
 wtp_int_tidy <- bind_rows(
   tidy(m_wtp_fossil_amount, conf.int = TRUE) |>
-    mutate(outcome = "Fossil fuels: Amount, if WTP > $0"),
+    mutate(outcome = "Fossil fuels"),
   tidy(m_wtp_renewable_int, conf.int = TRUE) |>
     mutate(outcome = "Renewables")
 ) |>
@@ -187,8 +204,8 @@ fossil_part_libDem       <- get_term(fossil_participation_tidy, "libDem")
 fossil_part_trump        <- get_term(fossil_participation_tidy, "trump.cue")
 fossil_part_trump_conRep <- get_term(fossil_participation_tidy, "trump.cue:conRep")
 
-fossil_amt_trump        <- get_term(wtp_int_tidy, "trump.cue", "Fossil fuels: Amount, if WTP > $0")
-fossil_amt_trump_conRep <- get_term(wtp_int_tidy, "trump.cue:conRep", "Fossil fuels: Amount, if WTP > $0")
+fossil_amt_trump        <- get_term(wtp_int_tidy, "trump.cue", "Fossil fuels")
+fossil_amt_trump_conRep <- get_term(wtp_int_tidy, "trump.cue:conRep", "Fossil fuels")
 
 wtp_libDem_renewable    <- get_term(wtp_int_tidy, "libDem", "Renewables")
 wtp_climate_libDem_renewable <- get_term(wtp_int_tidy, "climate.cue:libDem", "Renewables")
@@ -216,6 +233,35 @@ predict_newdata <- function(trump = 0, climate = 0, libDem = 0, conRep = 0) {
 predict_wtp <- function(model, ...) {
   sprintf("%.2f", as.numeric(predict(model, newdata = predict_newdata(...), type = "response")))
 }
+
+# ---- Predicted-value grids, for plots --------------------------------------
+# Same cue x political-identity combinations as predict_newdata() above, but
+# every combination at once with confidence intervals, for point-range plots.
+# Controls held at their survey-weighted means throughout.
+
+cue_levels      <- c("Control", "Trump cue", "Climate cue")
+identity_levels <- c("Other/moderate", "Liberal Democrat", "Conservative Republican")
+
+predict_grid <- function(model) {
+  grid <- expand.grid(
+    cue_condition = cue_levels, identity = identity_levels,
+    stringsAsFactors = FALSE
+  )
+  grid$trump.cue   <- as.numeric(grid$cue_condition == "Trump cue")
+  grid$climate.cue <- as.numeric(grid$cue_condition == "Climate cue")
+  grid$libDem      <- as.numeric(grid$identity == "Liberal Democrat")
+  grid$conRep      <- as.numeric(grid$identity == "Conservative Republican")
+  newdata <- cbind(grid, as.data.frame(as.list(control_means)))
+
+  preds <- as.data.frame(marginaleffects::predictions(model, newdata = newdata))
+  preds$cue_condition <- factor(preds$cue_condition, levels = cue_levels)
+  preds$identity      <- factor(preds$identity, levels = identity_levels)
+  preds
+}
+
+priority_pred   <- predict_grid(m_priority_int)
+fossil_amt_pred <- predict_grid(m_wtp_fossil_amount)
+renewable_pred  <- predict_grid(m_wtp_renewable_int)
 
 # Predicted probability of any positive fossil-fuel WTP (part 1 of the
 # hurdle model), as a percent.

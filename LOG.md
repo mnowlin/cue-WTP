@@ -21,6 +21,20 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 5 — 2026-07-21 (Article format switch, display-item overhaul)
+
+- User decided to submit to a venue with an article format (3,000-word main text, up to 6 display items) rather than the brief-communication format used through Session 4.
+- Completed an in-progress `@tbl-` reference by adding `tbl-wtp-dist` back into the manuscript: weighted percent of respondents choosing each Gabor-Granger bid amount, fossil fuels vs. renewables (the `wtp_dist_table` object already existed in `manuscript-setup.R` from Session 4 but wasn't rendered).
+- Per user request, replaced all three coefficient plots (`fig-priority-coef`, `fig-wtp-fossil-participation`, `fig-wtp-interaction`) with two full regression tables and three predicted-value plots:
+  - `tbl-priority-ols` and `tbl-wtp-models` — `modelsummary()` tables (new dependency, alongside `marginaleffects`) showing every model coefficient, including the demographic/attitudinal controls previously omitted from the plots. `tbl-wtp-models` combines the fossil-fuel logit, fossil-fuel amount OLS, and renewables OLS in one table.
+  - `fig-priority-predicted`, `fig-wtp-fossil-predicted`, `fig-wtp-renewable-predicted` — point-range plots of model-predicted values (95% CIs) over a 3 (cue condition) × 3 (political identity) grid, via a new `predict_grid()` helper (`marginaleffects::predictions()`, controls held at survey-weighted means). Replaces reading effects off coefficients with reading them off predicted outcomes directly.
+  - Added shared table-display objects to `manuscript-setup.R`: `coef_map` (term labels for all coefficients including controls), `gof_omit_pattern`, `stars_map`.
+  - Manuscript is now at 6 display items (3 tables, 3 figures) — the article format's limit.
+- Caught and fixed a mid-edit slip: a paragraph of the user's authored prose (conservative Republicans' fossil-fuel participation results) was accidentally deleted while removing the old `fig-wtp-fossil-participation` figure it sat next to; restored it after the fact. Flagged to the user as a reminder to review the diff on multi-figure restructuring requests.
+- User reorganized the manuscript into full-article sections (`# Introduction`, `# Methodology and Data`, `# Results and Discussion`, `# Conclusion and Policy Implications`), dropping the brief-communication framing (bolded abstract lead-in, headless body, separate `# Online Methods` section) used through Session 4.
+- Added a "Close out" workflow to `CLAUDE.md` (update log → update README → commit → push), triggered by the phrase "close out".
+- Re-rendered HTML, PDF, and DOCX repeatedly; all three formats build cleanly throughout.
+
 ### Session 1 — 2026-07-15 (Initial analysis, manuscript setup, README)
 **Commits:** none yet (repo has no commits as of session end)
 
