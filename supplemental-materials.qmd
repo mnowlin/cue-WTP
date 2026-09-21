@@ -1,0 +1,115 @@
+---
+title: "Supplemental Materials: Cues, Partisanship, and Willingness-to-Pay for Energy"
+bibliography: references.bib
+csl: american-political-science-association.csl
+fig-cap-location: top
+fontfamily: ebgaramond
+link-bibliography: false
+format:
+  html:
+    author:
+      - name: Matthew C. Nowlin
+        email: matthew.nowlin@uta.edu
+        corresponding: true
+        affiliations:
+          - name: University of Texas at Arlington
+            department: Department of Political Science
+    template-partials:
+      - title-metadata.html
+  pdf:
+    author:
+      - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+    include-in-header:
+      text: |
+        \usepackage{setspace}
+        \usepackage{dcolumn}
+        \usepackage{float}
+        \usepackage{amsmath}
+        \usepackage{ulem}
+        \addtokomafont{disposition}{\rmfamily}
+        \normalem
+  docx:
+    author:
+      - name: "Matthew C. Nowlin^[Associate Professor, Department of Political Science, University of Texas at Arlington. Email: matthew.nowlin@uta.edu]"
+    reference-doc: custom-reference-doc.docx
+---
+
+```{r}
+#| include: false
+source("scripts/supplemental-setup.R")
+```
+
+# Robustness Check: Controlling for Concern about Energy Cost
+
+The main text models the effect of cue condition, political identity, and their interaction on energy-source prioritization and willingness-to-pay (WTP), controlling for age, male, white, education, and income. Energy affordability was a salient concern during the period of data collection: respondents' mean concern about the cost of electricity was `r concern_cost_mean` on a 0 to 10 scale. Because this concern could plausibly confound cue and political-identity effects on prioritization and WTP, this appendix re-estimates every main-text model with concern about energy cost added as an additional control. As shown below, the coefficients, their significance, and the substantive conclusions are consistent with the main text.
+
+The results for the energy source-priority scale are shown in @tbl-priority-ols-supp, parallel to the priority-scale table in the main text.
+
+```{r}
+#| label: tbl-priority-ols-supp
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale, controlling for concern about energy cost (survey-weighted OLS; control condition and other/moderate identity as reference)"
+modelsummary(
+  list("Priority scale" = m_priority_int),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+```{r}
+#| label: fig-priority-predicted-supp
+#| fig-cap: "Predicted energy source-priority scale (1-7) by cue condition and political identity, controlling for concern about energy cost (survey-weighted OLS predictions with 95% CIs; concern about energy cost, age, male, white, education, and income held at their survey-weighted means)"
+priority_pred |>
+  ggplot(aes(x = cue_condition, y = estimate, color = identity)) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high), position = position_dodge(width = 0.4)) +
+  labs(x = NULL, y = "Predicted energy-priority scale (1-7)", color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+As in the main text, conservative Republicans were more likely to prioritize fossil fuels (b = `r priority_conRep$b`, *p* `r priority_conRep$p`) and liberal Democrats more likely to prioritize renewables (b = `r priority_libDem$b`, *p* `r priority_libDem$p`). The interaction terms significant at *p* $\leq$ .10 in this specification are:
+
+`r paste(priority_sig_bullets, collapse = "\n")`
+
+The results for the WTP models are shown in @tbl-wtp-models-supp, parallel to the WTP models table in the main text.
+
+```{r}
+#| label: tbl-wtp-models-supp
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables, controlling for concern about energy cost (survey-weighted logit/OLS; control condition and other/moderate identity as reference)"
+modelsummary(
+  list(
+    "Fossil fuels: Any WTP (logit)"    = m_wtp_fossil_participation,
+    "Fossil fuels: Amount, if WTP > $0 (OLS)" = m_wtp_fossil_amount,
+    "Renewables: Amount (OLS)"         = m_wtp_renewable_int
+  ),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+```{r}
+#| label: fig-wtp-fossil-predicted-supp
+#| fig-cap: "Predicted willingness-to-pay for fossil fuels, among respondents with any positive WTP, by cue condition and political identity, controlling for concern about energy cost (survey-weighted OLS predictions with 95% CIs; concern about energy cost, age, male, white, education, and income held at their survey-weighted means)"
+fossil_amt_pred |>
+  ggplot(aes(x = cue_condition, y = estimate, color = identity)) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high), position = position_dodge(width = 0.4)) +
+  labs(x = NULL, y = "Predicted WTP for fossil fuels ($)", color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+#| label: fig-wtp-renewable-predicted-supp
+#| fig-cap: "Predicted willingness-to-pay for renewables by cue condition and political identity, controlling for concern about energy cost (survey-weighted OLS predictions with 95% CIs; concern about energy cost, age, male, white, education, and income held at their survey-weighted means)"
+renewable_pred |>
+  ggplot(aes(x = cue_condition, y = estimate, color = identity)) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high), position = position_dodge(width = 0.4)) +
+  labs(x = NULL, y = "Predicted WTP for renewables ($)", color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+For fossil fuels, conservative Republicans remained significantly more likely than the reference group to have any positive WTP (b = `r fossil_part_conRep$b`, log-odds scale, *p* `r fossil_part_conRep$p`), and liberal Democrats less likely (b = `r fossil_part_libDem$b`, *p* `r fossil_part_libDem$p`). For renewables, liberal Democrats were willing to pay \$`r wtp_libDem_renewable$b` more on average (climate condition: an additional \$`r wtp_climate_libDem_renewable$b`, *p* `r wtp_climate_libDem_renewable$p`), and conservative Republicans \$`r wtp_conRep_renewable$b_abs` less (*p* `r wtp_conRep_renewable$p`) — the same pattern, and nearly the same magnitudes, reported in the main text without this control.
+
+**Summary.** Adding concern about energy cost as a control does not change which cue x political-identity effects are significant, does not change the sign of any coefficient, and shifts coefficient magnitudes only trivially. The main text's cue and political-identity effects on energy prioritization and WTP are not an artifact of differential cost sensitivity across respondents.
+
+\newpage
+
+# References

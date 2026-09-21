@@ -16,6 +16,7 @@ out_csl <- "american-political-science-association.csl"
 # --- 1. Collect citation keys from every manuscript source -----------------
 src <- c(
   "cue-WTP.qmd",
+  "supplemental-materials.qmd",
   list.files("manuscript", pattern = "\\.qmd$", full.names = TRUE),
   list.files("notebooks",  pattern = "\\.qmd$", full.names = TRUE)
 )

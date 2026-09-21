@@ -5,6 +5,7 @@ project:
   output-dir: _output
   render:
     - cue-WTP.qmd
+    - supplemental-materials.qmd
 
 bibliography: references.bib
 csl: american-political-science-association.csl

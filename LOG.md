@@ -21,6 +21,27 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 6 — 2026-09-21 (Cost-concern robustness check, supplemental materials, literature review, placeholder fills)
+
+- **Robustness check:** re-ran the priority-scale and WTP interaction models without `concern.cost` as a control (previously included in all main-text models). Coefficients, significance, and substantive conclusions were essentially unchanged (one marginal term, climate cue × liberal Democrat on renewable WTP, moved from *p* = .092 to *p* = .109 — same sign, similar magnitude).
+- **Split the analysis into main text vs. supplemental materials** based on that check:
+  - Added `scripts/data-setup.R`: factored out the data loading, survey design, and descriptive stats/tables shared by both documents (previously all in `manuscript-setup.R`).
+  - `scripts/manuscript-setup.R` now fits the main-text models **without** `concern.cost` as a control.
+  - Added `scripts/supplemental-setup.R`: refits the same models **with** `concern.cost` added back, for the robustness appendix.
+  - Added `supplemental-materials.qmd`: a standalone Quarto document (same author/format YAML as the main manuscript) reporting the cost-concern-controlled regression tables/figures and a short write-up of the comparison.
+  - Updated `_quarto.yaml` (renders both `.qmd` files) and `scripts/export-cited-refs.R` (scans both for citation keys).
+  - Updated the Methods paragraph and figure captions in `cue-WTP.qmd` to reflect the demographics-only main-text specification and point to the supplemental robustness check.
+- **Literature review:** used Consensus (via the `claude.ai Consensus` MCP tool) to search for WTP-for-energy and partisan-cue literature, then drafted the previously-empty `# Cues and Public Opinion` and `# The Public's Willingness-to-Pay for Energy` sections (~900 words combined) in the user's voice, guided by `nowlin-style-profile.md` (copied into this project directory from `project-files/`; **git-ignored, not committed**). Cited only sources with clean entries in the master `.bib`.
+  - Cross-checked all 20 Consensus-surfaced papers against the user's Zotero library (via a read-only copy of `~/Zotero/zotero.sqlite`, matched by DOI and title). Found 11 missing. The user then manually added 10 of them to Zotero via the browser connector, organized into "Climate Public Opinion" and "Energy Public Opinion" collections. Added the last one (Ma et al. 2015, meta-regression analysis of renewable WTP) programmatically via Zotero's local connector API (`POST http://127.0.0.1:23119/connector/saveItems`), using CrossRef for metadata.
+  - **Known cleanup item, not yet resolved:** while testing the connector API, accidentally created a duplicate Zotero item for Scheuch (2024) (`Price and party...`, key `DEUENJWL`). Zotero's local API doesn't support item deletion over HTTP, so this needs to be trashed manually in the Zotero app — the correct copy (key `BJUHYCN7`) is already filed in "Climate Public Opinion".
+  - Extended "The Public's Willingness-to-Pay for Energy" with two more directly-relevant sources once available in Zotero: Bakkensen & Schuler (2020, Vietnam coal-vs-renewable WTP) and Walter, Thacher & Chermak (2023, New Mexico fossil-vs-renewable choice experiment) — the two closest design analogs to this study found in the search.
+- **Filled in the remaining Results prose placeholders** (`...`) with real computed values:
+  - Added `priority_conRep_control_pred`/`_trump_pred`/`priority_libDem_control_pred`/`_climate_pred` to `manuscript-setup.R` (predicted priority-scale values by cue × identity, via the existing `predict_wtp()` helper).
+  - Added `wtp_fossil_zero_pct` (47%) and `wtp_renewable_max_pct` (18.3%) to `data-setup.R` (share of respondents at the bid-range floor/ceiling).
+  - Added `wtp_median_diff_val` (\$10) and `wtp_diff_mean` (\$9.88, from the existing paired t-test object) to `data-setup.R`. Note: the median difference is reported descriptively only — the only significance test in the pipeline (`svyttest`) tests the *mean* paired difference, not the median, so no significance claim is attached to the median figure.
+- Re-rendered HTML, PDF, and DOCX for both `cue-WTP.qmd` and `supplemental-materials.qmd` repeatedly; all six outputs build cleanly with no warnings.
+- **Housekeeping:** fixed a gitignore gap from this session — `nowlin-style-profile.md` was copied into the project but not yet git-ignored; also the existing `/lit-review/` ignore rule didn't match this project's actual `literature/` directory (a naming mismatch from an earlier project setup). Corrected both. Removed a stray `tmp-pdfcrop-*.tex` artifact left behind by a PDF render.
+
 ### Session 5 — 2026-07-21 (Article format switch, display-item overhaul)
 
 - User decided to submit to a venue with an article format (3,000-word main text, up to 6 display items) rather than the brief-communication format used through Session 4.
