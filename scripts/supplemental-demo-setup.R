@@ -1,21 +1,32 @@
 #!/usr/bin/env Rscript
 
-# Model fitting for cue-WTP.qmd.
+# Model fitting for supplemental-materials.qmd (robustness check).
 # Sources data-setup.R for the data/design/descriptive objects shared with
-# supplemental-materials.qmd, then fits the main-text models: cue condition x
-# political identity, with no additional controls. Two robustness checks are
-# reported in Supplemental Materials: one adding demographic controls (age,
-# male, white, education, income), and one adding those demographics plus
-# concern about the cost of electricity (see scripts/supplemental-demo-setup.R
-# and scripts/supplemental-setup.R); the substantive results are consistent
-# across all three specifications.
+# cue-WTP.qmd, then refits the same cue condition x political identity
+# models as the main text, controlling for demographics (age, male, white,
+# education, income). This was the main-text specification prior to the
+# decision to run the main text without any controls; it is retained here as
+# a robustness check, alongside the demographics + concern-about-cost
+# specification in scripts/supplemental-setup.R. Coefficients, significance,
+# and substantive conclusions are consistent across all three specifications.
 
 source("scripts/data-setup.R")
 
-# Regression-table labels and display settings, shared by the modelsummary()
+# Demographic controls included in the interaction models but excluded from
+# the coefficient plots.
+control_vars <- c("age", "male", "white", "edu", "inc")
+control_rhs  <- paste(control_vars, collapse = " + ")
+
+# Regression-table labels (term_labels from data-setup.R plus the
+# demographic controls) and display settings, shared by the modelsummary()
 # tables below.
 coef_map <- c(
   term_labels,
+  "age"          = "Age",
+  "male"         = "Male",
+  "white"        = "White",
+  "edu"          = "Education",
+  "inc"          = "Income",
   "(Intercept)"  = "(Intercept)"
 )
 
@@ -24,12 +35,15 @@ coef_map <- c(
 # conservative Republicans (vs. other/moderate), relative to control?
 
 m_priority_int <- svyglm(
-  priority.scale ~ (trump.cue + climate.cue) * (libDem + conRep),
+  as.formula(paste(
+    "priority.scale ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    control_rhs
+  )),
   design = design
 )
 
 priority_int_tidy <- tidy(m_priority_int, conf.int = TRUE) |>
-  filter(term != "(Intercept)") |>
+  filter(!term %in% c("(Intercept)", control_vars)) |>
   mutate(term_label = recode(term, !!!term_labels), term_type = term_type(term))
 
 # ---- WTP ~ cue condition x political beliefs -------------------------------
@@ -48,24 +62,33 @@ priority_int_tidy <- tidy(m_priority_int, conf.int = TRUE) |>
 # model above.
 
 m_wtp_fossil_participation <- svyglm(
-  wtp_fossil_pos ~ (trump.cue + climate.cue) * (libDem + conRep),
+  as.formula(paste(
+    "wtp_fossil_pos ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    control_rhs
+  )),
   design = design, family = quasibinomial()
 )
 
 m_wtp_fossil_amount <- svyglm(
-  wtp.fossil ~ (trump.cue + climate.cue) * (libDem + conRep),
+  as.formula(paste(
+    "wtp.fossil ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    control_rhs
+  )),
   design = design_fossil_pos
 )
 
 m_wtp_renewable_int <- svyglm(
-  wtp.renewable ~ (trump.cue + climate.cue) * (libDem + conRep),
+  as.formula(paste(
+    "wtp.renewable ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    control_rhs
+  )),
   design = design
 )
 
 # Participation (logit) kept out of wtp_int_tidy: it's plotted separately
 # since its log-odds scale isn't comparable to the dollar-scale OLS models.
 fossil_participation_tidy <- tidy(m_wtp_fossil_participation, conf.int = TRUE) |>
-  filter(term != "(Intercept)") |>
+  filter(!term %in% c("(Intercept)", control_vars)) |>
   mutate(term_label = recode(term, !!!term_labels), term_type = term_type(term))
 
 wtp_int_tidy <- bind_rows(
@@ -74,7 +97,7 @@ wtp_int_tidy <- bind_rows(
   tidy(m_wtp_renewable_int, conf.int = TRUE) |>
     mutate(outcome = "Renewables")
 ) |>
-  filter(term != "(Intercept)") |>
+  filter(!term %in% c("(Intercept)", control_vars)) |>
   mutate(term_label = recode(term, !!!term_labels), term_type = term_type(term))
 
 # ---- Specific model terms, for in-text write-up ---------------------------
@@ -111,13 +134,22 @@ wtp_climate_libDem_renewable <- get_term(wtp_int_tidy, "climate.cue:libDem", "Re
 wtp_conRep_renewable    <- get_term(wtp_int_tidy, "conRep", "Renewables")
 
 # ---- Predicted WTP for specific cue/identity combinations, for in-text ----
-# No controls in this specification, so predictions only vary the cue and
-# political-identity indicators referenced in the write-up.
+# Predictions hold the demographic controls at their survey-weighted means
+# and vary only the cue and political-identity indicators referenced in the
+# write-up.
+
+control_means <- setNames(
+  sapply(control_vars, function(v) unname(coef(svymean(as.formula(paste0("~", v)), design)))),
+  control_vars
+)
 
 predict_newdata <- function(trump = 0, climate = 0, libDem = 0, conRep = 0) {
-  data.frame(
-    trump.cue = trump, climate.cue = climate, libDem = libDem, conRep = conRep
-  )
+  newdata <- as.data.frame(as.list(control_means))
+  newdata$trump.cue   <- trump
+  newdata$climate.cue <- climate
+  newdata$libDem      <- libDem
+  newdata$conRep      <- conRep
+  newdata
 }
 
 predict_wtp <- function(model, ...) {
@@ -127,6 +159,7 @@ predict_wtp <- function(model, ...) {
 # ---- Predicted-value grids, for plots --------------------------------------
 # Same cue x political-identity combinations as predict_newdata() above, but
 # every combination at once with confidence intervals, for point-range plots.
+# Controls held at their survey-weighted means throughout.
 
 predict_grid <- function(model) {
   grid <- expand.grid(
@@ -137,8 +170,9 @@ predict_grid <- function(model) {
   grid$climate.cue <- as.numeric(grid$cue_condition == "Climate cue")
   grid$libDem      <- as.numeric(grid$identity == "Liberal Democrat")
   grid$conRep      <- as.numeric(grid$identity == "Conservative Republican")
+  newdata <- cbind(grid, as.data.frame(as.list(control_means)))
 
-  preds <- as.data.frame(marginaleffects::predictions(model, newdata = grid))
+  preds <- as.data.frame(marginaleffects::predictions(model, newdata = newdata))
   preds$cue_condition <- factor(preds$cue_condition, levels = cue_levels)
   preds$identity      <- factor(preds$identity, levels = identity_levels)
   preds

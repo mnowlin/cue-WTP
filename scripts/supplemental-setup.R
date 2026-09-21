@@ -3,11 +3,13 @@
 # Model fitting for supplemental-materials.qmd.
 # Sources data-setup.R for the data/design/descriptive objects shared with
 # cue-WTP.qmd, then refits the same cue condition x political identity
-# models as the main text, additionally controlling for concern about the
-# cost of electricity (concern.cost, 0-10 scale). This is a robustness check
-# on the main-text specification (scripts/manuscript-setup.R), which omits
-# this control; coefficients, significance, and substantive conclusions are
-# consistent across both specifications.
+# models as the main text, controlling for demographics (age, male, white,
+# education, income) plus concern about the cost of electricity (concern.cost,
+# 0-10 scale). This is a robustness check on the main-text specification
+# (scripts/manuscript-setup.R), which has no controls, and on the
+# demographics-only specification (scripts/supplemental-demo-setup.R);
+# coefficients, significance, and substantive conclusions are consistent
+# across all three specifications.
 
 source("scripts/data-setup.R")
 

@@ -3,9 +3,11 @@
 # Shared data prep for cue-WTP.qmd and supplemental-materials.qmd.
 # Loads the weighted survey data, builds the survey design, and computes the
 # descriptive stats/tables referenced by both documents. Sourced by
-# manuscript-setup.R and supplemental-setup.R, which each go on to fit the
-# interaction models with a different set of controls (the manuscript omits
-# concern.cost; the supplemental materials add it back as a robustness check).
+# manuscript-setup.R, supplemental-demo-setup.R, and supplemental-setup.R,
+# which each go on to fit the interaction models with a different set of
+# controls (the manuscript uses none; the supplemental materials add
+# demographics, and separately demographics plus concern.cost, as robustness
+# checks).
 
 library(survey)
 library(dplyr)

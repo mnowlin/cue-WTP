@@ -28,12 +28,16 @@ scripts/
                                        stats/tables (sample sizes, WTP medians/means,
                                        WTP distribution table)
   manuscript-setup.R                 Sourced by cue-WTP.qmd: fits the main-text models
-                                       (demographic controls only -- age, male, white,
-                                       education, income) and builds the tidy/plot-ready
-                                       objects
+                                       with no additional controls and builds the
+                                       tidy/plot-ready objects
+  supplemental-demo-setup.R          Sourced by supplemental-materials.qmd: refits the
+                                       same models controlling for demographics (age,
+                                       male, white, education, income), for the first
+                                       robustness check
   supplemental-setup.R               Sourced by supplemental-materials.qmd: refits the
-                                       same models with concern about energy cost added
-                                       as an additional control, for the robustness check
+                                       same models controlling for demographics plus
+                                       concern about energy cost, for the second
+                                       robustness check
   export-cited-refs.R                Pre-render step: trims the master .bib to cited
                                        keys cited in either .qmd file
 data/                                Survey data (NOT in git -- see below)
@@ -51,9 +55,11 @@ Requires R with: `survey`, `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffect
   `cue-WTP` and `supplemental-materials` to `_output/`
   (HTML, PDF, and DOCX; the DOCX uses `custom-reference-doc.docx`)
 - **Models only:** `Rscript scripts/manuscript-setup.R` (main-text
-  specification) or `Rscript scripts/supplemental-setup.R` (cost-concern
-  robustness check) builds the survey design and fits the models without
-  rendering either document. Both source `scripts/data-setup.R` first.
+  specification, no controls), `Rscript scripts/supplemental-demo-setup.R`
+  (demographics-only robustness check), or `Rscript scripts/supplemental-setup.R`
+  (demographics + cost-concern robustness check) builds the survey design and
+  fits the models without rendering either document. All three source
+  `scripts/data-setup.R` first.
 
 ## Data
 
@@ -68,11 +74,11 @@ The `data/` folder is **not tracked in git**. Restore it before rendering:
 
 ## Notes
 
-- The main text (`cue-WTP.qmd`) controls for demographics only (age, male,
-  white, education, income). A parallel specification adding concern about
-  the cost of electricity (`concern.cost`) as an additional control is
-  reported in `supplemental-materials.qmd` as a robustness check; results
-  are consistent across both specifications.
+- The main text (`cue-WTP.qmd`) uses no additional controls. Two robustness
+  checks are reported in `supplemental-materials.qmd`: one adding demographic
+  controls (age, male, white, education, income), and one adding those
+  demographics plus concern about the cost of electricity (`concern.cost`);
+  results are consistent across all three specifications.
 - `references.bib` and the local `.csl` are generated at render time by the
   pre-render step (`export-cited-refs.R`) from the master bibliography, so
   they are git-ignored.

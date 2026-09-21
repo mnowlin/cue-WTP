@@ -21,6 +21,20 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 7 — 2026-09-21 (Gabor-Granger citations, Conclusion draft, no-controls main spec)
+
+- **Gabor-Granger method justification:** used Consensus to find supporting citations, then added two sentences after the existing Gabor-Granger mention in `cue-WTP.qmd` (Methods) justifying the method's use, citing Jones (1975), Wedel & Leeflang (1998), and Lipovetsky, Magnan & Zanetti-Polzi (2011), alongside the already-cited Breidert et al. review.
+  - Added the three missing sources to Zotero via its local connector API (`POST http://127.0.0.1:23119/connector/saveItems`), using CrossRef-verified metadata (title, authors, journal, DOI) so the generated Better BibTeX citekeys matched the manuscript's citations. Confirmed Better BibTeX auto-export synced them into the master bib, then re-ran `export-cited-refs.R` to refresh the project-local `references.bib`.
+- **Drafted the "Conclusion and Policy Implications" section** (previously empty) at the user's request, despite this project's `CLAUDE.md` normally reserving manuscript prose for the user — confirmed with the user first that they wanted full drafted prose here. Four paragraphs (summary, uneven cue effects, three policy implications, limitations/future research), written in the `nowlin-style-profile.md` voice and using only numbers already computed in `manuscript-setup.R`.
+- **Robustness check: no controls at all.** Per user request, refit the three main-text models (priority scale, fossil-fuel hurdle model, renewable WTP) with every demographic control dropped, via a throwaway comparison script (`scripts/robustness-nodemo-setup.R`, deleted at end of session). Coefficients kept the same sign and significance pattern as the demographics-controlled specification throughout, with only trivial magnitude shifts.
+- **Swapped the main specification** based on that check, per user request ("keep the results with no controls in the manuscript and add the results with controls to the supplemental materials file"):
+  - `scripts/manuscript-setup.R` now fits the main-text models with **no controls at all** (previously demographics-only).
+  - Added `scripts/supplemental-demo-setup.R` (a copy of the former `manuscript-setup.R`, i.e. the demographics-only specification) as a new first robustness-check section in `supplemental-materials.qmd`, ahead of the existing demographics + cost-concern section (retitled "Controlling for Demographics and Concern about Energy Cost" for clarity now that it's the second, more elaborate check).
+  - Updated the Methods paragraph, table/figure captions, and one Results sentence in `cue-WTP.qmd` to match (removed "controlling for demographics" language; softened "was significant" to "were marginally significant" for the priority-scale cue × identity interactions, since both borderline terms, p ≈ .05–.06, no longer clear conventional significance without the demographic controls).
+  - Updated `README.md` and code comments in `scripts/data-setup.R` / `scripts/supplemental-setup.R` to describe the new three-specification structure.
+  - Verified via rendered HTML output that all in-text values updated correctly and the two supplemental sections don't clobber each other's model objects (each is sourced immediately before its own section).
+- Re-rendered HTML, PDF, and DOCX for both `cue-WTP.qmd` and `supplemental-materials.qmd`; all six outputs build cleanly.
+
 ### Session 6 — 2026-09-21 (Cost-concern robustness check, supplemental materials, literature review, placeholder fills)
 
 - **Robustness check:** re-ran the priority-scale and WTP interaction models without `concern.cost` as a control (previously included in all main-text models). Coefficients, significance, and substantive conclusions were essentially unchanged (one marginal term, climate cue × liberal Democrat on renewable WTP, moved from *p* = .092 to *p* = .109 — same sign, similar magnitude).
