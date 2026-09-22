@@ -190,4 +190,61 @@ For fossil fuels, conservative Republicans remained significantly more likely th
 
 \newpage
 
+```{r}
+#| include: false
+source("scripts/supplemental-cost-interaction-setup.R")
+```
+
+# Robustness Check: Concern about Energy Cost Interacted with Cues and Political Identity
+
+The prior section controls for concern about energy cost, entering it additively. This section asks whether the cost-concern effect itself varies by cue condition or political identity: every main-text model is re-estimated with concern about energy cost interacted with both cue conditions and with political identity, in addition to the demographic controls (age, male, white, education, income).
+
+The results for the energy source-priority scale are shown in @tbl-priority-ols-cost-int.
+
+```{r}
+#| label: tbl-priority-ols-cost-int
+#| tbl-cap: "Effect of cue condition, political beliefs, and concern about energy cost, including cue x cost and identity x cost interactions, on the energy source-priority scale (survey-weighted OLS; control condition and other/moderate identity as reference)"
+modelsummary(
+  list("Priority scale" = m_priority_int),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+Concern about energy cost had a significant positive effect on prioritizing fossil fuels over renewables (b = `r priority_cost$b`, *p* `r priority_cost$p`). This effect was significantly weaker for conservative Republicans (b = `r priority_conRep_cost$b`, *p* `r priority_conRep_cost$p`), consistent with cost concern already being incorporated into conservative Republicans' fossil-fuel-favoring baseline. The concern-about-cost terms significant at *p* $\leq$ .10 in this specification are:
+
+`r priority_cost_sig_bullets`
+
+The results for the WTP models are shown in @tbl-wtp-models-cost-int.
+
+```{r}
+#| label: tbl-wtp-models-cost-int
+#| tbl-cap: "Effect of cue condition, political beliefs, and concern about energy cost, including cue x cost and identity x cost interactions, on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables (survey-weighted logit/OLS; control condition and other/moderate identity as reference)"
+modelsummary(
+  list(
+    "Fossil fuels: Any WTP (logit)"    = m_wtp_fossil_participation,
+    "Fossil fuels: Amount, if WTP > $0 (OLS)" = m_wtp_fossil_amount,
+    "Renewables: Amount (OLS)"         = m_wtp_renewable_int
+  ),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+For fossil fuels, concern about energy cost lowered the odds of any positive WTP (b = `r fossil_part_cost$b`, log-odds scale, *p* `r fossil_part_cost$p`), but this penalty was significantly smaller for both liberal Democrats (b = `r fossil_part_libDem_cost$b`, *p* `r fossil_part_libDem_cost$p`) and conservative Republicans (b = `r fossil_part_conRep_cost$b`, *p* `r fossil_part_conRep_cost$p`) relative to the reference group. Among those with any positive fossil-fuel WTP, concern about energy cost lowered the amount they were willing to pay (b = `r fossil_amt_cost$b`, *p* `r fossil_amt_cost$p`), and this penalty was significantly offset under the Trump cue (b = `r fossil_amt_trump_cost$b`, *p* `r fossil_amt_trump_cost$p`). For renewables, none of the concern-about-cost terms reached significance. The concern-about-cost terms significant at *p* $\leq$ .10 in each model are:
+
+**Fossil fuels, any positive WTP (logit):**
+
+`r fossil_part_cost_sig_bullets`
+
+**Fossil fuels, amount if WTP > \$0 (OLS):**
+
+`r fossil_amt_cost_sig_bullets`
+
+**Renewables, amount (OLS):**
+
+`r renewable_cost_sig_bullets`
+
+**Summary.** Concern about energy cost is not simply a nuisance control: it has a significant, partisanship-moderated relationship with fossil-fuel prioritization and WTP (weaker for both liberal Democrats and conservative Republicans than for the reference group), and its dampening effect on fossil-fuel WTP amount is significantly offset under the Trump cue. It shows no such moderated relationship with renewable-energy WTP. None of this changes the sign or significance of the main-text cue x political-identity effects (@tbl-priority-ols-supp and @tbl-wtp-models-supp), which are retained in this specification exactly as reported in the prior section.
+
+\newpage
+
 # References

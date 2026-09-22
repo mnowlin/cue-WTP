@@ -38,6 +38,12 @@ scripts/
                                        same models controlling for demographics plus
                                        concern about energy cost, for the second
                                        robustness check
+  supplemental-cost-interaction-setup.R
+                                      Sourced by supplemental-materials.qmd: refits the
+                                       same models with concern about energy cost
+                                       interacted with the cues and with political
+                                       identity (plus demographic controls), for the
+                                       third robustness check
   export-cited-refs.R                Pre-render step: trims the master .bib to cited
                                        keys cited in either .qmd file
 data/                                Survey data (NOT in git -- see below)
@@ -49,17 +55,19 @@ nowlin-style-profile.md              Author writing-style profile, used to draft
 
 ## Reproducing the analysis
 
-Requires R with: `survey`, `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`.
+Requires R with: `survey`, `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`, `performance`.
 
 - **Manuscript + supplemental materials:** `quarto render` → outputs both
   `cue-WTP` and `supplemental-materials` to `_output/`
   (HTML, PDF, and DOCX; the DOCX uses `custom-reference-doc.docx`)
 - **Models only:** `Rscript scripts/manuscript-setup.R` (main-text
   specification, no controls), `Rscript scripts/supplemental-demo-setup.R`
-  (demographics-only robustness check), or `Rscript scripts/supplemental-setup.R`
-  (demographics + cost-concern robustness check) builds the survey design and
-  fits the models without rendering either document. All three source
-  `scripts/data-setup.R` first.
+  (demographics-only robustness check), `Rscript scripts/supplemental-setup.R`
+  (demographics + cost-concern robustness check), or
+  `Rscript scripts/supplemental-cost-interaction-setup.R` (demographics +
+  cost-concern interacted with cues/identity robustness check) builds the
+  survey design and fits the models without rendering either document. All
+  four source `scripts/data-setup.R` first.
 
 ## Data
 
@@ -74,11 +82,20 @@ The `data/` folder is **not tracked in git**. Restore it before rendering:
 
 ## Notes
 
-- The main text (`cue-WTP.qmd`) uses no additional controls. Two robustness
+- The main text (`cue-WTP.qmd`) uses no additional controls. Three robustness
   checks are reported in `supplemental-materials.qmd`: one adding demographic
-  controls (age, male, white, education, income), and one adding those
-  demographics plus concern about the cost of electricity (`concern.cost`);
-  results are consistent across all three specifications.
+  controls (age, male, white, education, income), one adding those
+  demographics plus concern about the cost of electricity (`concern.cost`),
+  and one further interacting `concern.cost` with the cues and with political
+  identity; the main-text cue x political-identity effects are consistent
+  across all four specifications. Concern about energy cost itself has a
+  significant, partisanship- and (for fossil-fuel WTP amount) cue-moderated
+  relationship with fossil-fuel outcomes, but not with renewable WTP.
+- Regression tables report **Adj. R2** for the OLS (gaussian) models and
+  **McFadden's pseudo R2** for the logit (fossil-participation) model, as
+  separate labeled rows, via a `glance_custom.svyglm()` method in
+  `scripts/data-setup.R` (modelsummary's default single "R2" row would
+  otherwise conflate the two, unlabeled).
 - `references.bib` and the local `.csl` are generated at render time by the
   pre-render step (`export-cited-refs.R`) from the master bibliography, so
   they are git-ignored.

@@ -21,6 +21,19 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 8 — 2026-09-22 (Fit-stat fix, cost-concern x cue/identity robustness check)
+
+- **Fixed missing model fit statistics.** `gof_omit_pattern` in `scripts/data-setup.R` was omitting every goodness-of-fit stat including R2, leaving only `Num.Obs.` in `tbl-priority-ols` and `tbl-wtp-models`. Per user instruction, replaced the single ambiguous "R2" row with two properly-labeled ones:
+  - Added `glance_custom.svyglm()` to `data-setup.R`: returns **Adj. R2** (`performance::r2()$R2_adjusted`) for the gaussian (OLS) models and **McFadden's pseudo R2** (`performance::r2()$R2`) for the (quasi)binomial logit model, as differently-named columns so modelsummary renders them as separate rows (blank on the model they don't apply to) instead of conflating adjusted-OLS-R2 with pseudo-R2 under one label.
+  - Debugging note: `family(x)$family` for an `svyglm(family = quasibinomial())` model returns `"quasibinomial"`, not `"binomial"` — the branch condition had to use `grepl("binomial", ...)` to catch it.
+  - `gof_omit_pattern` tightened to exact-match anchors (`^R2$`, `^R2 Adj\\.$`, etc.) so it drops modelsummary's defaults without also matching the new custom labels (which contain "R2" as a substring).
+  - `glance_custom` values bypass modelsummary's default `fmt` rounding, so they're rounded to 3 decimals explicitly inside `glance_custom.svyglm()` to match the rest of the table.
+- **New robustness check: concern about energy cost interacted with cues and political identity.** Per user request ("try interacting concern.cost with political beliefs and the cues for each model"), explored this in a throwaway scratch script first, confirmed real/interpretable effects, then formalized it into the project:
+  - Added `scripts/supplemental-cost-interaction-setup.R`: refits all four models (priority scale, fossil participation, fossil amount, renewables) with `concern.cost * (trump.cue + climate.cue + libDem + conRep)` added on top of the demographic controls, plus `get_term()`/`cost_sig_bullets()` helpers scoped to just the concern.cost-related terms.
+  - Added a third robustness section to `supplemental-materials.qmd` ("Concern about Energy Cost Interacted with Cues and Political Identity") with two tables and write-up prose, matching the structure of the existing two robustness sections.
+  - **Findings:** concern about energy cost has a significant, *partisanship-moderated* relationship with fossil-fuel prioritization and WTP — the cost-concern penalty on fossil-fuel WTP is significantly weaker for conservative Republicans (priority scale) and for both liberal Democrats and conservative Republicans (fossil participation), and is significantly offset under the Trump cue (fossil amount, among those with positive WTP). No concern.cost interaction reached significance for renewables. Main-text cue x identity effects are unaffected by this specification.
+- Re-rendered HTML, PDF, and DOCX for both `cue-WTP.qmd` and `supplemental-materials.qmd`; all six outputs build cleanly with the corrected fit statistics and new section.
+
 ### Session 7 — 2026-09-21 (Gabor-Granger citations, Conclusion draft, no-controls main spec)
 
 - **Gabor-Granger method justification:** used Consensus to find supporting citations, then added two sentences after the existing Gabor-Granger mention in `cue-WTP.qmd` (Methods) justifying the method's use, citing Jones (1975), Wedel & Leeflang (1998), and Lipovetsky, Magnan & Zanetti-Polzi (2011), alongside the already-cited Breidert et al. review.

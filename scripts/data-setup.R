@@ -96,7 +96,21 @@ term_type <- function(term) {
   )
 }
 
-gof_omit_pattern <- "R2|IC|Log|Adj|F|RMSE"
+# Custom fit-statistic row for modelsummary(): adjusted R2 for the
+# gaussian (OLS) models, McFadden's pseudo-R2 for the binomial (logit)
+# participation model. These are returned under different column names so
+# modelsummary renders them as separate, clearly-labeled rows rather than a
+# single ambiguous "R2" row that would otherwise mix the two quantities.
+glance_custom.svyglm <- function(x, ...) {
+  r2 <- performance::r2(x)
+  if (grepl("binomial", family(x)$family)) {
+    tibble::tibble(`McFadden's pseudo R2` = round(unname(r2$R2), 3))
+  } else {
+    tibble::tibble(`Adj. R2` = round(unname(r2$R2_adjusted), 3))
+  }
+}
+
+gof_omit_pattern <- "^AIC$|^BIC$|^Log\\.Lik\\.$|^F$|^RMSE$|^R2$|^R2 Adj\\.$"
 stars_map         <- c("*" = .1, "**" = .05, "***" = .01)
 
 # Cue/identity levels for predicted-value grids, shared by both documents.
