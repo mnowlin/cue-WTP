@@ -21,6 +21,16 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 9 — 2026-09-23 (Literature search on cues and WTP, intro/lit review revision)
+
+- **Consensus literature search** on cues and WTP for energy, extended to partisan cues in consumer and economic behavior generally. Six searches: partisan cues and WTP for renewables; climate framing and WTP; elite/party cues and energy policy; environmental labeling and ideology; partisan cues and consumer WTP; partisanship and costs of fossil fuels.
+  - Most relevant energy sources not yet cited: Gromet et al. 2013 (environmental label reduces conservatives' purchase of efficient bulbs), Gustafson et al. 2020, Crowe 2020, Marlow et al. 2022, Mayer 2019 and 2021, Rinscheid et al. 2020, Fielding et al. 2019, Ehret et al. 2018, Druckman et al. 2013, Ciuk & Yost 2016, Goldfarb et al. 2021.
+  - Broader sources: McConnell et al. 2017, Panagopoulos et al. 2020, Erlandsson et al. 2024, Lenk et al. 2025, Pink et al. 2021, Peterson 2018.
+  - Checked against Zotero (`zotero.sqlite`): **not in Zotero** as of this session: Mayer 2021 (10.1016/j.exis.2021.101038), Rinscheid et al. 2020 (10.1017/bpp.2020.43), Ehret et al. 2018 (10.1177/1948550618758709; since added to the master bib), Goldfarb et al. 2021 (10.1016/j.enpol.2020.112098).
+  - Apparent gap: no study found that randomizes both partisan and climate cues and measures stated WTP for specific fossil and renewable sources.
+- **User revised Introduction and literature review** in `cue-WTP.qmd`: merged the cues and WTP sections into "Cues, Public Opinion, and the Public's Willingness-to-Pay for Energy," added an "Expectations" subsection, and added citations to Ehret et al. 2018 and Gromet et al. 2013. Noted the intended outlet (Energy Policy, research note, 4,500-word limit) as a comment in the manuscript.
+- Re-ran `scripts/export-cited-refs.R` (26/26 cited keys matched) so the project-local `references.bib` includes the new citations.
+
 ### Session 8 — 2026-09-22 (Fit-stat fix, cost-concern x cue/identity robustness check)
 
 - **Fixed missing model fit statistics.** `gof_omit_pattern` in `scripts/data-setup.R` was omitting every goodness-of-fit stat including R2, leaving only `Num.Obs.` in `tbl-priority-ols` and `tbl-wtp-models`. Per user instruction, replaced the single ambiguous "R2" row with two properly-labeled ones:
