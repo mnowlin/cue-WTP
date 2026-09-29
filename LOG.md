@@ -21,6 +21,15 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 10 — 2026-09-29 (Descriptives table, expectations comparison, within-group cue shifts)
+
+- Added `@tbl-descriptives` to the Data and Measures section: survey-weighted mean/SD (observed min/max) for the energy-priority scale, liberal Democrat, and conservative Republican. Built as `desc_table` in `scripts/data-setup.R` (cue indicators initially included, then removed per user). Added inline objects (`desc_priority_mean`, `desc_priority_sd`, `desc_libDem_pct`, `desc_conRep_pct`, `desc_other_pct`) and a drafted paragraph discussing the means. Weighted shares: 37% liberal Democrat, 40% conservative Republican (vs. 48%/24% unweighted).
+- Copyedited the Theoretical Expectations section ("wTP" typo, "All those" → "Those", added "for them", replaced a redundant second "In addition…" sentence with "Finally, I expect the effects of the cues to depend on political beliefs", "supportive of").
+- Drafted a Results paragraph comparing findings to the expectations: political-belief expectations supported (except conservative Republicans' conditional fossil WTP amount, *p* = .12); general cue effects not supported; cue × belief expectations partially supported (priority only, marginal interactions; no WTP interactions).
+- Fixed a wrong inline value: the "Overall…" Results paragraph cited the control-group renewable WTP for conservative Republicans as if it were the Trump-cue value. Added `wtp_renewable_conRep_trump` ($10.87, vs. $10.28 expected fossil WTP — a small, untested gap). Fixed typos "where" → "were", "more support of" → "more supportive of".
+- Added `cue_shift()` to `scripts/manuscript-setup.R` to test within-group cue effects (cue main effect + cue × identity interaction) on the priority scale. Conservative Republicans, control → Trump cue: −0.45, *p* = .009; liberal Democrats, control → climate cue: 0.20, *p* = .015. Reported inline as `priority_shift_trump_conRep` / `priority_shift_climate_libDem`. Note these are significant even though the interaction terms themselves are only marginal (*p* = .062, .051); the expectations-comparison paragraph may need wording updated to reflect both.
+- Rendered HTML to confirm; PDF/DOCX not re-rendered this session.
+
 ### Session 9 — 2026-09-23 (Literature search on cues and WTP, intro/lit review revision)
 
 - **Consensus literature search** on cues and WTP for energy, extended to partisan cues in consumer and economic behavior generally. Six searches: partisan cues and WTP for renewables; climate framing and WTP; elite/party cues and energy policy; environmental labeling and ideology; partisan cues and consumer WTP; partisanship and costs of fossil fuels.

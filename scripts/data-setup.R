@@ -76,6 +76,34 @@ wtp_diff_p    <- ifelse(
 # supplemental-materials robustness check (see supplemental-setup.R).
 concern_cost_mean <- round(coef(svymean(~concern.cost, design)), 2)
 
+# ---- Descriptive statistics: priority scale and model IVs -----------------
+# Survey-weighted mean and SD (unweighted min/max) for the energy-priority
+# scale and the political-identity indicators used in the models.
+
+desc_vars <- c(
+  "priority.scale" = "Energy-priority scale (1-7)",
+  "libDem"         = "Liberal Democrat",
+  "conRep"         = "Conservative Republican"
+)
+
+desc_table <- bind_rows(lapply(names(desc_vars), function(v) {
+  f <- as.formula(paste0("~", v))
+  tibble::tibble(
+    Variable = desc_vars[[v]],
+    Mean     = unname(coef(svymean(f, design))),
+    SD       = unname(sqrt(coef(svyvar(f, design)))),
+    Min      = min(d[[v]]),
+    Max      = max(d[[v]])
+  )
+}))
+
+# Weighted means from desc_table, for the in-text discussion of the table.
+desc_priority_mean <- sprintf("%.2f", desc_table$Mean[1])
+desc_priority_sd   <- sprintf("%.2f", desc_table$SD[1])
+desc_libDem_pct    <- round(100 * desc_table$Mean[2])
+desc_conRep_pct    <- round(100 * desc_table$Mean[3])
+desc_other_pct     <- 100 - desc_libDem_pct - desc_conRep_pct
+
 # Shared term labels for coefficient plots/tables.
 term_labels <- c(
   "trump.cue"           = "Trump cue",

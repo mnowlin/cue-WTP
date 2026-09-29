@@ -155,6 +155,26 @@ priority_conRep_trump_pred   <- predict_wtp(m_priority_int, trump = 1, conRep = 
 priority_libDem_control_pred <- predict_wtp(m_priority_int, libDem = 1)
 priority_libDem_climate_pred <- predict_wtp(m_priority_int, climate = 1, libDem = 1)
 
+# Within-group cue effect on the priority scale (cue main effect + cue x
+# identity interaction), i.e., the shift from control to cue for that group.
+# Distinct from the interaction term, which tests whether the shift differs
+# from the other/moderate group's.
+cue_shift <- function(model, cue, identity) {
+  b <- coef(model)
+  L <- setNames(rep(0, length(b)), names(b))
+  L[c(cue, paste0(cue, ":", identity))] <- 1
+  est <- sum(L * b)
+  se  <- sqrt(as.numeric(t(L) %*% vcov(model) %*% L))
+  p   <- 2 * pt(-abs(est / se), df = model$df.residual)
+  list(
+    b = sprintf("%.2f", est),
+    p = ifelse(p < .001, "< .001", sprintf("= %.3f", p))
+  )
+}
+
+priority_shift_trump_conRep   <- cue_shift(m_priority_int, "trump.cue", "conRep")
+priority_shift_climate_libDem <- cue_shift(m_priority_int, "climate.cue", "libDem")
+
 # Predicted probability of any positive fossil-fuel WTP (part 1 of the
 # hurdle model), as a percent.
 predict_prob <- function(model, ...) {
@@ -182,6 +202,7 @@ wtp_fossil_conRep_trump <- predict_expected_fossil(trump = 1, conRep = 1)
 
 wtp_renewable_libDem_climate <- predict_wtp(m_wtp_renewable_int, climate = 1, libDem = 1)
 wtp_renewable_conRep_control <- predict_wtp(m_wtp_renewable_int, conRep = 1)
+wtp_renewable_conRep_trump   <- predict_wtp(m_wtp_renewable_int, trump = 1, conRep = 1)
 
 # ---- Terms significant at p <= .10, for in-text write-up ------------------
 
