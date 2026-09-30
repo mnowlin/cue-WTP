@@ -21,6 +21,7 @@ _quarto.yaml                         Quarto project config (renders both .qmd fi
 _output/                             Rendered HTML/PDF/DOCX (tracked in git)
 title-metadata.html                  HTML author-metadata partial
 custom-reference-doc.docx            Word reference template used for the DOCX output
+filters/left-align-tables.lua        Lua filter (DOCX only) that left-aligns table text
 LOG.md                               Running session log (newest entry first)
 scripts/
   data-setup.R                       Shared by both documents: loads data, builds the

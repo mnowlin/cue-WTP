@@ -139,7 +139,9 @@ glance_custom.svyglm <- function(x, ...) {
 }
 
 gof_omit_pattern <- "^AIC$|^BIC$|^Log\\.Lik\\.$|^F$|^RMSE$|^R2$|^R2 Adj\\.$"
-stars_map         <- c("*" = .1, "**" = .05, "***" = .01)
+# "\u2020" (dagger) rather than "*" for p < .10: a note line starting with
+# "*" is parsed as a Markdown bullet in docx output.
+stars_map         <- c("\u2020" = .1, "*" = .05, "**" = .01)
 
 # Cue/identity levels for predicted-value grids, shared by both documents.
 cue_levels      <- c("Control", "Trump cue", "Climate cue")
