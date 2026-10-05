@@ -13,6 +13,7 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 **Key files:**
 - `cue-WTP.qmd` — main manuscript (renders to HTML, PDF, DOCX)
 - `scripts/manuscript-setup.R` — data loading, survey design, model fitting, and tidy/plot-ready objects sourced by the manuscript
+- `scripts/design-checks-setup.R` — cue-only models, balance, Holm/MDE, Tobit, and unweighted models (sourced by `manuscript-setup.R`)
 - `scripts/export-cited-refs.R` — pre-render step that trims the master `.bib` to cited keys
 - `data/cueWTPDataWeighted.csv` — weighted survey data (N = 3,113)
 - `README.md` — project structure and reproduction instructions
@@ -20,6 +21,25 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 ---
 
 ## Session History
+
+### Session 12 — 2026-10-05 (Mock-review revisions, design checks, full-article switch)
+
+- **Responded to the mock peer review (`review-major-points.md`), parts A (text) and B (new analyses).** Text drafted per `nowlin-style-profile.md`; user to review as own prose.
+- **New script `scripts/design-checks-setup.R`**, sourced at the end of `manuscript-setup.R`:
+  - Cue-only models (average cue effects; the interactive models' cue coefficients are reference-group effects only). No cue has a significant average effect on any outcome (all *p* ≥ .135).
+  - Balance table by condition (unweighted, one-way F-tests). Age (*p* = .019) and share white (*p* = .002) differ across conditions; covered by the existing demographic-controls robustness check.
+  - Party/ideology were asked **after** the outcomes (confirmed from the survey instrument); identity distribution does not differ by condition (χ² = 5.20, *df* = 4, *p* = .268).
+  - Holm adjustment across the 16 cue × identity interactions: the marginal priority interactions (Trump × conRep *p* = .062, climate × libDem *p* = .051) become *p* = .94 and .81.
+  - Minimum detectable effects (80% power): priority 0.49–0.66 points; renewables WTP $6.07–6.55; fossil amount $8.04–8.48.
+  - Two-limit Tobit (censored at $0/$46) for both WTP sources via `svysurvreg`. Starting/follow-up bids were random and **not recorded**, so true interval regression isn't possible. Fossil Tobit shows a significant Trump × conRep interaction (b = 7.78, *p* = .038), driven by a negative Trump effect in the reference group (−5.66, *p* = .047); conRep's own Trump-vs-baseline shift is 2.12 (*p* = .381); Holm *p* = .65. Reported in Results.
+  - Unweighted models: climate × libDem on priority becomes significant (*p* = .014); Trump × conRep does not (*p* = .144).
+  - Within-respondent renewables − fossil WTP among conRep in the Trump cue: $0.59, *p* = .669, so the earlier "even conservative Republicans pay more for renewables" claim was removed.
+- **`data-setup.R`:** Table 1 now includes both WTP outcomes plus weighted means by condition; "Control" relabeled "Baseline" in `cue_levels` (figures/tables); added inline objects for unweighted identity shares, pure-independent share, renewables positive-WTP share, and hard-coded raw-data values (34% independent/other before leaners; NPORS party targets 45/46/9).
+- **Manuscript text (`cue-WTP.qmd`):** added abstract and keywords; positioning against Benegal and Green (2024); motivated reasoning in energy policy (Bolsen et al. 2014; Druckman et al. 2013); costless-vs-costly preference / expressive responding framing (Bullock et al. 2015; Prior et al. 2015); a paragraph on what each condition manipulates; formal hypotheses H1a–H3b and RQ1 (backlash) / RQ2 (priority → WTP carryover); WTP prompt asymmetry acknowledged; starting bids not recorded; corrected ideology labels to match the instrument; leaner coding; "control" → "baseline" throughout; Results reframed (interactions as hypothesis tests, within-group shifts descriptive, Holm, MDEs, Tobit, unweighted); Discussion de-overstated; expanded Limitations; new Statements and Declarations section.
+- **Supplement:** new sections for balance, cue-only models, Holm/MDE table, Tobit models, unweighted models.
+- **Verified the leaner coding against the raw QuestionPro files** (`03-data/energy-preferences-survey/`): `make-datasets.R` codes leaners as partisans; 1,063 of 3,113 (34%) were independent/other before leaners, 466 (15%) neither after.
+- **Outlet changed:** Energy Policy full article (8,000-word limit) instead of research note. Body is now ~5,400 words.
+- **Open placeholders / to confirm:** IRB protocol number; data-availability location; confirm no pre-registration; confirm the stated rationale for the WTP prompt wording; verify the Druckman et al. (2013) description (energy/drilling issue).
 
 ### Session 11 — 2026-09-29/30 (DOCX table alignment, Discussion fixes, mock review, copyedits)
 

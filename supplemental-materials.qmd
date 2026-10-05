@@ -47,7 +47,7 @@ The results for the energy source-priority scale are shown in @tbl-priority-ols-
 
 ```{r}
 #| label: tbl-priority-ols-supp-demo
-#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale, controlling for demographics (survey-weighted OLS; control condition and other/moderate identity as reference)"
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale, controlling for demographics (survey-weighted OLS; baseline condition and other/moderate identity as reference)"
 modelsummary(
   list("Priority scale" = m_priority_int),
   coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
@@ -73,7 +73,7 @@ The results for the WTP models are shown in @tbl-wtp-models-supp-demo, parallel 
 
 ```{r}
 #| label: tbl-wtp-models-supp-demo
-#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables, controlling for demographics (survey-weighted logit/OLS; control condition and other/moderate identity as reference)"
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables, controlling for demographics (survey-weighted logit/OLS; baseline condition and other/moderate identity as reference)"
 modelsummary(
   list(
     "Fossil fuels: Any WTP (logit)"    = m_wtp_fossil_participation,
@@ -125,7 +125,7 @@ The results for the energy source-priority scale are shown in @tbl-priority-ols-
 
 ```{r}
 #| label: tbl-priority-ols-supp
-#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale, controlling for concern about energy cost (survey-weighted OLS; control condition and other/moderate identity as reference)"
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale, controlling for concern about energy cost (survey-weighted OLS; baseline condition and other/moderate identity as reference)"
 modelsummary(
   list("Priority scale" = m_priority_int),
   coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
@@ -151,7 +151,7 @@ The results for the WTP models are shown in @tbl-wtp-models-supp, parallel to th
 
 ```{r}
 #| label: tbl-wtp-models-supp
-#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables, controlling for concern about energy cost (survey-weighted logit/OLS; control condition and other/moderate identity as reference)"
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables, controlling for concern about energy cost (survey-weighted logit/OLS; baseline condition and other/moderate identity as reference)"
 modelsummary(
   list(
     "Fossil fuels: Any WTP (logit)"    = m_wtp_fossil_participation,
@@ -203,7 +203,7 @@ The results for the energy source-priority scale are shown in @tbl-priority-ols-
 
 ```{r}
 #| label: tbl-priority-ols-cost-int
-#| tbl-cap: "Effect of cue condition, political beliefs, and concern about energy cost, including cue x cost and identity x cost interactions, on the energy source-priority scale (survey-weighted OLS; control condition and other/moderate identity as reference)"
+#| tbl-cap: "Effect of cue condition, political beliefs, and concern about energy cost, including cue x cost and identity x cost interactions, on the energy source-priority scale (survey-weighted OLS; baseline condition and other/moderate identity as reference)"
 modelsummary(
   list("Priority scale" = m_priority_int),
   coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
@@ -218,7 +218,7 @@ The results for the WTP models are shown in @tbl-wtp-models-cost-int.
 
 ```{r}
 #| label: tbl-wtp-models-cost-int
-#| tbl-cap: "Effect of cue condition, political beliefs, and concern about energy cost, including cue x cost and identity x cost interactions, on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables (survey-weighted logit/OLS; control condition and other/moderate identity as reference)"
+#| tbl-cap: "Effect of cue condition, political beliefs, and concern about energy cost, including cue x cost and identity x cost interactions, on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables (survey-weighted logit/OLS; baseline condition and other/moderate identity as reference)"
 modelsummary(
   list(
     "Fossil fuels: Any WTP (logit)"    = m_wtp_fossil_participation,
@@ -244,6 +244,95 @@ For fossil fuels, concern about energy cost lowered the odds of any positive WTP
 `r renewable_cost_sig_bullets`
 
 **Summary.** Concern about energy cost is not simply a nuisance control: it has a significant, partisanship-moderated relationship with fossil-fuel prioritization and WTP (weaker for both liberal Democrats and conservative Republicans than for the reference group), and its dampening effect on fossil-fuel WTP amount is significantly offset under the Trump cue. It shows no such moderated relationship with renewable-energy WTP. None of this changes the sign or significance of the main-text cue x political-identity effects (@tbl-priority-ols-supp and @tbl-wtp-models-supp), which are retained in this specification exactly as reported in the prior section.
+
+\newpage
+
+```{r}
+#| include: false
+source("scripts/manuscript-setup.R")
+```
+
+# Covariate Balance across Conditions
+
+@tbl-balance shows the unweighted mean of each demographic variable, concern about the cost of electricity, and the two political belief measures in each condition, along with the *p*-value from a one-way F-test of each variable on condition. The conditions differ somewhat in age and in the share of white respondents, which is why the main-text models are also estimated with demographic controls. Party identification and ideology were measured after the outcome questions, so the political belief rows also test whether the cues changed how respondents identified. The distribution of political beliefs did not differ across conditions ($\chi^2$ = `r identity_arm_chi2`, *df* = `r identity_arm_df`, *p* `r identity_arm_p`).
+
+```{r}
+#| label: tbl-balance
+#| tbl-cap: "Unweighted means by condition and p-values from one-way F-tests of each variable on condition (political belief measures were asked after the outcome questions)"
+knitr::kable(balance_table, digits = 2)
+```
+
+\newpage
+
+# Average Effects of the Cues
+
+In the main-text models, the cues are interacted with political beliefs, so the coefficients for the Trump and climate cues are the effects of the cues among those with other political beliefs only. @tbl-cue-only reports models with the cues alone, which estimate the average effect of each cue across the full sample. Neither cue had a significant average effect on energy source priority or on either WTP outcome.
+
+```{r}
+#| label: tbl-cue-only
+#| tbl-cap: "Average effect of each cue on the energy source-priority scale and willingness-to-pay, without political belief interactions (survey-weighted OLS/logit; baseline condition as reference)"
+modelsummary(
+  cue_only_models,
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+\newpage
+
+# Multiple Comparisons and Minimum Detectable Effects
+
+@tbl-interaction-tests lists the `r n_interaction_tests` cue x political belief interaction terms from the four main-text models, with the unadjusted *p*-value, the *p*-value after a Holm adjustment across all `r n_interaction_tests` tests, and the minimum detectable effect (MDE). The MDE is the smallest interaction effect the design could detect with 80 percent power at a two-sided $\alpha$ = .05, calculated as (1.96 + 0.84) times the standard error. No interaction is significant after the Holm adjustment. The MDEs for the WTP models are large relative to the estimated interactions, so small effects of the cues on WTP cannot be ruled out.
+
+```{r}
+#| label: tbl-interaction-tests
+#| tbl-cap: "Cue x political belief interaction terms from the main-text models, with Holm-adjusted p-values and minimum detectable effects (MDE; 80% power, two-sided alpha = .05). Logit estimates and MDEs are on the log-odds scale; OLS estimates and MDEs are in scale points or dollars."
+knitr::kable(interaction_tests_table)
+```
+
+\newpage
+
+# Censored-Normal (Tobit) Models of Willingness-to-Pay
+
+The Gabor-Granger WTP measure is bounded at \$0, for respondents who rejected the \$1 amount, and at \$46, for respondents who accepted the highest amount. @tbl-tobit re-estimates the WTP models for both sources with a censored-normal (Tobit) model that treats \$0 as censored from below and \$46 as censored from above. Because the follow-up amounts were drawn at random and not recorded, the next amount a respondent rejected is unknown, so values between \$1 and \$41 are treated as observed. The same model is used for both sources.
+
+```{r}
+#| label: tbl-tobit
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels and renewables (survey-weighted censored-normal regression, censored at $0 and $46; baseline condition and other/moderate identity as reference)"
+modelsummary(
+  list("Fossil fuels (Tobit)" = m_tobit_fossil, "Renewables (Tobit)" = m_tobit_renewable),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+For renewables, the results match the main text, as political beliefs predict WTP and none of the cue x political belief interactions is significant. For fossil fuels, the Trump cue x conservative Republican interaction is significant (b = `r tobit_fossil_trump_conRep$b`, *p* `r tobit_fossil_trump_conRep$p`). However, the interaction reflects a lower WTP for fossil fuels in the Trump cue among those with other political beliefs (b = `r tobit_fossil_trump$b`, *p* `r tobit_fossil_trump$p`), whereas conservative Republicans' WTP for fossil fuels in the Trump cue did not differ from the baseline (difference = `r tobit_shift_fossil_trump_conRep$b`, *p* `r tobit_shift_fossil_trump_conRep$p`). The interaction is not significant after a Holm adjustment (adjusted *p* = `r tobit_fossil_trump_conRep_holm`).
+
+\newpage
+
+# Unweighted Models
+
+The survey weights roughly double the share of conservative Republicans relative to the unweighted sample, so @tbl-priority-unw and @tbl-wtp-unw re-estimate the main-text models without the weights. The political belief effects are similar. For the priority scale, the climate cue x liberal Democrat interaction is significant without the weights (*p* `r unw_priority_climate_libDem$p`), whereas the Trump cue x conservative Republican interaction is not (*p* `r unw_priority_trump_conRep$p`).
+
+```{r}
+#| label: tbl-priority-unw
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on the energy source-priority scale, unweighted (OLS with robust standard errors; baseline condition and other/moderate identity as reference)"
+modelsummary(
+  list("Priority scale" = m_priority_unw),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
+
+```{r}
+#| label: tbl-wtp-unw
+#| tbl-cap: "Effect of cue condition, political beliefs, and their interaction on willingness-to-pay for fossil fuels (any positive WTP, and amount among those with any positive WTP) and for renewables, unweighted (logit/OLS with robust standard errors; baseline condition and other/moderate identity as reference)"
+modelsummary(
+  list(
+    "Fossil fuels: Any WTP (logit)"           = m_wtp_fossil_participation_unw,
+    "Fossil fuels: Amount, if WTP > $0 (OLS)" = m_wtp_fossil_amount_unw,
+    "Renewables: Amount (OLS)"                = m_wtp_renewable_unw
+  ),
+  coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
+)
+```
 
 \newpage
 

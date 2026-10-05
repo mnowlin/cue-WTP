@@ -76,33 +76,61 @@ wtp_diff_p    <- ifelse(
 # supplemental-materials robustness check (see supplemental-setup.R).
 concern_cost_mean <- round(coef(svymean(~concern.cost, design)), 2)
 
-# ---- Descriptive statistics: priority scale and model IVs -----------------
-# Survey-weighted mean and SD (unweighted min/max) for the energy-priority
-# scale and the political-identity indicators used in the models.
+# ---- Descriptive statistics: outcomes and model IVs -----------------------
+# Survey-weighted mean and SD (unweighted min/max) for the three outcomes and
+# the political-identity indicators used in the models, overall and as
+# survey-weighted means within each cue condition.
 
 desc_vars <- c(
   "priority.scale" = "Energy-priority scale (1-7)",
+  "wtp.fossil"     = "WTP, fossil fuels ($)",
+  "wtp.renewable"  = "WTP, renewables ($)",
   "libDem"         = "Liberal Democrat",
   "conRep"         = "Conservative Republican"
 )
 
+arm_designs <- list(
+  "Baseline"    = subset(design, control == 1),
+  "Trump cue"   = subset(design, trump.cue == 1),
+  "Climate cue" = subset(design, climate.cue == 1)
+)
+
 desc_table <- bind_rows(lapply(names(desc_vars), function(v) {
   f <- as.formula(paste0("~", v))
+  arm_means <- vapply(arm_designs, function(des) unname(coef(svymean(f, des))), numeric(1))
   tibble::tibble(
     Variable = desc_vars[[v]],
     Mean     = unname(coef(svymean(f, design))),
     SD       = unname(sqrt(coef(svyvar(f, design)))),
     Min      = min(d[[v]]),
-    Max      = max(d[[v]])
+    Max      = max(d[[v]]),
+    !!!as.list(arm_means)
   )
 }))
 
 # Weighted means from desc_table, for the in-text discussion of the table.
-desc_priority_mean <- sprintf("%.2f", desc_table$Mean[1])
-desc_priority_sd   <- sprintf("%.2f", desc_table$SD[1])
-desc_libDem_pct    <- round(100 * desc_table$Mean[2])
-desc_conRep_pct    <- round(100 * desc_table$Mean[3])
+desc_row <- function(v) desc_table[desc_table$Variable == desc_vars[[v]], ]
+desc_priority_mean <- sprintf("%.2f", desc_row("priority.scale")$Mean)
+desc_priority_sd   <- sprintf("%.2f", desc_row("priority.scale")$SD)
+desc_libDem_pct    <- round(100 * desc_row("libDem")$Mean)
+desc_conRep_pct    <- round(100 * desc_row("conRep")$Mean)
 desc_other_pct     <- 100 - desc_libDem_pct - desc_conRep_pct
+
+# Unweighted identity shares, for the in-text comparison with the weighted
+# shares above (the weights roughly double the conservative Republican share).
+unw_libDem_pct <- round(100 * mean(d$libDem))
+unw_conRep_pct <- round(100 * mean(d$conRep))
+
+# Share of respondents who identify with neither party after leaners are
+# assigned to a party.
+pure_ind_pct <- round(100 * mean(d$democrat == 0 & d$republican == 0))
+
+# Values from the raw survey files, which are not in the analysis data:
+# share identifying as independent or other party before leaners are
+# assigned (1,063 of 3,113), and the NPORS party ID weighting targets
+# (leaners assigned to a party) used in make-datasets.R.
+pre_lean_ind_pct <- 34
+pid_target_pct   <- c(Dem = 45, Rep = 46, Ind = 9)
 
 # Shared term labels for coefficient plots/tables.
 term_labels <- c(
@@ -144,7 +172,7 @@ gof_omit_pattern <- "^AIC$|^BIC$|^Log\\.Lik\\.$|^F$|^RMSE$|^R2$|^R2 Adj\\.$"
 stars_map         <- c("\u2020" = .1, "*" = .05, "**" = .01)
 
 # Cue/identity levels for predicted-value grids, shared by both documents.
-cue_levels      <- c("Control", "Trump cue", "Climate cue")
+cue_levels      <- c("Baseline", "Trump cue", "Climate cue")
 identity_levels <- c("Other/moderate", "Liberal Democrat", "Conservative Republican")
 
 # ---- WTP distribution, overall (in-text table) -----------------------------
@@ -175,6 +203,7 @@ wtp_dist_table <- d |>
 # share max out their WTP for renewables).
 wtp_fossil_zero_pct   <- wtp_dist_table$`Fossil fuels (%)`[wtp_dist_table$`WTP ($)` == 0]
 wtp_renewable_max_pct <- wtp_dist_table$`Renewables (%)`[wtp_dist_table$`WTP ($)` == 46]
+wtp_renewable_pos_pct <- round(100 - wtp_dist_table$`Renewables (%)`[wtp_dist_table$`WTP ($)` == 0])
 
 # ---- WTP distribution by cue condition (descriptive figure) ---------------
 # Weighted share of respondents choosing each Gabor-Granger bid amount

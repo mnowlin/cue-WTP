@@ -8,7 +8,8 @@ Republicans).
 
 The data come from a Cloud Research survey experiment (weighted to match US
 Census demographics) in which respondents were randomly assigned to a Trump
-cue, a climate change cue, or a no-cue control condition. The analysis fits
+cue, a climate change cue, or a baseline condition (the same argument for
+fossil fuels attributed to "some" rather than to President Trump). The analysis fits
 survey-weighted regressions (`survey` package) and reproduces the regression
 tables and predicted-value plots reported in the manuscript.
 
@@ -30,7 +31,13 @@ scripts/
                                        WTP distribution table)
   manuscript-setup.R                 Sourced by cue-WTP.qmd: fits the main-text models
                                        with no additional controls and builds the
-                                       tidy/plot-ready objects
+                                       tidy/plot-ready objects; sources
+                                       design-checks-setup.R at the end
+  design-checks-setup.R              Cue-only (average-effect) models, covariate
+                                       balance by condition, Holm-adjusted
+                                       interaction p-values and minimum detectable
+                                       effects, censored-normal (Tobit) WTP models,
+                                       and unweighted versions of the main models
   supplemental-demo-setup.R          Sourced by supplemental-materials.qmd: refits the
                                        same models controlling for demographics (age,
                                        male, white, education, income), for the first
@@ -56,7 +63,7 @@ nowlin-style-profile.md              Author writing-style profile, used to draft
 
 ## Reproducing the analysis
 
-Requires R with: `survey`, `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`, `performance`.
+Requires R with: `survey` (and `survival`), `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`, `performance`.
 
 - **Manuscript + supplemental materials:** `quarto render` → outputs both
   `cue-WTP` and `supplemental-materials` to `_output/`
@@ -92,6 +99,11 @@ The `data/` folder is **not tracked in git**. Restore it before rendering:
   across all four specifications. Concern about energy cost itself has a
   significant, partisanship- and (for fossil-fuel WTP amount) cue-moderated
   relationship with fossil-fuel outcomes, but not with renewable WTP.
+- The supplement also reports covariate balance by condition, cue-only
+  (average-effect) models, Holm-adjusted p-values and minimum detectable
+  effects for the cue x identity interactions, Tobit models of WTP for both
+  sources (censored at $0 and $46), and unweighted models. Party ID and
+  ideology were asked after the outcomes; leaners are coded as partisans.
 - Regression tables report **Adj. R2** for the OLS (gaussian) models and
   **McFadden's pseudo R2** for the logit (fossil-participation) model, as
   separate labeled rows, via a `glance_custom.svyglm()` method in

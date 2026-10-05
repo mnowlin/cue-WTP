@@ -219,3 +219,9 @@ wtp_sig_bullets <- sprintf(
   "- %s, %s: b = %.2f, *p* = %.3f",
   wtp_sig$term_label, wtp_sig$outcome, wtp_sig$estimate, wtp_sig$p.value
 )
+
+# ---- Design checks and additional estimates ---------------------------------
+# Cue-only models, balance, multiple-comparison adjustment, minimum detectable
+# effects, Tobit WTP models, and unweighted models (see the script header).
+
+source("scripts/design-checks-setup.R")
