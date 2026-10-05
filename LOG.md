@@ -39,7 +39,9 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 - **Supplement:** new sections for balance, cue-only models, Holm/MDE table, Tobit models, unweighted models.
 - **Verified the leaner coding against the raw QuestionPro files** (`03-data/energy-preferences-survey/`): `make-datasets.R` codes leaners as partisans; 1,063 of 3,113 (34%) were independent/other before leaners, 466 (15%) neither after.
 - **Outlet changed:** Energy Policy full article (8,000-word limit) instead of research note. Body is now ~5,400 words.
-- **Open placeholders / to confirm:** IRB protocol number; data-availability location; confirm no pre-registration; confirm the stated rationale for the WTP prompt wording; verify the Druckman et al. (2013) description (energy/drilling issue).
+- **Statements resolved:** data available upon publication; study described as **not pre-registered** (an OSF registration exists but was filed after data collection, though before analysis, so it is not claimed as a pre-registration); WTP prompt rationale confirmed by user.
+- **Druckman et al. (2013) checked:** experiments were on drilling and immigration; sentence revised to say so.
+- **Still open:** IRB protocol number placeholder; GitHub link in the data-availability statement identifies the author and should be removed from any anonymized version.
 
 ### Session 11 — 2026-09-29/30 (DOCX table alignment, Discussion fixes, mock review, copyedits)
 
