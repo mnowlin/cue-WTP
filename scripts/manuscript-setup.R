@@ -20,11 +20,11 @@ coef_map <- c(
 )
 
 # ---- Priority scale OLS: cues x political beliefs -----------------------
-# Does the cue effect on priority.scale differ for liberal Democrats and
-# conservative Republicans (vs. other/moderate), relative to control?
+# Does the cue effect on priority.scale differ for Democrats and
+# Republicans (vs. independents), relative to control?
 
 m_priority_int <- svyglm(
-  priority.scale ~ (trump.cue + climate.cue) * (libDem + conRep),
+  priority.scale ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design
 )
 
@@ -33,7 +33,7 @@ priority_int_tidy <- tidy(m_priority_int, conf.int = TRUE) |>
   mutate(term_label = recode(term, !!!term_labels), term_type = term_type(term))
 
 # ---- WTP ~ cue condition x political beliefs -------------------------------
-# Conservative Republicans in the Trump cue / liberal Democrats in the
+# Republicans in the Trump cue / Democrats in the
 # climate cue expected to diverge most from control on WTP.
 #
 # Fossil-fuel WTP has a large mass of respondents at $0 (see wtp_dist_table:
@@ -48,17 +48,17 @@ priority_int_tidy <- tidy(m_priority_int, conf.int = TRUE) |>
 # model above.
 
 m_wtp_fossil_participation <- svyglm(
-  wtp_fossil_pos ~ (trump.cue + climate.cue) * (libDem + conRep),
+  wtp_fossil_pos ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design, family = quasibinomial()
 )
 
 m_wtp_fossil_amount <- svyglm(
-  wtp.fossil ~ (trump.cue + climate.cue) * (libDem + conRep),
+  wtp.fossil ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_fossil_pos
 )
 
 m_wtp_renewable_int <- svyglm(
-  wtp.renewable ~ (trump.cue + climate.cue) * (libDem + conRep),
+  wtp.renewable ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design
 )
 
@@ -93,30 +93,32 @@ get_term <- function(tidy_df, term_name, outcome_name = NULL) {
   )
 }
 
-priority_conRep         <- get_term(priority_int_tidy, "conRep")
-priority_libDem         <- get_term(priority_int_tidy, "libDem")
-priority_trump_conRep   <- get_term(priority_int_tidy, "trump.cue:conRep")
-priority_climate_libDem <- get_term(priority_int_tidy, "climate.cue:libDem")
+priority_republican       <- get_term(priority_int_tidy, "republican")
+priority_democrat         <- get_term(priority_int_tidy, "democrat")
+priority_trump_republican <- get_term(priority_int_tidy, "trump.cue:republican")
+priority_climate_democrat <- get_term(priority_int_tidy, "climate.cue:democrat")
 
-fossil_part_conRep       <- get_term(fossil_participation_tidy, "conRep")
-fossil_part_libDem       <- get_term(fossil_participation_tidy, "libDem")
-fossil_part_trump        <- get_term(fossil_participation_tidy, "trump.cue")
-fossil_part_trump_conRep <- get_term(fossil_participation_tidy, "trump.cue:conRep")
+fossil_part_republican       <- get_term(fossil_participation_tidy, "republican")
+fossil_part_democrat         <- get_term(fossil_participation_tidy, "democrat")
+fossil_part_trump            <- get_term(fossil_participation_tidy, "trump.cue")
+fossil_part_trump_republican <- get_term(fossil_participation_tidy, "trump.cue:republican")
 
-fossil_amt_trump        <- get_term(wtp_int_tidy, "trump.cue", "Fossil fuels")
-fossil_amt_trump_conRep <- get_term(wtp_int_tidy, "trump.cue:conRep", "Fossil fuels")
+fossil_amt_trump            <- get_term(wtp_int_tidy, "trump.cue", "Fossil fuels")
+fossil_amt_trump_republican <- get_term(wtp_int_tidy, "trump.cue:republican", "Fossil fuels")
 
-wtp_libDem_renewable    <- get_term(wtp_int_tidy, "libDem", "Renewables")
-wtp_climate_libDem_renewable <- get_term(wtp_int_tidy, "climate.cue:libDem", "Renewables")
-wtp_conRep_renewable    <- get_term(wtp_int_tidy, "conRep", "Renewables")
+wtp_democrat_renewable         <- get_term(wtp_int_tidy, "democrat", "Renewables")
+wtp_climate_democrat_renewable <- get_term(wtp_int_tidy, "climate.cue:democrat", "Renewables")
+wtp_republican_renewable       <- get_term(wtp_int_tidy, "republican", "Renewables")
+wtp_climate_renewable          <- get_term(wtp_int_tidy, "climate.cue", "Renewables")
+wtp_climate_republican_renewable <- get_term(wtp_int_tidy, "climate.cue:republican", "Renewables")
 
 # ---- Predicted WTP for specific cue/identity combinations, for in-text ----
 # No controls in this specification, so predictions only vary the cue and
 # political-identity indicators referenced in the write-up.
 
-predict_newdata <- function(trump = 0, climate = 0, libDem = 0, conRep = 0) {
+predict_newdata <- function(trump = 0, climate = 0, democrat = 0, republican = 0) {
   data.frame(
-    trump.cue = trump, climate.cue = climate, libDem = libDem, conRep = conRep
+    trump.cue = trump, climate.cue = climate, democrat = democrat, republican = republican
   )
 }
 
@@ -135,8 +137,8 @@ predict_grid <- function(model) {
   )
   grid$trump.cue   <- as.numeric(grid$cue_condition == "Trump cue")
   grid$climate.cue <- as.numeric(grid$cue_condition == "Climate cue")
-  grid$libDem      <- as.numeric(grid$identity == "Liberal Democrat")
-  grid$conRep      <- as.numeric(grid$identity == "Conservative Republican")
+  grid$democrat    <- as.numeric(grid$identity == "Democrat")
+  grid$republican  <- as.numeric(grid$identity == "Republican")
 
   preds <- as.data.frame(marginaleffects::predictions(model, newdata = grid))
   preds$cue_condition <- factor(preds$cue_condition, levels = cue_levels)
@@ -150,15 +152,15 @@ renewable_pred  <- predict_grid(m_wtp_renewable_int)
 
 # Predicted priority-scale values for specific cue/identity combinations,
 # for in-text reporting alongside the coefficients above.
-priority_conRep_control_pred <- predict_wtp(m_priority_int, conRep = 1)
-priority_conRep_trump_pred   <- predict_wtp(m_priority_int, trump = 1, conRep = 1)
-priority_libDem_control_pred <- predict_wtp(m_priority_int, libDem = 1)
-priority_libDem_climate_pred <- predict_wtp(m_priority_int, climate = 1, libDem = 1)
+priority_republican_control_pred <- predict_wtp(m_priority_int, republican = 1)
+priority_republican_trump_pred   <- predict_wtp(m_priority_int, trump = 1, republican = 1)
+priority_democrat_control_pred   <- predict_wtp(m_priority_int, democrat = 1)
+priority_democrat_climate_pred   <- predict_wtp(m_priority_int, climate = 1, democrat = 1)
 
 # Within-group cue effect on the priority scale (cue main effect + cue x
 # identity interaction), i.e., the shift from control to cue for that group.
 # Distinct from the interaction term, which tests whether the shift differs
-# from the other/moderate group's.
+# from the independents'.
 cue_shift <- function(model, cue, identity) {
   b <- coef(model)
   L <- setNames(rep(0, length(b)), names(b))
@@ -172,8 +174,14 @@ cue_shift <- function(model, cue, identity) {
   )
 }
 
-priority_shift_trump_conRep   <- cue_shift(m_priority_int, "trump.cue", "conRep")
-priority_shift_climate_libDem <- cue_shift(m_priority_int, "climate.cue", "libDem")
+priority_shift_trump_republican <- cue_shift(m_priority_int, "trump.cue", "republican")
+priority_shift_climate_democrat <- cue_shift(m_priority_int, "climate.cue", "democrat")
+
+# The same within-group shifts for the WTP terms that reach p < .10, where the
+# interaction mostly reflects the independent reference group moving instead
+# (log-odds scale for the participation model).
+fossil_part_shift_trump_republican <- cue_shift(m_wtp_fossil_participation, "trump.cue", "republican")
+renewable_shift_climate_democrat   <- cue_shift(m_wtp_renewable_int, "climate.cue", "democrat")
 
 # Predicted probability of any positive fossil-fuel WTP (part 1 of the
 # hurdle model), as a percent.
@@ -182,13 +190,13 @@ predict_prob <- function(model, ...) {
   sprintf("%.1f%%", 100 * p)
 }
 
-fossil_prob_conRep_control <- predict_prob(m_wtp_fossil_participation, conRep = 1)
-fossil_prob_conRep_trump   <- predict_prob(m_wtp_fossil_participation, trump = 1, conRep = 1)
-fossil_prob_libDem_control <- predict_prob(m_wtp_fossil_participation, libDem = 1)
+fossil_prob_republican_control <- predict_prob(m_wtp_fossil_participation, republican = 1)
+fossil_prob_republican_trump   <- predict_prob(m_wtp_fossil_participation, trump = 1, republican = 1)
+fossil_prob_democrat_control   <- predict_prob(m_wtp_fossil_participation, democrat = 1)
 
-fossil_amt_conRep_control <- predict_wtp(m_wtp_fossil_amount, conRep = 1)
-fossil_amt_conRep_trump   <- predict_wtp(m_wtp_fossil_amount, trump = 1, conRep = 1)
-fossil_amt_libDem_control <- predict_wtp(m_wtp_fossil_amount, libDem = 1)
+fossil_amt_republican_control <- predict_wtp(m_wtp_fossil_amount, republican = 1)
+fossil_amt_republican_trump   <- predict_wtp(m_wtp_fossil_amount, trump = 1, republican = 1)
+fossil_amt_democrat_control   <- predict_wtp(m_wtp_fossil_amount, democrat = 1)
 
 # Unconditional expected fossil-fuel WTP = P(WTP > $0) x E[WTP | WTP > $0],
 # for comparison against the renewables median prediction in the concluding
@@ -198,11 +206,11 @@ predict_expected_fossil <- function(...) {
   amt <- as.numeric(predict(m_wtp_fossil_amount, newdata = predict_newdata(...), type = "response"))
   sprintf("%.2f", p * amt)
 }
-wtp_fossil_conRep_trump <- predict_expected_fossil(trump = 1, conRep = 1)
+wtp_fossil_republican_trump <- predict_expected_fossil(trump = 1, republican = 1)
 
-wtp_renewable_libDem_climate <- predict_wtp(m_wtp_renewable_int, climate = 1, libDem = 1)
-wtp_renewable_conRep_control <- predict_wtp(m_wtp_renewable_int, conRep = 1)
-wtp_renewable_conRep_trump   <- predict_wtp(m_wtp_renewable_int, trump = 1, conRep = 1)
+wtp_renewable_democrat_climate   <- predict_wtp(m_wtp_renewable_int, climate = 1, democrat = 1)
+wtp_renewable_republican_control <- predict_wtp(m_wtp_renewable_int, republican = 1)
+wtp_renewable_republican_trump   <- predict_wtp(m_wtp_renewable_int, trump = 1, republican = 1)
 
 # ---- Terms significant at p <= .10, for in-text write-up ------------------
 

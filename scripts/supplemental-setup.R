@@ -36,7 +36,7 @@ coef_map <- c(
 
 m_priority_int <- svyglm(
   as.formula(paste(
-    "priority.scale ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    "priority.scale ~ (trump.cue + climate.cue) * (democrat + republican) +",
     control_rhs
   )),
   design = design
@@ -52,7 +52,7 @@ priority_int_tidy <- tidy(m_priority_int, conf.int = TRUE) |>
 
 m_wtp_fossil_participation <- svyglm(
   as.formula(paste(
-    "wtp_fossil_pos ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    "wtp_fossil_pos ~ (trump.cue + climate.cue) * (democrat + republican) +",
     control_rhs
   )),
   design = design, family = quasibinomial()
@@ -60,7 +60,7 @@ m_wtp_fossil_participation <- svyglm(
 
 m_wtp_fossil_amount <- svyglm(
   as.formula(paste(
-    "wtp.fossil ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    "wtp.fossil ~ (trump.cue + climate.cue) * (democrat + republican) +",
     control_rhs
   )),
   design = design_fossil_pos
@@ -68,7 +68,7 @@ m_wtp_fossil_amount <- svyglm(
 
 m_wtp_renewable_int <- svyglm(
   as.formula(paste(
-    "wtp.renewable ~ (trump.cue + climate.cue) * (libDem + conRep) +",
+    "wtp.renewable ~ (trump.cue + climate.cue) * (democrat + republican) +",
     control_rhs
   )),
   design = design
@@ -101,17 +101,19 @@ get_term <- function(tidy_df, term_name, outcome_name = NULL) {
   )
 }
 
-priority_conRep         <- get_term(priority_int_tidy, "conRep")
-priority_libDem         <- get_term(priority_int_tidy, "libDem")
-priority_trump_conRep   <- get_term(priority_int_tidy, "trump.cue:conRep")
-priority_climate_libDem <- get_term(priority_int_tidy, "climate.cue:libDem")
+priority_republican       <- get_term(priority_int_tidy, "republican")
+priority_democrat         <- get_term(priority_int_tidy, "democrat")
+priority_trump_republican <- get_term(priority_int_tidy, "trump.cue:republican")
+priority_climate_democrat <- get_term(priority_int_tidy, "climate.cue:democrat")
 
-fossil_part_conRep       <- get_term(fossil_participation_tidy, "conRep")
-fossil_part_libDem       <- get_term(fossil_participation_tidy, "libDem")
+fossil_part_republican <- get_term(fossil_participation_tidy, "republican")
+fossil_part_democrat   <- get_term(fossil_participation_tidy, "democrat")
 
-wtp_libDem_renewable         <- get_term(wtp_int_tidy, "libDem", "Renewables")
-wtp_climate_libDem_renewable <- get_term(wtp_int_tidy, "climate.cue:libDem", "Renewables")
-wtp_conRep_renewable         <- get_term(wtp_int_tidy, "conRep", "Renewables")
+wtp_democrat_renewable         <- get_term(wtp_int_tidy, "democrat", "Renewables")
+wtp_climate_democrat_renewable <- get_term(wtp_int_tidy, "climate.cue:democrat", "Renewables")
+wtp_republican_renewable       <- get_term(wtp_int_tidy, "republican", "Renewables")
+wtp_climate_republican_renewable <- get_term(wtp_int_tidy, "climate.cue:republican", "Renewables")
+fossil_part_trump_republican     <- get_term(fossil_participation_tidy, "trump.cue:republican")
 
 # ---- Predicted-value grids, for plots --------------------------------------
 # Controls (including concern.cost) held at their survey-weighted means.
@@ -128,9 +130,9 @@ predict_grid <- function(model) {
   )
   grid$trump.cue   <- as.numeric(grid$cue_condition == "Trump cue")
   grid$climate.cue <- as.numeric(grid$cue_condition == "Climate cue")
-  grid$libDem      <- as.numeric(grid$identity == "Liberal Democrat")
-  grid$conRep      <- as.numeric(grid$identity == "Conservative Republican")
-  newdata <- cbind(grid, as.data.frame(as.list(control_means)))
+  grid$democrat    <- as.numeric(grid$identity == "Democrat")
+  grid$republican  <- as.numeric(grid$identity == "Republican")
+  newdata          <- cbind(grid, as.data.frame(as.list(control_means)))
 
   preds <- as.data.frame(marginaleffects::predictions(model, newdata = newdata))
   preds$cue_condition <- factor(preds$cue_condition, levels = cue_levels)

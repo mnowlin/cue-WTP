@@ -85,8 +85,8 @@ desc_vars <- c(
   "priority.scale" = "Energy-priority scale (1-7)",
   "wtp.fossil"     = "WTP, fossil fuels ($)",
   "wtp.renewable"  = "WTP, renewables ($)",
-  "libDem"         = "Liberal Democrat",
-  "conRep"         = "Conservative Republican"
+  "democrat"       = "Democrat",
+  "republican"     = "Republican"
 )
 
 arm_designs <- list(
@@ -109,21 +109,22 @@ desc_table <- bind_rows(lapply(names(desc_vars), function(v) {
 }))
 
 # Weighted means from desc_table, for the in-text discussion of the table.
-desc_row <- function(v) desc_table[desc_table$Variable == desc_vars[[v]], ]
-desc_priority_mean <- sprintf("%.2f", desc_row("priority.scale")$Mean)
-desc_priority_sd   <- sprintf("%.2f", desc_row("priority.scale")$SD)
-desc_libDem_pct    <- round(100 * desc_row("libDem")$Mean)
-desc_conRep_pct    <- round(100 * desc_row("conRep")$Mean)
-desc_other_pct     <- 100 - desc_libDem_pct - desc_conRep_pct
+desc_row            <- function(v) desc_table[desc_table$Variable == desc_vars[[v]], ]
+desc_priority_mean  <- sprintf("%.2f", desc_row("priority.scale")$Mean)
+desc_priority_sd    <- sprintf("%.2f", desc_row("priority.scale")$SD)
+desc_democrat_pct   <- round(100 * desc_row("democrat")$Mean)
+desc_republican_pct <- round(100 * desc_row("republican")$Mean)
+desc_other_pct      <- 100 - desc_democrat_pct - desc_republican_pct
 
 # Unweighted identity shares, for the in-text comparison with the weighted
-# shares above (the weights roughly double the conservative Republican share).
-unw_libDem_pct <- round(100 * mean(d$libDem))
-unw_conRep_pct <- round(100 * mean(d$conRep))
+# shares above (the weights raise the Republican share from 29 to 46 percent).
+unw_democrat_pct <- round(100 * mean(d$democrat))
+unw_republican_pct <- round(100 * mean(d$republican))
 
 # Share of respondents who identify with neither party after leaners are
 # assigned to a party.
 pure_ind_pct <- round(100 * mean(d$democrat == 0 & d$republican == 0))
+n_ind        <- sum(d$democrat == 0 & d$republican == 0)
 
 # Values from the raw survey files, which are not in the analysis data:
 # share identifying as independent or other party before leaners are
@@ -134,14 +135,14 @@ pid_target_pct   <- c(Dem = 45, Rep = 46, Ind = 9)
 
 # Shared term labels for coefficient plots/tables.
 term_labels <- c(
-  "trump.cue"           = "Trump cue",
-  "climate.cue"         = "Climate cue",
-  "libDem"              = "Liberal Democrat",
-  "conRep"              = "Conservative Republican",
-  "trump.cue:libDem"    = "Trump cue × Liberal Democrat",
-  "climate.cue:libDem"  = "Climate cue × Liberal Democrat",
-  "trump.cue:conRep"    = "Trump cue × Conservative Republican",
-  "climate.cue:conRep"  = "Climate cue × Conservative Republican"
+  "trump.cue"              = "Trump cue",
+  "climate.cue"            = "Climate cue",
+  "democrat"               = "Democrat",
+  "republican"             = "Republican",
+  "trump.cue:democrat"     = "Trump cue × Democrat",
+  "climate.cue:democrat"   = "Climate cue × Democrat",
+  "trump.cue:republican"   = "Trump cue × Republican",
+  "climate.cue:republican" = "Climate cue × Republican"
 )
 
 term_type <- function(term) {
@@ -173,7 +174,7 @@ stars_map         <- c("\u2020" = .1, "*" = .05, "**" = .01)
 
 # Cue/identity levels for predicted-value grids, shared by both documents.
 cue_levels      <- c("Baseline", "Trump cue", "Climate cue")
-identity_levels <- c("Other/moderate", "Liberal Democrat", "Conservative Republican")
+identity_levels <- c("Independent", "Democrat", "Republican")
 
 # ---- WTP distribution, overall (in-text table) -----------------------------
 # Weighted share of respondents choosing each Gabor-Granger bid amount

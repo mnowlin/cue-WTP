@@ -18,22 +18,22 @@ control_rhs  <- paste(control_vars, collapse = " + ")
 # Regression-table labels for this section's modelsummary() tables.
 coef_map <- c(
   term_labels,
-  "concern.cost"              = "Concern about energy cost",
-  "trump.cue:concern.cost"    = "Trump cue × Concern about energy cost",
-  "climate.cue:concern.cost"  = "Climate cue × Concern about energy cost",
-  "libDem:concern.cost"       = "Concern about energy cost × Liberal Democrat",
-  "conRep:concern.cost"       = "Concern about energy cost × Conservative Republican",
-  "age"                       = "Age",
-  "male"                      = "Male",
-  "white"                     = "White",
-  "edu"                       = "Education",
-  "inc"                       = "Income",
-  "(Intercept)"               = "(Intercept)"
+  "concern.cost"             = "Concern about energy cost",
+  "trump.cue:concern.cost"   = "Trump cue × Concern about energy cost",
+  "climate.cue:concern.cost" = "Climate cue × Concern about energy cost",
+  "democrat:concern.cost"    = "Concern about energy cost × Democrat",
+  "republican:concern.cost"  = "Concern about energy cost × Republican",
+  "age"                      = "Age",
+  "male"                     = "Male",
+  "white"                    = "White",
+  "edu"                      = "Education",
+  "inc"                      = "Income",
+  "(Intercept)"              = "(Intercept)"
 )
 
 rhs <- paste(
-  "(trump.cue + climate.cue) * (libDem + conRep) +",
-  "concern.cost * (trump.cue + climate.cue + libDem + conRep) +",
+  "(trump.cue + climate.cue) * (democrat + republican) +",
+  "concern.cost * (trump.cue + climate.cue + democrat + republican) +",
   control_rhs
 )
 
@@ -76,22 +76,26 @@ get_term <- function(tidy_df, term_name) {
   )
 }
 
-priority_cost        <- get_term(priority_tidy, "concern.cost")
-priority_conRep_cost <- get_term(priority_tidy, "conRep:concern.cost")
-priority_libDem_cost <- get_term(priority_tidy, "libDem:concern.cost")
+priority_cost            <- get_term(priority_tidy, "concern.cost")
+priority_republican_cost <- get_term(priority_tidy, "republican:concern.cost")
+priority_democrat_cost   <- get_term(priority_tidy, "democrat:concern.cost")
 
-fossil_part_cost        <- get_term(fossil_part_tidy, "concern.cost")
-fossil_part_libDem_cost <- get_term(fossil_part_tidy, "libDem:concern.cost")
-fossil_part_conRep_cost <- get_term(fossil_part_tidy, "conRep:concern.cost")
+fossil_part_cost            <- get_term(fossil_part_tidy, "concern.cost")
+fossil_part_democrat_cost   <- get_term(fossil_part_tidy, "democrat:concern.cost")
+fossil_part_republican_cost <- get_term(fossil_part_tidy, "republican:concern.cost")
 
 fossil_amt_cost       <- get_term(fossil_amt_tidy, "concern.cost")
 fossil_amt_trump_cost <- get_term(fossil_amt_tidy, "trump.cue:concern.cost")
+
+renewable_cost            <- get_term(renewable_tidy, "concern.cost")
+renewable_democrat_cost   <- get_term(renewable_tidy, "democrat:concern.cost")
+renewable_republican_cost <- get_term(renewable_tidy, "republican:concern.cost")
 
 # ---- concern.cost terms significant at p <= .10, per model, for write-up --
 
 cost_terms <- c(
   "concern.cost", "trump.cue:concern.cost", "climate.cue:concern.cost",
-  "libDem:concern.cost", "conRep:concern.cost"
+  "democrat:concern.cost", "republican:concern.cost"
 )
 
 cost_sig_bullets <- function(tidy_df) {

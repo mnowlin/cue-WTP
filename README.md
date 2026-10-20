@@ -3,8 +3,8 @@
 Manuscript and reproducible analysis examining how partisan (Trump) and
 climate change cues shape the US public's priority for fossil fuels versus
 renewables, and their willingness-to-pay (WTP) for each, and whether these
-cue effects vary by political identity (liberal Democrats vs. conservative
-Republicans).
+cue effects vary by partisanship (Democrats and Republicans, with leaners
+assigned to a party, vs. independents).
 
 The data come from a Cloud Research survey experiment (weighted to match US
 Census demographics) in which respondents were randomly assigned to a Trump
@@ -63,7 +63,7 @@ nowlin-style-profile.md              Author writing-style profile, used to draft
 
 ## Reproducing the analysis
 
-Requires R with: `survey` (and `survival`), `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`, `performance`.
+Package versions are managed with `renv` (R 4.6.0; see `renv.lock`). Opening R in the project root activates the project library via `.Rprofile`; run `renv::restore()` once to install the recorded versions. Main packages: `survey` (and `survival`), `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`, `performance`, `tidyverse`.
 
 - **Manuscript + supplemental materials:** `quarto render` → outputs both
   `cue-WTP` and `supplemental-materials` to `_output/`
@@ -85,7 +85,8 @@ The `data/` folder is **not tracked in git**. Restore it before rendering:
   weighted to match US Census demographics (age, gender, race/ethnicity).
   Includes the cue-condition assignment (`trump.cue`, `climate.cue`,
   `control`), the outcome variables (`priority.scale`, `wtp.fossil`,
-  `wtp.renewable`), political-identity indicators (`libDem`, `conRep`), and
+  `wtp.renewable`), party indicators (`democrat`, `republican`; leaners
+  included), and
   controls (`concern.cost`, `age`, `male`, `white`, `edu`, `inc`).
 
 ## Notes
@@ -102,8 +103,9 @@ The `data/` folder is **not tracked in git**. Restore it before rendering:
 - The supplement also reports covariate balance by condition, cue-only
   (average-effect) models, Holm-adjusted p-values and minimum detectable
   effects for the cue x identity interactions, Tobit models of WTP for both
-  sources (censored at $0 and $46), and unweighted models. Party ID and
-  ideology were asked after the outcomes; leaners are coded as partisans.
+  sources (censored at $0 and $46), and unweighted models. Party ID was
+  asked after the outcomes; leaners are coded as partisans, and pure
+  independents are the reference group.
 - Regression tables report **Adj. R2** for the OLS (gaussian) models and
   **McFadden's pseudo R2** for the logit (fossil-participation) model, as
   separate labeled rows, via a `glance_custom.svyglm()` method in

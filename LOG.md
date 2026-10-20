@@ -22,6 +22,23 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 13 — 2026-10-20 (Partisanship replaces ideology × party; renv)
+
+- Reviewers on a similar paper (cue-energy) asked for partisanship alone instead of ideology × party, so all models here now use `democrat` and `republican` (leaners assigned to a party) in place of `libDem` and `conRep`. Pure independents (466 unweighted; 9% weighted) are the reference group. The models, controls, hurdle setup, design checks, and supplemental robustness checks are otherwise unchanged; the analysis was deliberately not restructured to match cue-energy.
+- Renamed variables, objects, and labels to match: `libDem` → `democrat`, `conRep` → `republican` (e.g., `priority_conRep` → `priority_republican`), and "Liberal Democrat" / "Conservative Republican" / "Other/moderate" → "Democrat" / "Republican" / "Independent". Inline R references in `cue-WTP.qmd` and `supplemental-materials.qmd` were updated, but the prose, hypotheses, and captions still describe the ideology × party groups and need rewriting.
+- The models use the existing `democrat`/`republican` columns, so the data file is unchanged.
+- Results under partisanship (main specification, independents as reference):
+  - **Priority scale:** Democrat 0.73 and Republican −0.99 (both p < .001). Trump cue × Republican −0.52 (p = .043; Holm p = .68); within-group Trump shift for Republicans −0.38 (p = .022). Climate cue × Democrat is now null (0.01, p = .95; within-group shift 0.11, p = .17). Unweighted, Trump cue × Republican is −0.32 (p = .14).
+  - **Fossil WTP, any > $0 (logit):** Republican 0.57 (p = .012), Democrat −0.46 (p = .025); Trump cue main effect (among independents) −0.56 (p = .033); Trump cue × Republican 0.63 (p = .055).
+  - **Fossil WTP amount if > $0:** no identity or cue terms significant.
+  - **Renewables WTP:** Democrat 3.97 (p = .029), Republican −5.96 (p = .002); climate cue × Democrat 5.05 (p = .048; Holm p = .71), climate cue × Republican 4.50 (p = .092).
+  - **Tobit fossil WTP:** Trump cue × Republican 9.64 (p = .028) and climate cue × Republican 9.60 (p = .026), but the Republicans' own Trump-vs-control shift is 0.31 (p = .89); the interactions reflect independents moving down (Trump cue −9.33, p = .012).
+  - No cue-only average effect is significant. Party ID is balanced across conditions (χ² = 3.29, df = 4, p = .51). Republicans in the Trump cue: renewables − fossil WTP = $1.82 (p = .15).
+- Re-rendered the manuscript and supplemental materials (HTML, PDF, DOCX).
+- Drafted updated party-only text in `cue-WTP.qmd` (following `nowlin-style-profile.md`): abstract, introduction summary, H1a/H1b/H3a/H3b and RQ1, the measures and descriptives paragraphs, table/figure captions, all Results paragraphs, the hypotheses summary, and the Discussion/limitations. Added inline objects for the new text: `n_ind`; within-group shifts for any fossil WTP (Trump, Republicans) and renewables WTP (climate, Democrats); the climate cue and climate cue × Republican renewables terms; Holm p for those two interactions; and the Tobit climate cue × Republican term and shift.
+- Drafted the party-only text for `supplemental-materials.qmd`: section intros, captions, the demographic and cost-control results and summaries, the cost-interaction section (the cost × party interactions for priority and any fossil WTP are no longer significant; renewables cost × party is marginal), balance, cue-only, Holm/MDE, Tobit, and unweighted sections. Added inline objects for these (`wtp_climate_republican_renewable`, `fossil_part_trump_republican` in `supplemental-setup.R`, renewables cost terms, `tobit_renewable_climate_democrat`, and `unw_wtp_sig_bullets`, which lists the unweighted WTP interactions with p ≤ .10).
+- Initialized `renv` (`renv.lock`, `.Rprofile`, `renv/`; R 4.6.0). `renv::status()` reports a consistent state, and all setup scripts source cleanly from the project library.
+
 ### Session 12 — 2026-10-05 (Mock-review revisions, design checks, full-article switch)
 
 - **Responded to the mock peer review (`review-major-points.md`), parts A (text) and B (new analyses).** Text drafted per `nowlin-style-profile.md`; user to review as own prose.

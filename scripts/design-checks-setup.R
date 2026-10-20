@@ -18,7 +18,7 @@ fmt_p <- function(p) ifelse(p < .001, "< .001", sprintf("= %.3f", p))
 
 # ---- 1. Cue-only models ----------------------------------------------------
 # With cue x identity interactions in the model, the cue coefficients are
-# effects among the other/moderate reference group only. The average effect
+# effects among the independent reference group only. The average effect
 # of each cue on the full sample comes from these models instead.
 
 m_priority_cue <- svyglm(priority.scale ~ trump.cue + climate.cue, design = design)
@@ -53,7 +53,7 @@ avg_renew_climate    <- get_term(cue_only_tidy[cue_only_tidy$model == names(cue_
 # ---- 2. Balance across cue conditions ---------------------------------------
 # Unweighted means by condition (randomization is checked on the unweighted
 # sample) with the p-value from a one-way F-test of each variable on
-# condition. Party and ideology were asked after the outcomes, so the identity
+# condition. Party was asked after the outcomes, so the identity
 # rows also check whether the cues shifted how respondents identified.
 
 d$cue_condition <- factor(
@@ -72,8 +72,8 @@ balance_vars <- c(
   "college"      = "College degree",
   "inc"          = "Income (1-11)",
   "concern.cost" = "Concern about electricity cost (0-10)",
-  "libDem"       = "Liberal Democrat (post-treatment)",
-  "conRep"       = "Conservative Republican (post-treatment)"
+  "democrat"     = "Democrat (post-treatment)",
+  "republican"   = "Republican (post-treatment)"
 )
 
 balance_table <- bind_rows(lapply(names(balance_vars), function(v) {
@@ -90,9 +90,9 @@ balance_table <- bind_rows(lapply(names(balance_vars), function(v) {
 
 # Joint test of the three-category political identity by condition.
 d$identity3 <- case_when(
-  d$libDem == 1 ~ "Liberal Democrat",
-  d$conRep == 1 ~ "Conservative Republican",
-  TRUE          ~ "Other/moderate"
+  d$democrat == 1 ~ "Democrat",
+  d$republican == 1 ~ "Republican",
+  TRUE          ~ "Independent"
 )
 identity_arm_test <- chisq.test(table(d$identity3, d$cue_condition))
 identity_arm_chi2 <- sprintf("%.2f", unname(identity_arm_test$statistic))
@@ -104,7 +104,7 @@ identity_arm_p    <- fmt_p(identity_arm_test$p.value)
 # Holm adjustment across all 16; MDE at 80% power, two-sided alpha = .05,
 # is (1.96 + 0.84) x SE.
 
-interaction_terms <- c("trump.cue:libDem", "climate.cue:libDem", "trump.cue:conRep", "climate.cue:conRep")
+interaction_terms <- c("trump.cue:democrat", "climate.cue:democrat", "trump.cue:republican", "climate.cue:republican")
 
 main_models <- list(
   "Priority scale (OLS)"                    = m_priority_int,
@@ -136,8 +136,10 @@ interaction_tests_table <- interaction_tests |>
     MDE        = sprintf("%.2f", mde)
   )
 
-holm_priority_trump_conRep   <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[1] & interaction_tests$term == "trump.cue:conRep"])
-holm_priority_climate_libDem <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[1] & interaction_tests$term == "climate.cue:libDem"])
+holm_priority_trump_republican <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[1] & interaction_tests$term == "trump.cue:republican"])
+holm_priority_climate_democrat <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[1] & interaction_tests$term == "climate.cue:democrat"])
+holm_fossil_part_trump_republican <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[2] & interaction_tests$term == "trump.cue:republican"])
+holm_renewable_climate_democrat  <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[4] & interaction_tests$term == "climate.cue:democrat"])
 
 mde_range <- function(model_name, digits = 2) {
   x <- interaction_tests$mde[interaction_tests$model == model_name]
@@ -167,11 +169,11 @@ design_tobit <- update(
 )
 
 m_tobit_fossil <- svysurvreg(
-  Surv(fossil_lo, fossil_hi, type = "interval2") ~ (trump.cue + climate.cue) * (libDem + conRep),
+  Surv(fossil_lo, fossil_hi, type = "interval2") ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_tobit, dist = "gaussian"
 )
 m_tobit_renewable <- svysurvreg(
-  Surv(renewable_lo, renewable_hi, type = "interval2") ~ (trump.cue + climate.cue) * (libDem + conRep),
+  Surv(renewable_lo, renewable_hi, type = "interval2") ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_tobit, dist = "gaussian"
 )
 
@@ -181,13 +183,13 @@ tobit_tidy <- bind_rows(
 ) |>
   filter(!term %in% c("(Intercept)", "Log(scale)"))
 
-tobit_fossil_trump        <- get_term(tobit_tidy, "trump.cue", "Fossil fuels")
-tobit_fossil_trump_conRep <- get_term(tobit_tidy, "trump.cue:conRep", "Fossil fuels")
-tobit_renewable_sig_n     <- sum(tobit_tidy$outcome == "Renewables" &
+tobit_fossil_trump            <- get_term(tobit_tidy, "trump.cue", "Fossil fuels")
+tobit_fossil_trump_republican <- get_term(tobit_tidy, "trump.cue:republican", "Fossil fuels")
+tobit_renewable_sig_n         <- sum(tobit_tidy$outcome == "Renewables" &
                                    tobit_tidy$term %in% interaction_terms &
                                    tobit_tidy$p.value < .05)
 
-# Within-group shift for conservative Republicans (Trump cue vs. control) in
+# Within-group shift for Republicans (Trump cue vs. control) in
 # the fossil Tobit, using a normal reference distribution.
 tobit_shift <- function(model, cue, identity) {
   b <- coef(model)
@@ -198,19 +200,22 @@ tobit_shift <- function(model, cue, identity) {
   se  <- sqrt(as.numeric(t(L) %*% V %*% L))
   list(b = sprintf("%.2f", est), p = fmt_p(2 * pnorm(-abs(est / se))))
 }
-tobit_shift_fossil_trump_conRep <- tobit_shift(m_tobit_fossil, "trump.cue", "conRep")
+tobit_shift_fossil_trump_republican <- tobit_shift(m_tobit_fossil, "trump.cue", "republican")
+tobit_fossil_climate_republican       <- get_term(tobit_tidy, "climate.cue:republican", "Fossil fuels")
+tobit_shift_fossil_climate_republican <- tobit_shift(m_tobit_fossil, "climate.cue", "republican")
+tobit_renewable_climate_democrat      <- get_term(tobit_tidy, "climate.cue:democrat", "Renewables")
 
 # Holm-adjusted p for the fossil Tobit interaction, adjusting across the 16
 # main-text interaction tests plus this one.
-tobit_fossil_trump_conRep_holm <- sprintf(
+tobit_fossil_trump_republican_holm <- sprintf(
   "%.2f",
   tail(p.adjust(c(interaction_tests$p.value,
-                  tobit_tidy$p.value[tobit_tidy$outcome == "Fossil fuels" & tobit_tidy$term == "trump.cue:conRep"]),
+                  tobit_tidy$p.value[tobit_tidy$outcome == "Fossil fuels" & tobit_tidy$term == "trump.cue:republican"]),
                 method = "holm"), 1)
 )
 
 # ---- 6. Unweighted main-text models ----------------------------------------
-# The weights roughly double the share of conservative Republicans, so the
+# The weights raise the share of Republicans from 29 to 46 percent, so the
 # main-text models are re-estimated with equal weights.
 
 d$unit_weight <- 1
@@ -218,29 +223,42 @@ design_unw <- svydesign(ids = ~1, weights = ~unit_weight, data = d)
 design_unw_fossil_pos <- subset(design_unw, wtp_fossil_pos == 1)
 
 m_priority_unw <- svyglm(
-  priority.scale ~ (trump.cue + climate.cue) * (libDem + conRep),
+  priority.scale ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_unw
 )
 m_wtp_fossil_participation_unw <- svyglm(
-  wtp_fossil_pos ~ (trump.cue + climate.cue) * (libDem + conRep),
+  wtp_fossil_pos ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_unw, family = quasibinomial()
 )
 m_wtp_fossil_amount_unw <- svyglm(
-  wtp.fossil ~ (trump.cue + climate.cue) * (libDem + conRep),
+  wtp.fossil ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_unw_fossil_pos
 )
 m_wtp_renewable_unw <- svyglm(
-  wtp.renewable ~ (trump.cue + climate.cue) * (libDem + conRep),
+  wtp.renewable ~ (trump.cue + climate.cue) * (democrat + republican),
   design = design_unw
 )
 
-unw_tidy <- tidy(m_priority_unw)
-unw_priority_trump_conRep   <- get_term(unw_tidy, "trump.cue:conRep")
-unw_priority_climate_libDem <- get_term(unw_tidy, "climate.cue:libDem")
+unw_tidy                      <- tidy(m_priority_unw)
+unw_priority_trump_republican <- get_term(unw_tidy, "trump.cue:republican")
+unw_priority_climate_democrat <- get_term(unw_tidy, "climate.cue:democrat")
 
-# ---- 7. Renewables vs. fossil WTP, conservative Republicans in Trump cue ----
+# Cue x party interactions significant at p <= .10 in the unweighted WTP
+# models, for the in-text list in the supplemental materials.
+unw_wtp_sig <- bind_rows(
+  tidy(m_wtp_fossil_participation_unw) |> mutate(model = "Fossil fuels, any WTP (logit)"),
+  tidy(m_wtp_fossil_amount_unw) |> mutate(model = "Fossil fuels, amount if WTP > $0"),
+  tidy(m_wtp_renewable_unw) |> mutate(model = "Renewables, amount")
+) |>
+  filter(term %in% interaction_terms, p.value <= 0.10)
+unw_wtp_sig_bullets <- paste(sprintf(
+  "- %s, %s: b = %.2f, *p* = %.3f",
+  recode(unw_wtp_sig$term, !!!term_labels), unw_wtp_sig$model, unw_wtp_sig$estimate, unw_wtp_sig$p.value
+), collapse = "\n")
+
+# ---- 7. Renewables vs. fossil WTP, Republicans in Trump cue ----
 # Survey-weighted paired comparison within the subgroup.
 
-conRep_trump_diff_test <- svyttest(wtp_diff ~ 0, subset(design, conRep == 1 & trump.cue == 1))
-conRep_trump_diff_b <- sprintf("%.2f", unname(conRep_trump_diff_test$estimate))
-conRep_trump_diff_p <- fmt_p(conRep_trump_diff_test$p.value)
+republican_trump_diff_test <- svyttest(wtp_diff ~ 0, subset(design, republican == 1 & trump.cue == 1))
+republican_trump_diff_b <- sprintf("%.2f", unname(republican_trump_diff_test$estimate))
+republican_trump_diff_p <- fmt_p(republican_trump_diff_test$p.value)
