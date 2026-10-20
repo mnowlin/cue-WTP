@@ -262,3 +262,33 @@ unw_wtp_sig_bullets <- paste(sprintf(
 republican_trump_diff_test <- svyttest(wtp_diff ~ 0, subset(design, republican == 1 & trump.cue == 1))
 republican_trump_diff_b <- sprintf("%.2f", unname(republican_trump_diff_test$estimate))
 republican_trump_diff_p <- fmt_p(republican_trump_diff_test$p.value)
+
+# ---- 8. Cost concern by cue, within party ------------------------------------
+# Does the cue weaken the effect of concern about electricity cost among the
+# cue-congruent party? Estimated separately for Republicans (Trump cue,
+# fossil-fuel WTP amount among those with WTP > $0) and Democrats (climate
+# cue, renewables WTP), with cost concern interacted with both cues and
+# demographic controls. Reported in a footnote to the cost discussion.
+
+cost_slopes <- function(des, y, cue) {
+  m <- svyglm(
+    as.formula(paste(y, "~ (trump.cue + climate.cue) * concern.cost + age + male + white + edu + inc")),
+    design = des
+  )
+  b <- coef(m)
+  slope <- function(terms) {
+    L <- setNames(rep(0, length(b)), names(b))
+    L[terms] <- 1
+    est <- sum(L * b)
+    se  <- sqrt(as.numeric(t(L) %*% vcov(m) %*% L))
+    list(b = sprintf("%.2f", est), p = fmt_p(2 * pt(-abs(est / se), df = m$df.residual)))
+  }
+  list(
+    baseline = slope("concern.cost"),
+    cue      = slope(c("concern.cost", paste0(cue, ":concern.cost"))),
+    diff     = slope(paste0(cue, ":concern.cost"))
+  )
+}
+
+cost_slopes_rep_fossil <- cost_slopes(subset(design_fossil_pos, republican == 1), "wtp.fossil", "trump.cue")
+cost_slopes_dem_renew  <- cost_slopes(subset(design, democrat == 1), "wtp.renewable", "climate.cue")

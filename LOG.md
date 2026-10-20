@@ -39,6 +39,8 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 - Drafted the party-only text for `supplemental-materials.qmd`: section intros, captions, the demographic and cost-control results and summaries, the cost-interaction section (the cost × party interactions for priority and any fossil WTP are no longer significant; renewables cost × party is marginal), balance, cue-only, Holm/MDE, Tobit, and unweighted sections. Added inline objects for these (`wtp_climate_republican_renewable`, `fossil_part_trump_republican` in `supplemental-setup.R`, renewables cost terms, `tobit_renewable_climate_democrat`, and `unw_wtp_sig_bullets`, which lists the unweighted WTP interactions with p ≤ .10).
 - Initialized `renv` (`renv.lock`, `.Rprofile`, `renv/`; R 4.6.0). `renv::status()` reports a consistent state, and all setup scripts source cleanly from the project library.
 
+- Added a footnote to the Discussion's cost paragraph testing whether the cues weaken the cost-concern effect within the cue-congruent party (`design-checks-setup.R` section 8, `cost_slopes_*`). Republicans, fossil WTP amount: cost slope −1.23 (p = .010) in the baseline vs. −0.27 (p = .65) under the Trump cue, difference p = .19. Democrats, renewables WTP: −0.64 (p = .071) vs. 0.07 (p = .87) under the climate cue, difference p = .21. The pattern is suggestive, but there is no significant evidence that the cues override cost concerns.
+
 ### Session 12 — 2026-10-05 (Mock-review revisions, design checks, full-article switch)
 
 - **Responded to the mock peer review (`review-major-points.md`), parts A (text) and B (new analyses).** Text drafted per `nowlin-style-profile.md`; user to review as own prose.
