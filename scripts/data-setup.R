@@ -83,8 +83,8 @@ concern_cost_mean <- round(coef(svymean(~concern.cost, design)), 2)
 
 desc_vars <- c(
   "priority.scale" = "Energy-priority scale (1-7)",
-  "wtp.fossil"     = "WTP, fossil fuels ($)",
-  "wtp.renewable"  = "WTP, renewables ($)",
+  "wtp.fossil"     = "WTP, fossil fuels (\\$)",
+  "wtp.renewable"  = "WTP, renewables (\\$)",
   "democrat"       = "Democrat",
   "republican"     = "Republican"
 )

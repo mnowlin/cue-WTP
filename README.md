@@ -1,4 +1,4 @@
-# Cues, Partisanship, and Willingness-to-Pay for Energy
+# Priorities Versus Payment: Partisan Cues and Public Preferences for Fossil Fuels and Renewables
 
 Manuscript and reproducible analysis examining how partisan (Trump) and
 climate change cues shape the US public's priority for fossil fuels versus
@@ -34,10 +34,10 @@ scripts/
                                        tidy/plot-ready objects; sources
                                        design-checks-setup.R at the end
   design-checks-setup.R              Cue-only (average-effect) models, covariate
-                                       balance by condition, Holm-adjusted
-                                       interaction p-values and minimum detectable
-                                       effects, censored-normal (Tobit) WTP models,
-                                       and unweighted versions of the main models
+                                       balance by condition, minimum detectable
+                                       effects for the interactions, censored-normal (Tobit) WTP models,
+                                       unweighted versions of the main models, and a
+                                       party-only vs. demographic-only weights comparison
   supplemental-demo-setup.R          Sourced by supplemental-materials.qmd: refits the
                                        same models controlling for demographics (age,
                                        male, white, education, income), for the first
@@ -101,9 +101,11 @@ The `data/` folder is **not tracked in git**. Restore it before rendering:
   significant, partisanship- and (for fossil-fuel WTP amount) cue-moderated
   relationship with fossil-fuel outcomes, but not with renewable WTP.
 - The supplement also reports covariate balance by condition, cue-only
-  (average-effect) models, Holm-adjusted p-values and minimum detectable
+  (average-effect) models, minimum detectable
   effects for the cue x identity interactions, Tobit models of WTP for both
-  sources (censored at $0 and $46), and unweighted models. Party ID was
+  sources (censored at $0 and $46), unweighted models, and a comparison of
+  party-only and demographic-only weights (the weight-sensitive interactions
+  depend on the demographic weights; party weights leave them unchanged). Party ID was
   asked after the outcomes; leaners are coded as partisans, and pure
   independents are the reference group.
 - Regression tables report **Adj. R2** for the OLS (gaussian) models and

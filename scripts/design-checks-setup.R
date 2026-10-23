@@ -7,11 +7,11 @@
 #   1. Cue-only models (average cue effects, without identity interactions)
 #   2. Covariate balance across cue conditions, and whether the
 #      political-identity shares (measured after treatment) differ by arm
-#   3. Holm-adjusted p-values for the cue x identity interactions
-#   4. Minimum detectable effects for the cue x identity interactions
-#   5. Censored-normal (Tobit) models of WTP for both sources
-#   6. Unweighted versions of the main-text models
-#   7. Within-respondent renewables vs. fossil WTP among conservative
+#   3. Minimum detectable effects for the cue x identity interactions
+#   4. Censored-normal (Tobit) models of WTP for both sources
+#   5. Unweighted versions of the main-text models, and party-only vs.
+#      demographic-only weights
+#   6. Within-respondent renewables vs. fossil WTP among conservative
 #      Republicans in the Trump cue
 
 fmt_p <- function(p) ifelse(p < .001, "< .001", sprintf("= %.3f", p))
@@ -99,10 +99,9 @@ identity_arm_chi2 <- sprintf("%.2f", unname(identity_arm_test$statistic))
 identity_arm_df   <- unname(identity_arm_test$parameter)
 identity_arm_p    <- fmt_p(identity_arm_test$p.value)
 
-# ---- 3 and 4. Multiple comparisons and minimum detectable effects ----------
+# ---- 3. Minimum detectable effects -------------------------------------------
 # The 16 cue x identity interaction terms across the four main-text models.
-# Holm adjustment across all 16; MDE at 80% power, two-sided alpha = .05,
-# is (1.96 + 0.84) x SE.
+# MDE at 80% power, two-sided alpha = .05, is (1.96 + 0.84) x SE.
 
 interaction_terms <- c("trump.cue:democrat", "climate.cue:democrat", "trump.cue:republican", "climate.cue:republican")
 
@@ -118,10 +117,7 @@ interaction_tests <- bind_rows(lapply(names(main_models), function(n) {
     filter(term %in% interaction_terms) |>
     mutate(model = n)
 })) |>
-  mutate(
-    holm = p.adjust(p.value, method = "holm"),
-    mde  = (qnorm(.975) + qnorm(.80)) * std.error
-  )
+  mutate(mde = (qnorm(.975) + qnorm(.80)) * std.error)
 
 n_interaction_tests <- nrow(interaction_tests)
 
@@ -132,14 +128,8 @@ interaction_tests_table <- interaction_tests |>
     b          = sprintf("%.2f", estimate),
     SE         = sprintf("%.2f", std.error),
     p          = sprintf("%.3f", p.value),
-    `Holm p`   = sprintf("%.3f", holm),
     MDE        = sprintf("%.2f", mde)
   )
-
-holm_priority_trump_republican <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[1] & interaction_tests$term == "trump.cue:republican"])
-holm_priority_climate_democrat <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[1] & interaction_tests$term == "climate.cue:democrat"])
-holm_fossil_part_trump_republican <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[2] & interaction_tests$term == "trump.cue:republican"])
-holm_renewable_climate_democrat  <- sprintf("%.2f", interaction_tests$holm[interaction_tests$model == names(main_models)[4] & interaction_tests$term == "climate.cue:democrat"])
 
 mde_range <- function(model_name, digits = 2) {
   x <- interaction_tests$mde[interaction_tests$model == model_name]
@@ -149,7 +139,7 @@ mde_priority  <- mde_range(names(main_models)[1])
 mde_fossil    <- mde_range(names(main_models)[3])
 mde_renewable <- mde_range(names(main_models)[4])
 
-# ---- 5. Censored-normal (Tobit) WTP models ---------------------------------
+# ---- 4. Censored-normal (Tobit) WTP models ---------------------------------
 # The Gabor-Granger bids cap WTP at $0 (rejected the $1 bid) and $46
 # (accepted the highest bid). The starting bid and the follow-up bids were
 # random and not recorded, so the upper bound for an interior response is
@@ -205,16 +195,7 @@ tobit_fossil_climate_republican       <- get_term(tobit_tidy, "climate.cue:repub
 tobit_shift_fossil_climate_republican <- tobit_shift(m_tobit_fossil, "climate.cue", "republican")
 tobit_renewable_climate_democrat      <- get_term(tobit_tidy, "climate.cue:democrat", "Renewables")
 
-# Holm-adjusted p for the fossil Tobit interaction, adjusting across the 16
-# main-text interaction tests plus this one.
-tobit_fossil_trump_republican_holm <- sprintf(
-  "%.2f",
-  tail(p.adjust(c(interaction_tests$p.value,
-                  tobit_tidy$p.value[tobit_tidy$outcome == "Fossil fuels" & tobit_tidy$term == "trump.cue:republican"]),
-                method = "holm"), 1)
-)
-
-# ---- 6. Unweighted main-text models ----------------------------------------
+# ---- 5. Unweighted main-text models ----------------------------------------
 # The weights raise the share of Republicans from 29 to 46 percent, so the
 # main-text models are re-estimated with equal weights.
 
@@ -256,14 +237,117 @@ unw_wtp_sig_bullets <- paste(sprintf(
   recode(unw_wtp_sig$term, !!!term_labels), unw_wtp_sig$model, unw_wtp_sig$estimate, unw_wtp_sig$p.value
 ), collapse = "\n")
 
-# ---- 7. Renewables vs. fossil WTP, Republicans in Trump cue ----
+# ---- 5b. Party-only vs. demographic-only weights ---------------------------
+# The full weights rake to ACS demographics and NPORS party ID. To see which
+# part drives the weighted/unweighted differences, the unweighted sample is
+# raked separately to (a) the NPORS party targets only and (b) the
+# demographic margins only. The raking script and ACS targets are not in
+# this repo, so the demographic targets are the margins the full weights
+# produce for age group, gender, race, and education. Because the models
+# fully interact the cues with party ID, party-only weights (constant within
+# party) leave the interaction estimates unchanged from the unweighted ones.
+
+d$party_cat <- factor(ifelse(d$democrat == 1, "Dem", ifelse(d$republican == 1, "Rep", "Ind")))
+d$age_cat   <- cut(d$age, c(17, 29, 44, 64, Inf))
+d$male_cat  <- factor(d$male)
+d$white_cat <- factor(d$white)
+d$edu_cat   <- factor(d$edu)
+
+full_margin <- function(v) {
+  t <- tapply(d$weight, d[[v]], sum)
+  data.frame(setNames(list(names(t)), v), Freq = nrow(d) * as.numeric(t) / sum(t))
+}
+
+design_base <- svydesign(ids = ~1, weights = ~unit_weight, data = d)
+party_pop <- data.frame(
+  party_cat = names(pid_target_pct),
+  Freq      = nrow(d) * unname(pid_target_pct) / sum(pid_target_pct)
+)
+d$party_weight <- weights(rake(design_base, list(~party_cat), list(party_pop)))
+demo_vars <- c("age_cat", "male_cat", "white_cat", "edu_cat")
+d$demo_weight <- weights(rake(
+  design_base,
+  lapply(demo_vars, function(v) as.formula(paste0("~", v))),
+  lapply(demo_vars, full_margin),
+  control = list(maxit = 100)
+))
+
+weight_schemes <- c(
+  "Full weights"      = "weight",
+  "Party only"        = "party_weight",
+  "Demographics only" = "demo_weight",
+  "Unweighted"        = "unit_weight"
+)
+
+weight_comparison <- bind_rows(lapply(names(weight_schemes), function(s) {
+  des <- svydesign(ids = ~1, weights = as.formula(paste0("~", weight_schemes[[s]])), data = d)
+  models <- list(
+    "Priority scale (OLS)" = svyglm(
+      priority.scale ~ (trump.cue + climate.cue) * (democrat + republican), design = des
+    ),
+    "Fossil fuels: Any WTP (logit)" = svyglm(
+      wtp_fossil_pos ~ (trump.cue + climate.cue) * (democrat + republican),
+      design = des, family = quasibinomial()
+    ),
+    "Fossil fuels: Amount, if WTP > $0 (OLS)" = svyglm(
+      wtp.fossil ~ (trump.cue + climate.cue) * (democrat + republican),
+      design = subset(des, wtp_fossil_pos == 1)
+    ),
+    "Renewables: Amount (OLS)" = svyglm(
+      wtp.renewable ~ (trump.cue + climate.cue) * (democrat + republican), design = des
+    )
+  )
+  bind_rows(lapply(names(models), function(n) {
+    tidy(models[[n]]) |>
+      filter(term %in% interaction_terms) |>
+      mutate(model = n, scheme = s)
+  }))
+}))
+
+# Short labels so the six-column table fits the page width.
+weight_comparison_table <- weight_comparison |>
+  mutate(
+    cell   = sprintf("%.2f (%.3f)", estimate, p.value),
+    # Non-breaking spaces (\u00a0) keep each term label on one line in the PDF.
+    Term   = recode(term,
+      "trump.cue:democrat"     = "Trump\u00a0×\u00a0Dem",
+      "trump.cue:republican"   = "Trump\u00a0×\u00a0Rep",
+      "climate.cue:democrat"   = "Climate\u00a0×\u00a0Dem",
+      "climate.cue:republican" = "Climate\u00a0×\u00a0Rep"
+    ),
+    model  = recode(model,
+      "Priority scale (OLS)"                    = "Priority",
+      "Fossil fuels: Any WTP (logit)"           = "Fossil: any",
+      "Fossil fuels: Amount, if WTP > $0 (OLS)" = "Fossil: amount",
+      "Renewables: Amount (OLS)"                = "Renewables"
+    ),
+    scheme = recode(scheme,
+      "Full weights"      = "Full",
+      "Party only"        = "Party",
+      "Demographics only" = "Demog.",
+      "Unweighted"        = "None"
+    )
+  ) |>
+  select(Model = model, Term, scheme, cell) |>
+  tidyr::pivot_wider(names_from = scheme, values_from = cell)
+
+weight_term <- function(scheme, model_n, term) {
+  r <- weight_comparison[weight_comparison$scheme == scheme &
+                           weight_comparison$model == names(main_models)[model_n] &
+                           weight_comparison$term == term, ]
+  list(b = sprintf("%.2f", r$estimate), p = fmt_p(r$p.value))
+}
+demo_priority_trump_republican  <- weight_term("Demographics only", 1, "trump.cue:republican")
+party_priority_trump_republican <- weight_term("Party only", 1, "trump.cue:republican")
+
+# ---- 6. Renewables vs. fossil WTP, Republicans in Trump cue ----
 # Survey-weighted paired comparison within the subgroup.
 
 republican_trump_diff_test <- svyttest(wtp_diff ~ 0, subset(design, republican == 1 & trump.cue == 1))
 republican_trump_diff_b <- sprintf("%.2f", unname(republican_trump_diff_test$estimate))
 republican_trump_diff_p <- fmt_p(republican_trump_diff_test$p.value)
 
-# ---- 8. Cost concern by cue, within party ------------------------------------
+# ---- 7. Cost concern by cue, within party ------------------------------------
 # Does the cue weaken the effect of concern about electricity cost among the
 # cue-congruent party? Estimated separately for Republicans (Trump cue,
 # fossil-fuel WTP amount among those with WTP > $0) and Democrats (climate

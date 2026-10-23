@@ -1,6 +1,6 @@
 # Session Log — cue-WTP Project
 
-Paper title: **"Cues, Partisanship, and Willingness-to-Pay for Energy"**
+Paper title: **"Priorities Versus Payment: Partisan Cues and Public Preferences for Fossil Fuels and Renewables"**
 
 This log records what has been done in each working session. Update it at the end of each session.
 
@@ -13,7 +13,7 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 **Key files:**
 - `cue-WTP.qmd` — main manuscript (renders to HTML, PDF, DOCX)
 - `scripts/manuscript-setup.R` — data loading, survey design, model fitting, and tidy/plot-ready objects sourced by the manuscript
-- `scripts/design-checks-setup.R` — cue-only models, balance, Holm/MDE, Tobit, and unweighted models (sourced by `manuscript-setup.R`)
+- `scripts/design-checks-setup.R` — cue-only models, balance, MDE, Tobit, unweighted models, and party-only vs. demographic-only weights (sourced by `manuscript-setup.R`)
 - `scripts/export-cited-refs.R` — pre-render step that trims the master `.bib` to cited keys
 - `data/cueWTPDataWeighted.csv` — weighted survey data (N = 3,113)
 - `README.md` — project structure and reproduction instructions
@@ -21,6 +21,18 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 ---
 
 ## Session History
+
+### Session 14 — 2026-10-21 to 10-23 (Title, Holm removal, Tobit to footnotes, weights decomposition)
+
+- **Table 1 fix:** the two `$` in the WTP row labels (`desc_vars` in `scripts/data-setup.R`) were parsed by Pandoc as inline math, garbling the fossil/renewables rows in HTML and PDF. Escaped as `\\$`.
+- **Outlet/length:** checked word count against Energy Policy rules (abstract, tables, figures, footnotes, appendices, references excluded). Countable main text is ~5,580 words, so a 4,500-word research note would need ~1,600 words cut; decided to stay with a full article (8,000 limit).
+- **Title** changed to "Priorities Versus Payment: Partisan Cues and Public Preferences for Fossil Fuels and Renewables" (manuscript, README, log); supplement title is now `Supplemental Materials for "..."`.
+- **Prompt-asymmetry caveat** trimmed from five places to two (Measures paragraph and limitation #2), with a short pointer kept in the WTP descriptives. Discussed citing EIA's *Levelized Costs of New Generation Resources in the AEO2025* (April 2025) to support that renewables are cheaper than new gas; author to revise the Measures paragraph and add the bib entry to the master bibliography.
+- **Holm adjustment removed** (judged too conservative): Holm sentences dropped from Results; `p.adjust()` and `holm_*` objects removed from `design-checks-setup.R`; supplement section renamed "Minimum Detectable Effects" (MDE table kept, Holm column dropped).
+- **Tobit models** removed from the main text; the two Tobit passages (method and fossil fuel results) moved verbatim into footnotes. Tables stay in the supplement.
+- **Survey-weight caveat** removed from the abstract, intro, hypothesis paragraph, and Discussion; the unweighted priority results are now a footnote.
+- **Weights decomposition (new):** because the models fully interact cue × party, party-only weights (constant within party) leave the interaction estimates identical to unweighted; the weight-sensitive results come from the **demographic** weights (age contributes most; 65+ goes from 12% to 23%). Trump cue × Republican on priority: full −0.52 (p = .043), demographics only −0.51 (p = .046), party only / unweighted −0.32 (p = .135). Added section 5b to `design-checks-setup.R` (raking to NPORS party targets and, separately, to the age/gender/race/education margins implied by the full weights, because the original raking script and ACS targets are not in the repo), a new supplement section "Party and Demographic Weights" with a short-label comparison table, and reworded the manuscript's descriptives paragraph, the unweighted footnote, and limitation #1 accordingly.
+- **Open items:** the abstract now states the Trump-cue priority effect without a hedge while the intro says "some evidence" and the Discussion "tentative" — consider aligning. If the original raking script is found, swap the implied-margin demographic targets for the actual ACS targets.
 
 ### Session 13 — 2026-10-20 (Partisanship replaces ideology × party; renv)
 

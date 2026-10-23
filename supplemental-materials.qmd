@@ -1,5 +1,5 @@
 ---
-title: "Supplemental Materials: Cues, Partisanship, and Willingness-to-Pay for Energy"
+title: 'Supplemental Materials for "Priorities Versus Payment: Partisan Cues and Public Preferences for Fossil Fuels and Renewables"'
 bibliography: references.bib
 csl: american-political-science-association.csl
 fig-cap-location: top
@@ -279,13 +279,13 @@ modelsummary(
 
 \newpage
 
-# Multiple Comparisons and Minimum Detectable Effects
+# Minimum Detectable Effects
 
-@tbl-interaction-tests lists the `r n_interaction_tests` cue x party identification interaction terms from the four main-text models, with the unadjusted *p*-value, the *p*-value after a Holm adjustment across all `r n_interaction_tests` tests, and the minimum detectable effect (MDE). The MDE is the smallest interaction effect the design could detect with 80 percent power at a two-sided $\alpha$ = .05, calculated as (1.96 + 0.84) times the standard error. No interaction is significant after the Holm adjustment. The MDEs for the WTP models are large relative to the estimated interactions, so small effects of the cues on WTP cannot be ruled out.
+@tbl-interaction-tests lists the `r n_interaction_tests` cue x party identification interaction terms from the four main-text models, with the *p*-value and the minimum detectable effect (MDE). The MDE is the smallest interaction effect the design could detect with 80 percent power at a two-sided $\alpha$ = .05, calculated as (1.96 + 0.84) times the standard error. The MDEs for the WTP models are large relative to the estimated interactions, so small effects of the cues on WTP cannot be ruled out.
 
 ```{r}
 #| label: tbl-interaction-tests
-#| tbl-cap: "Cue x party identification interaction terms from the main-text models, with Holm-adjusted p-values and minimum detectable effects (MDE; 80% power, two-sided alpha = .05). Logit estimates and MDEs are on the log-odds scale; OLS estimates and MDEs are in scale points or dollars."
+#| tbl-cap: "Cue x party identification interaction terms from the main-text models, with minimum detectable effects (MDE; 80% power, two-sided alpha = .05). Logit estimates and MDEs are on the log-odds scale; OLS estimates and MDEs are in scale points or dollars."
 knitr::kable(interaction_tests_table)
 ```
 
@@ -304,13 +304,13 @@ modelsummary(
 )
 ```
 
-For renewables, the results match the main text, as party identification predicts WTP, and no cue x party identification interaction is significant at the .05 level, though the climate cue x Democrat interaction is marginally significant (b = `r tobit_renewable_climate_democrat$b`, *p* `r tobit_renewable_climate_democrat$p`). For fossil fuels, the Trump cue x Republican interaction (b = `r tobit_fossil_trump_republican$b`, *p* `r tobit_fossil_trump_republican$p`) and the climate cue x Republican interaction (b = `r tobit_fossil_climate_republican$b`, *p* `r tobit_fossil_climate_republican$p`) are significant. However, these interactions reflect a lower WTP for fossil fuels in the cue conditions among those who identify with neither party (Trump cue b = `r tobit_fossil_trump$b`, *p* `r tobit_fossil_trump$p`), whereas Republicans' WTP for fossil fuels did not differ from the baseline in either the Trump cue (difference = `r tobit_shift_fossil_trump_republican$b`, *p* `r tobit_shift_fossil_trump_republican$p`) or the climate cue (difference = `r tobit_shift_fossil_climate_republican$b`, *p* `r tobit_shift_fossil_climate_republican$p`). The Trump cue x Republican interaction is not significant after a Holm adjustment (adjusted *p* = `r tobit_fossil_trump_republican_holm`).
+For renewables, the results match the main text, as party identification predicts WTP, and no cue x party identification interaction is significant at the .05 level, though the climate cue x Democrat interaction is marginally significant (b = `r tobit_renewable_climate_democrat$b`, *p* `r tobit_renewable_climate_democrat$p`). For fossil fuels, the Trump cue x Republican interaction (b = `r tobit_fossil_trump_republican$b`, *p* `r tobit_fossil_trump_republican$p`) and the climate cue x Republican interaction (b = `r tobit_fossil_climate_republican$b`, *p* `r tobit_fossil_climate_republican$p`) are significant. However, these interactions reflect a lower WTP for fossil fuels in the cue conditions among those who identify with neither party (Trump cue b = `r tobit_fossil_trump$b`, *p* `r tobit_fossil_trump$p`), whereas Republicans' WTP for fossil fuels did not differ from the baseline in either the Trump cue (difference = `r tobit_shift_fossil_trump_republican$b`, *p* `r tobit_shift_fossil_trump_republican$p`) or the climate cue (difference = `r tobit_shift_fossil_climate_republican$b`, *p* `r tobit_shift_fossil_climate_republican$p`).
 
 \newpage
 
 # Unweighted Models
 
-The survey weights increase the share of Republicans from `r unw_republican_pct` to `r desc_republican_pct` percent relative to the unweighted sample, so @tbl-priority-unw and @tbl-wtp-unw re-estimate the main-text models without the weights. The party identification effects are similar. For the priority scale, neither the Trump cue x Republican interaction (*p* `r unw_priority_trump_republican$p`) nor the climate cue x Democrat interaction (*p* `r unw_priority_climate_democrat$p`) is significant without the weights. For WTP, the cue x party identification interactions significant at *p* $\leq$ .10 without the weights are:
+The survey weights adjust the sample to Census demographics and to the NPORS party distribution, which increases the share of Republicans from `r unw_republican_pct` to `r desc_republican_pct` percent relative to the unweighted sample. @tbl-priority-unw and @tbl-wtp-unw re-estimate the main-text models without the weights. The party identification effects are similar. For the priority scale, neither the Trump cue x Republican interaction (*p* `r unw_priority_trump_republican$p`) nor the climate cue x Democrat interaction (*p* `r unw_priority_climate_democrat$p`) is significant without the weights. For WTP, the cue x party identification interactions significant at *p* $\leq$ .10 without the weights are:
 
 `r unw_wtp_sig_bullets`
 
@@ -336,6 +336,18 @@ modelsummary(
   ),
   coef_map = coef_map, stars = stars_map, gof_omit = gof_omit_pattern
 )
+```
+
+\newpage
+
+# Party and Demographic Weights
+
+To identify which part of the weights drives the differences between the weighted and unweighted models, @tbl-weight-comparison re-estimates the cue x party identification interactions from the main-text models with only the party weights and with only the demographic weights. The party-only weights rake the sample to the NPORS party identification targets, and the demographic-only weights rake the sample to the age, gender, race, and education margins produced by the full weights. Because the models fully interact the cues with party identification, and the party-only weights give every respondent within a party the same weight, the party-only estimates are the same as the unweighted estimates. The demographic-only estimates are close to the estimates with the full weights. As such, the differences between the weighted and unweighted models reflect the demographic weights rather than the party weights. For example, the Trump cue x Republican interaction for the priority scale is b = `r demo_priority_trump_republican$b` (*p* `r demo_priority_trump_republican$p`) with only the demographic weights and b = `r party_priority_trump_republican$b` (*p* `r party_priority_trump_republican$p`) with only the party weights.
+
+```{r}
+#| label: tbl-weight-comparison
+#| tbl-cap: "Cue x party identification interaction terms from the main-text models under different weights (estimate with p-value in parentheses). Full = full survey weights; Party = raked to the NPORS party identification targets only; Demog. = raked to the age, gender, race, and education margins of the full weights only; None = unweighted. Priority = priority scale (OLS); Fossil: any = any positive fossil fuel WTP (logit); Fossil: amount = fossil fuel WTP among those with WTP > \\$0 (OLS); Renewables = renewables WTP (OLS)."
+knitr::kable(weight_comparison_table)
 ```
 
 \newpage
