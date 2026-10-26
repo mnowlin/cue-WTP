@@ -22,6 +22,13 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 
 ## Session History
 
+### Session 15 — 2026-10-26 (Tobit footnote, copyedit)
+
+- Finished the Tobit footnote in the WTP modeling paragraph: Tobit results are consistent with the main models (renewables: party predicts WTP, no significant cue × party interaction; fossil fuels: the significant cue × Republican interactions reflect lower WTP among those identifying with neither party, as detailed in the later footnote).
+- Copyedited the manuscript for typos, grammar, and consistency: "were/be WTP more/less" → "willing to pay more/less" (abstract, hypotheses, literature review, results summary); "Cloud Research" → "CloudResearch"; "control" → "baseline" in the design paragraph; Gabor-Granger procedure paragraph tightened (per month, \$46 maximum, \$0, past tense); Republican priority coefficient now described relative to those identifying with neither party; median/mean WTP comparison reworded; duplicate "cannot be ruled out" sentence removed; captions standardized to "energy-priority scale" and "1–7" (also the priority figure's y-axis label).
+- Re-rendered the manuscript (HTML, PDF, DOCX). Rendering all formats at once removed `_output/cue-WTP_files/libs/`, so the HTML was re-rendered alone to restore its libraries.
+- **Open item:** IRB protocol number placeholder in the ethics statement.
+
 ### Session 14 — 2026-10-21 to 10-23 (Title, Holm removal, Tobit to footnotes, weights decomposition)
 
 - **Table 1 fix:** the two `$` in the WTP row labels (`desc_vars` in `scripts/data-setup.R`) were parsed by Pandoc as inline math, garbling the fossil/renewables rows in HTML and PDF. Escaped as `\\$`.
