@@ -1,13 +1,15 @@
 # Priorities Versus Payment: Partisan Cues and Public Preferences for Fossil Fuels and Renewables
 
+**Status:** Under peer review.
+
 Manuscript and reproducible analysis examining how partisan (Trump) and
 climate change cues shape the US public's priority for fossil fuels versus
 renewables, and their willingness-to-pay (WTP) for each, and whether these
 cue effects vary by partisanship (Democrats and Republicans, with leaners
 assigned to a party, vs. independents).
 
-The data come from a Cloud Research survey experiment (weighted to match US
-Census demographics) in which respondents were randomly assigned to a Trump
+The data come from a Cloud Research survey experiment (raked to 2023 ACS
+demographics and Pew NPORS 2025 party identification) in which respondents were randomly assigned to a Trump
 cue, a climate change cue, or a baseline condition (the same argument for
 fossil fuels attributed to "some" rather than to President Trump). The analysis fits
 survey-weighted regressions (`survey` package) and reproduces the regression
@@ -25,6 +27,9 @@ custom-reference-doc.docx            Word reference template used for the DOCX o
 filters/left-align-tables.lua        Lua filter (DOCX only) that left-aligns table text
 LOG.md                               Running session log (newest entry first)
 scripts/
+  make-dataset.R                     Builds data/cueWTPDataWeighted.csv from the raw
+                                       merged survey file: recodes and raking weights
+                                       (ACS 2023 demographics + Pew NPORS party ID)
   data-setup.R                       Shared by both documents: loads data, builds the
                                        survey design, and computes descriptive
                                        stats/tables (sample sizes, WTP medians/means,
@@ -52,10 +57,16 @@ scripts/
                                        interacted with the cues and with political
                                        identity (plus demographic controls), for the
                                        third robustness check
+  render-anonymous.R                 Renders a blinded copy of cue-WTP.qmd (no author
+                                       blocks or Statements and Declarations) to
+                                       submission-files/ (NOT in git)
   export-cited-refs.R                Pre-render step: trims the master .bib to cited
                                        keys cited in either .qmd file
 data/                                Survey data (NOT in git -- see below)
-  cueWTPDataWeighted.csv             Survey data with post-stratification weights
+  merged-all-three.csv               Raw merged survey responses (contains respondent
+                                       metadata; never shared)
+  cueWTPDataWeighted.csv             Analysis data with raking weights (built by
+                                       scripts/make-dataset.R)
 literature/                          Background literature memos (NOT in git -- local only)
 nowlin-style-profile.md              Author writing-style profile, used to draft prose
                                        in the user's voice (NOT in git -- local only)
@@ -65,6 +76,10 @@ nowlin-style-profile.md              Author writing-style profile, used to draft
 
 Package versions are managed with `renv` (R 4.6.0; see `renv.lock`). Opening R in the project root activates the project library via `.Rprofile`; run `renv::restore()` once to install the recorded versions. Main packages: `survey` (and `survival`), `dplyr`, `tidyr`, `ggplot2`, `broom`, `marginaleffects`, `modelsummary`, `performance`, `tidyverse`.
 
+- **Analysis dataset:** `Rscript scripts/make-dataset.R` rebuilds
+  `data/cueWTPDataWeighted.csv` from `data/merged-all-three.csv`. It pulls ACS
+  targets with `tidycensus`, so a Census API key must be set in the
+  `CENSUS_API_KEY` environment variable. Raking uses `anesrake`.
 - **Manuscript + supplemental materials:** `quarto render` → outputs both
   `cue-WTP` and `supplemental-materials` to `_output/`
   (HTML, PDF, and DOCX; the DOCX uses `custom-reference-doc.docx`)
@@ -82,7 +97,8 @@ Package versions are managed with `renv` (R 4.6.0; see `renv.lock`). Opening R i
 The `data/` folder is **not tracked in git**. Restore it before rendering:
 
 - `data/cueWTPDataWeighted.csv` — Cloud Research survey responses (N = 3,113),
-  weighted to match US Census demographics (age, gender, race/ethnicity).
+  raked to 2023 ACS margins (age, gender, white non-Hispanic, college degree)
+  and Pew NPORS 2025 party identification (leaners assigned to a party).
   Includes the cue-condition assignment (`trump.cue`, `climate.cue`,
   `control`), the outcome variables (`priority.scale`, `wtp.fossil`,
   `wtp.renewable`), party indicators (`democrat`, `republican`; leaners

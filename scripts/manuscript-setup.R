@@ -89,7 +89,7 @@ get_term <- function(tidy_df, term_name, outcome_name = NULL) {
   list(
     b = sprintf("%.2f", row$estimate),
     b_abs = sprintf("%.2f", abs(row$estimate)),
-    p = ifelse(row$p.value < .001, "< .001", sprintf("= %.3f", row$p.value))
+    p = ifelse(row$p.value < .001, "< .001", sub("0.", ".", sprintf("= %.3f", row$p.value), fixed = TRUE))
   )
 }
 
@@ -170,7 +170,7 @@ cue_shift <- function(model, cue, identity) {
   p   <- 2 * pt(-abs(est / se), df = model$df.residual)
   list(
     b = sprintf("%.2f", est),
-    p = ifelse(p < .001, "< .001", sprintf("= %.3f", p))
+    p = ifelse(p < .001, "< .001", sub("0.", ".", sprintf("= %.3f", p), fixed = TRUE))
   )
 }
 
@@ -184,10 +184,10 @@ fossil_part_shift_trump_republican <- cue_shift(m_wtp_fossil_participation, "tru
 renewable_shift_climate_democrat   <- cue_shift(m_wtp_renewable_int, "climate.cue", "democrat")
 
 # Predicted probability of any positive fossil-fuel WTP (part 1 of the
-# hurdle model), as a percent.
+# hurdle model), as a percent ("percent" is written in the text).
 predict_prob <- function(model, ...) {
   p <- as.numeric(predict(model, newdata = predict_newdata(...), type = "response"))
-  sprintf("%.1f%%", 100 * p)
+  sprintf("%.1f", 100 * p)
 }
 
 fossil_prob_republican_control <- predict_prob(m_wtp_fossil_participation, republican = 1)
@@ -217,15 +217,15 @@ wtp_renewable_republican_trump   <- predict_wtp(m_wtp_renewable_int, trump = 1, 
 priority_sig <- priority_int_tidy[priority_int_tidy$p.value <= 0.10, ]
 priority_sig <- priority_sig[order(priority_sig$p.value), ]
 priority_sig_bullets <- sprintf(
-  "- %s: b = %.2f, *p* = %.3f",
-  priority_sig$term_label, priority_sig$estimate, priority_sig$p.value
+  "- %s: b = %.2f, *p* = %s",
+  priority_sig$term_label, priority_sig$estimate, sub("^0", "", sprintf("%.3f", priority_sig$p.value))
 )
 
 wtp_sig <- wtp_int_tidy[wtp_int_tidy$p.value <= 0.10, ]
 wtp_sig <- wtp_sig[order(wtp_sig$p.value), ]
 wtp_sig_bullets <- sprintf(
-  "- %s, %s: b = %.2f, *p* = %.3f",
-  wtp_sig$term_label, wtp_sig$outcome, wtp_sig$estimate, wtp_sig$p.value
+  "- %s, %s: b = %.2f, *p* = %s",
+  wtp_sig$term_label, wtp_sig$outcome, wtp_sig$estimate, sub("^0", "", sprintf("%.3f", wtp_sig$p.value))
 )
 
 # ---- Design checks and additional estimates ---------------------------------

@@ -14,7 +14,7 @@
 #   6. Within-respondent renewables vs. fossil WTP among conservative
 #      Republicans in the Trump cue
 
-fmt_p <- function(p) ifelse(p < .001, "< .001", sprintf("= %.3f", p))
+fmt_p <- function(p) ifelse(p < .001, "< .001", sub("0.", ".", sprintf("= %.3f", p), fixed = TRUE))
 
 # ---- 1. Cue-only models ----------------------------------------------------
 # With cue x identity interactions in the model, the cue coefficients are
@@ -174,6 +174,7 @@ tobit_tidy <- bind_rows(
   filter(!term %in% c("(Intercept)", "Log(scale)"))
 
 tobit_fossil_trump            <- get_term(tobit_tidy, "trump.cue", "Fossil fuels")
+tobit_fossil_climate          <- get_term(tobit_tidy, "climate.cue", "Fossil fuels")
 tobit_fossil_trump_republican <- get_term(tobit_tidy, "trump.cue:republican", "Fossil fuels")
 tobit_renewable_sig_n         <- sum(tobit_tidy$outcome == "Renewables" &
                                    tobit_tidy$term %in% interaction_terms &
@@ -233,8 +234,8 @@ unw_wtp_sig <- bind_rows(
 ) |>
   filter(term %in% interaction_terms, p.value <= 0.10)
 unw_wtp_sig_bullets <- paste(sprintf(
-  "- %s, %s: b = %.2f, *p* = %.3f",
-  recode(unw_wtp_sig$term, !!!term_labels), unw_wtp_sig$model, unw_wtp_sig$estimate, unw_wtp_sig$p.value
+  "- %s, %s: b = %.2f, *p* = %s",
+  recode(unw_wtp_sig$term, !!!term_labels), unw_wtp_sig$model, unw_wtp_sig$estimate, sub("^0", "", sprintf("%.3f", unw_wtp_sig$p.value))
 ), collapse = "\n")
 
 # ---- 5b. Party-only vs. demographic-only weights ---------------------------

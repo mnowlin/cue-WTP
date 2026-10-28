@@ -72,7 +72,7 @@ get_term <- function(tidy_df, term_name) {
   list(
     b     = sprintf("%.2f", row$estimate),
     b_abs = sprintf("%.2f", abs(row$estimate)),
-    p     = ifelse(row$p.value < .001, "< .001", sprintf("= %.3f", row$p.value))
+    p     = ifelse(row$p.value < .001, "< .001", sub("0.", ".", sprintf("= %.3f", row$p.value), fixed = TRUE))
   )
 }
 
@@ -103,7 +103,7 @@ cost_sig_bullets <- function(tidy_df) {
   sig <- sig[order(sig$p.value), ]
   if (nrow(sig) == 0) return("- None of the concern-about-cost terms were significant at *p* $\\leq$ .10.")
   sig$term_label <- recode(sig$term, !!!coef_map)
-  sprintf("- %s: b = %.2f, *p* = %.3f", sig$term_label, sig$estimate, sig$p.value)
+  sprintf("- %s: b = %.2f, *p* = %s", sig$term_label, sig$estimate, sub("^0", "", sprintf("%.3f", sig$p.value)))
 }
 
 priority_cost_sig_bullets    <- paste(cost_sig_bullets(priority_tidy), collapse = "\n")

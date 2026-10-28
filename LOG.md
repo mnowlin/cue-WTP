@@ -8,12 +8,14 @@ This log records what has been done in each working session. Update it at the en
 
 ## Project Overview
 
-A survey experiment examining how a Trump cue and a climate change cue affect the US public's priority for fossil fuels vs. renewables and their willingness-to-pay (WTP) for each, and whether these cue effects vary by political identity (liberal Democrats vs. conservative Republicans). Data from Cloud Research, weighted to match US Census demographics (age, gender, race/ethnicity).
+A survey experiment examining how a Trump cue and a climate change cue affect the US public's priority for fossil fuels vs. renewables and their willingness-to-pay (WTP) for each, and whether these cue effects vary by party identification (Democrats and Republicans, leaners assigned, vs. those identifying with neither party). Data from CloudResearch, raked to 2023 ACS demographics (age, gender, white non-Hispanic, college) and Pew NPORS 2025 party identification. Status: under peer review (submitted to *Energy Policy*).
 
 **Key files:**
 - `cue-WTP.qmd` — main manuscript (renders to HTML, PDF, DOCX)
 - `scripts/manuscript-setup.R` — data loading, survey design, model fitting, and tidy/plot-ready objects sourced by the manuscript
 - `scripts/design-checks-setup.R` — cue-only models, balance, MDE, Tobit, unweighted models, and party-only vs. demographic-only weights (sourced by `manuscript-setup.R`)
+- `scripts/make-dataset.R` — builds `data/cueWTPDataWeighted.csv` from the raw merged survey file (recodes + raking weights)
+- `scripts/render-anonymous.R` — renders blinded manuscript and supplement to `submission-files/` (gitignored)
 - `scripts/export-cited-refs.R` — pre-render step that trims the master `.bib` to cited keys
 - `data/cueWTPDataWeighted.csv` — weighted survey data (N = 3,113)
 - `README.md` — project structure and reproduction instructions
@@ -21,6 +23,20 @@ A survey experiment examining how a Trump cue and a climate change cue affect th
 ---
 
 ## Session History
+
+### Session 16 — 2026-10-28 (Energy Policy submission prep)
+
+- **Accuracy/consistency check of the manuscript** against the fitted models (every inline value re-evaluated), the bib file, and the survey instrument. Fixes applied:
+  - Abstract/intro no longer say Republicans "prioritized fossil fuels" outright (baseline prediction 4.34 is above the midpoint); now relative to those identifying with neither party. Intro no longer claims Republicans have a higher fossil-fuel WTP amount (only higher probability of any WTP).
+  - Gabor-Granger stopping rule clarified (**author to verify against the survey flow**); within-Republican Trump-cue priority shift now reports *p* = .022; new sentence noting the Trump × Republican priority interaction (b = -0.52) is below the priority MDE (0.58–0.72).
+  - Hedged: renewables WTP decline among neither-party respondents (not significant), Tobit climate-cue decline (p = .065, now reported), Discussion polarization claim, messaging implication (dropped "reliability"; untested). Removed future-research clause that the study already does.
+  - Consistency: comma-formatted Ns, p-values without leading zero (all inline formatters in `scripts/`), "percent" instead of "%", log-odds scale named, 47.0 vs 18.3 precision, Table 1 description includes WTP, unweighted label on 15 percent, merged duplicate Tobit footnotes, × for interactions (manuscript and supplement), duplicate WTP definition removed, typos/grammar.
+  - Added `tobit_fossil_climate` in `design-checks-setup.R`.
+- Statements and Declarations: added Funding and Competing interest placeholders, CRediT statement, and a generative AI declaration (Elsevier wording).
+- Added `scripts/make-dataset.R`, trimmed from the shared `03-data/energy-preferences-survey/make-datasets.R` to this project's dataset only; reads `data/merged-all-three.csv` (copied locally; contains respondent metadata, never shared), needs `CENSUS_API_KEY`. Verified it reproduces `data/cueWTPDataWeighted.csv` exactly. Added `anesrake` and `tidycensus` to renv. Note: anesrake left gender unadjusted (within its 5-point tolerance; weighted 47.2% male vs. 49% target).
+- Added `scripts/render-anonymous.R`: blinded manuscript (no authors, no Statements section) and supplement (no authors) rendered to `submission-files/` in HTML/PDF/DOCX; adds execute options because the temp files render outside the project. `submission-files/` (also holding draft `highlights.md` and `declarationStatement.docx`) added to `.gitignore`.
+- README: status "Under peer review", weighting description, new scripts and raw data file.
+- **Open items:** IRB protocol number, funding and competing-interest statements; confirm Gabor-Granger stopping-rule wording; review draft highlights; consider rotating the Census API key written in the shared `make-datasets.R`.
 
 ### Session 15 — 2026-10-26 (Tobit footnote, copyedit)
 

@@ -23,8 +23,9 @@ d <- read.csv("data/cueWTPDataWeighted.csv")
 d$wtp_diff <- d$wtp.renewable - d$wtp.fossil
 d$wtp_fossil_pos <- as.numeric(d$wtp.fossil > 0)
 
-# Simple weighted design: CloudResearch/Census post-stratification weights,
-# no clustering or stratification variables in the data.
+# Simple weighted design: raking weights to ACS demographic and NPORS party
+# identification margins (computed in scripts/make-dataset.R), no clustering or
+# stratification variables in the data.
 design <- svydesign(ids = ~1, weights = ~weight, data = d)
 
 # Subsample of respondents with any positive fossil-fuel WTP, for the
@@ -68,7 +69,7 @@ wtp_diff_mean <- round(unname(wtp_diff_test$estimate), 2)
 wtp_diff_t    <- round(unname(wtp_diff_test$statistic), 2)
 wtp_diff_df   <- unname(wtp_diff_test$parameter)
 wtp_diff_p    <- ifelse(
-  wtp_diff_test$p.value < .001, "< .001", sprintf("= %.3f", wtp_diff_test$p.value)
+  wtp_diff_test$p.value < .001, "< .001", sub("0.", ".", sprintf("= %.3f", wtp_diff_test$p.value), fixed = TRUE)
 )
 
 # Concern about the cost of electricity (0-10 scale). Reported as descriptive
@@ -129,7 +130,7 @@ n_ind        <- sum(d$democrat == 0 & d$republican == 0)
 # Values from the raw survey files, which are not in the analysis data:
 # share identifying as independent or other party before leaners are
 # assigned (1,063 of 3,113), and the NPORS party ID weighting targets
-# (leaners assigned to a party) used in make-datasets.R.
+# (leaners assigned to a party) used in scripts/make-dataset.R.
 pre_lean_ind_pct <- 34
 pid_target_pct   <- c(Dem = 45, Rep = 46, Ind = 9)
 
@@ -202,8 +203,8 @@ wtp_dist_table <- d |>
 # Share of respondents at the two ends of the bid range, for in-text
 # reporting (nearly half pay nothing extra for fossil fuels; a much smaller
 # share max out their WTP for renewables).
-wtp_fossil_zero_pct   <- wtp_dist_table$`Fossil fuels (%)`[wtp_dist_table$`WTP ($)` == 0]
-wtp_renewable_max_pct <- wtp_dist_table$`Renewables (%)`[wtp_dist_table$`WTP ($)` == 46]
+wtp_fossil_zero_pct   <- sprintf("%.1f", wtp_dist_table$`Fossil fuels (%)`[wtp_dist_table$`WTP ($)` == 0])
+wtp_renewable_max_pct <- sprintf("%.1f", wtp_dist_table$`Renewables (%)`[wtp_dist_table$`WTP ($)` == 46])
 wtp_renewable_pos_pct <- round(100 - wtp_dist_table$`Renewables (%)`[wtp_dist_table$`WTP ($)` == 0])
 
 # ---- WTP distribution by cue condition (descriptive figure) ---------------

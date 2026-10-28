@@ -112,7 +112,7 @@ get_term <- function(tidy_df, term_name, outcome_name = NULL) {
   list(
     b = sprintf("%.2f", row$estimate),
     b_abs = sprintf("%.2f", abs(row$estimate)),
-    p = ifelse(row$p.value < .001, "< .001", sprintf("= %.3f", row$p.value))
+    p = ifelse(row$p.value < .001, "< .001", sub("0.", ".", sprintf("= %.3f", row$p.value), fixed = TRUE))
   )
 }
 
@@ -223,13 +223,13 @@ wtp_renewable_republican_control <- predict_wtp(m_wtp_renewable_int, republican 
 priority_sig <- priority_int_tidy[priority_int_tidy$p.value <= 0.10, ]
 priority_sig <- priority_sig[order(priority_sig$p.value), ]
 priority_sig_bullets <- sprintf(
-  "- %s: b = %.2f, *p* = %.3f",
-  priority_sig$term_label, priority_sig$estimate, priority_sig$p.value
+  "- %s: b = %.2f, *p* = %s",
+  priority_sig$term_label, priority_sig$estimate, sub("^0", "", sprintf("%.3f", priority_sig$p.value))
 )
 
 wtp_sig <- wtp_int_tidy[wtp_int_tidy$p.value <= 0.10, ]
 wtp_sig <- wtp_sig[order(wtp_sig$p.value), ]
 wtp_sig_bullets <- sprintf(
-  "- %s, %s: b = %.2f, *p* = %.3f",
-  wtp_sig$term_label, wtp_sig$outcome, wtp_sig$estimate, wtp_sig$p.value
+  "- %s, %s: b = %.2f, *p* = %s",
+  wtp_sig$term_label, wtp_sig$outcome, wtp_sig$estimate, sub("^0", "", sprintf("%.3f", wtp_sig$p.value))
 )
